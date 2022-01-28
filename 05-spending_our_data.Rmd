@@ -1,0 +1,415 @@
+# Spending our data
+
+**Learning objectives:**
+
+- Use {rsample} to **split data into training and testing sets.**
+- Identify cases where **stratified sampling** is useful.
+- Understand the **difference** between `rsample::initial_time_split()` and `rsample::initial_split()`.
+- Understand the **trade-offs** between too little training data and too little testing data.
+- Define a **validation set** of data.
+- Explain why data should be split at the **independent experimental unit** level.
+
+## Spending our data 
+
+The task of creating a useful model can be daunting. Thankfully, one can do so step-by-step. It can be helpful to sketch out your path, as Chanin Nantasenamat has done so:  
+
+![](images/step_by_step_ml.jpg)
+
+We're going to zoom into the data splitting part. As the diagram shows, it is one of the earliest considerations in a model building workflow. The **training set** is the data that the model(s) learns from. It's usually the majority of the data (~ 80-70% of the data), and you'll be spending the bulk of your time working on fitting models to it. 
+
+The **test set** is the data set aside for unbiased model validation once a candidate model(s) has been chosen. Unlike the training set, the test set is only looked at once. 
+
+Why is it important to think about data splitting? You could do everything right, from cleaning the data, collecting features and picking a great model, but get bad results when you test the model on data it hasn't seen before. If you're in this predicament, the data splitting you've employed may be worth further investigation.
+
+## Common methods for splitting data 
+
+Choosing how to conduct the split of the data into training and test sets may not be a trivial task. It depends on the data and the purpose. 
+
+The most common type of sampling is known as random sampling and it is done readily in R using the [rsample](https://rsample.tidymodels.org) package with the `initial_split()`function. For the [Ames housing dataset](https://www.tmwr.org/ames.html), the call would be:
+
+```{r setup-05, message=FALSE}
+library(tidymodels)
+set.seed(123)
+data(ames)
+ames_split <- initial_split(ames, prop = 0.80)
+ames_split
+```
+
+The object `ames_split` is an `rsplit` object. To get the training and test results you can call on `training()` and `test()`:
+
+```{r train-test-05}
+ames_train <- training(ames_split)
+ames_test  <- testing(ames_split)
+```
+
+## Class imbalance 
+In many instances, random splitting is not suitable. This includes datasets that contain *class imbalance*, meaning one class is dominated by another. Class imbalance is important to detect and take into consideration in data splitting. Performing random splitting on a dataset with severe class imbalance may cause the model to perform badly at validation. You want to avoid allocating the minority class disproportionately into the training or test set. The point is to have the same distribution across the training and test sets. Class imbalance can occur in differing degrees:
+
+![](images/class_imbalance.png)
+
+Splitting methods suited for datasets containing class imbalance should be considered. Let's consider a #Tidytuesday dataset on [Himalayan expedition members](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-09-22/readme.md), which Julia Silge recently explored [here](https://juliasilge.com/blog/himalayan-climbing/) using **{tidymodels}**. 
+
+```{r skim-05, message=FALSE}
+library(tidyverse)
+library(skimr)
+members <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-22/members.csv") 
+
+skim(members)
+```
+
+Let's say we were interested in predicting the likelihood of survival or death for an expedition member. It would be a good idea to check for class imbalance: 
+
+```{r janitor-05, message=FALSE}
+library(janitor)
+
+members %>% 
+  tabyl(died) %>% 
+  adorn_totals("row")
+```
+
+We can see that nearly 99% of people survive their expedition. This dataset would be ripe for a sampling technique adept at handling such extreme class imbalance. This technique is called *stratified sampling*, in which "the training/test split is conducted separately within each class and then these subsamples are combined into the overall training and test set". Operationally, this is done by using the `strata` argument inside `initial_split()`:
+
+```{r more-split-05}
+set.seed(123)
+members_split <- initial_split(members, prop = 0.80, strata = died)
+members_train <- training(members_split)
+members_test <- testing(members_split)
+```
+
+
+### Stratified sampling simulation
+
+With simulation we can see the effect of stratification: we expect that the expected value does not change with stratification but the variance is lower.
+
+```{r simulate-stratified}
+simulate_stratified_sampling <- function(prop_in_dataset, n_resample = 50,
+                                         n_rows = 1000, seed = 45678) {
+  set.seed(seed)
+  
+  data_to_split <- tibble(died = c(
+    rep(1, floor(n_rows * prop_in_dataset)),
+    rep(0, floor(n_rows * (1 - prop_in_dataset)))
+  ))
+  
+  samples <- map_dfr(seq_len(n_resample), ~{
+    initial_split(data_to_split) %>% 
+      testing() %>% 
+      summarize(died_pct = mean(died))
+  }) 
+  
+  stratified_samples <- map_dfr(seq_len(n_resample), ~{
+    initial_split(data_to_split, strata = died) %>% 
+      testing() %>% 
+      summarize(died_pct = mean(died))
+  }) 
+  
+  rbind(
+    samples %>% mutate(stratified = FALSE),
+    stratified_samples %>% mutate(stratified = TRUE)
+  ) %>% 
+    group_by(stratified) %>% 
+    summarize(mean = mean(died_pct), var = var(died_pct))
+}
+```
+
+
+rsample does not stratify if class imbalance is [more extreme than 10%](https://rsample.tidymodels.org/reference/initial_split.html#arguments) 
+
+```{r stratified-b}
+simulate_stratified_sampling(0.09)
+```
+
+Stratified sampling happens:
+
+```{r stratified-c}
+simulate_stratified_sampling(0.11)
+```
+
+
+
+## Continuous outcome data 
+
+For continuous outcome data (e.g. costs), a stratified random sampling approach would involve conducting a 80/20 split within each quartile and then pool the results together. For the [Ames housing dataset](https://www.tmwr.org/ames.html), the call would look like this:
+
+```{r more-split-b-05}
+set.seed(123)
+ames_split <- initial_split(ames, prop = 0.80, strata = Sale_Price)
+ames_train <- training(ames_split)
+ames_test  <- testing(ames_split)
+```
+
+## Time series data 
+
+For time series data where you'd want to allocate data to the training set/test set depending on a sorted order, you can use `initial_time_split()` which works similarly to `initial_split()`. The `prop` argument can be used to specify what proportion of the first part of data should be used as the training set. 
+
+```{r time-train-test-05}
+data(drinks)
+drinks_split <- initial_time_split(drinks)
+train_data <- training(drinks_split)
+test_data <- testing(drinks_split)
+```
+
+The `lag` argument can specify a lag period to use between the training and test set. This is useful if lagged predictors will be used during training and testing. 
+
+```{r lag-train-test-05}
+drinks_lag_split <- initial_time_split(drinks, lag = 12)
+train_data_lag <- training(drinks_lag_split)
+test_data_lag <- testing(drinks_lag_split)
+c(max(train_data_lag$date), min(test_data_lag$date))
+```
+
+## Multi-level data 
+
+It's important to figure out what the **independent experimental unit** is in your data. In the Ames dataset, there is one row per house and so houses and their properties are considered to be independent of one another. 
+
+In other datasets, there may be multiple rows per experimental unit (e.g. as in patients who are measured multiple times across time). This has implications for data splitting. To avoid data from the same experimental unit being in both the training and test set, split along the independent experimental units such that X% of experimental units are in the training set. 
+
+Example:
+
+```{r heights-05}
+# data source: http://www.bristol.ac.uk/cmm/learning/mmsoftware/data-rev.html#oxboys
+child_heights <- read_delim(here::here("data/Oxboys.txt"), col_names = FALSE, delim = " ") %>%
+  set_names(c("child_id", "age_norm", "height", "measurement_id", "season"))
+head(child_heights)
+```
+
+Depending on the modeling problem we may want to split the data to train and test set in a way that data points for children remain together. You can do this with the following code. 
+
+```{r heights-split-05}
+child_heights_split <- child_heights %>% 
+  group_nest(child_id) %>%
+  initial_split()
+
+child_heights_train <- training(child_heights_split) %>% 
+  unnest(data)
+```
+
+For other task it might be more suitable to split along measurement id and all childrens' last measurement will be the test set.
+
+## What proportion should be used?
+
+```{r tweetrmd, include = F}
+library(tweetrmd)
+```
+
+```{r split-size-tweet, echo = F}
+include_tweet("https://twitter.com/asmae_toumi/status/1356024351720689669?s=20")
+```
+
+
+![](images/provocative_8020.jpg)
+
+
+Some people said the 80/20 split comes from the [Pareto principle/distribution](https://en.wikipedia.org/wiki/Pareto_principle) or the [power law](https://en.wikipedia.org/wiki/Power_law). Some said because it works nicely with 5-fold cross-validation (which we will see in the later chapters). 
+
+
+![](images/train_test.png)
+
+
+I believe the point is to use enough data in the training set to allow for solid parameter estimation but not too much that it hurts performance. 80/20 or 70/30 seems reasonable for most problems at hand, as it's what is widely used. Max Kuhn notes that a test set is almost always a good idea, and it should only be avoided when the data is "pathologically small".
+
+
+## Summary
+
+Data splitting is an important part of a modeling workflow as it impacts model validity and performance. The most common splitting technique is random splitting. Some data, such as time-series or multi-level data require a different data splitting technique called stratified sampling. The `rsample` package contains many functions that can perform random splitting and stratified splitting. 
+
+We will learn more about how to remedy certain issues such as class imbalance, bias and overfitting in Chapter 10. 
+ 
+### References
+
+- Tidy modeling with R by Max Kuhn and Julia Silge: https://www.tmwr.org/splitting.html
+- Feature Engineering and Selection: A Practical Approach for Predictive Models by Max Kuhn and Kjell Johnson: https://bookdown.org/max/FES/
+- Handle class imbalance in #TidyTuesday climbing expedition data with tidymodels: https://juliasilge.com/blog/himalayan-climbing/
+- Data preparation and feature engineering for machine learning: https://developers.google.com/machine-learning/data-prep/construct/sampling-splitting/imbalanced-data
+- How to Build a Machine Learning Model by Chanin Nantasenamat: https://towardsdatascience.com/how-to-build-a-machine-learning-model-439ab8fb3fb1
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/Bbv-Ev8E4DE")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:09:24	Jon Harmon (jonthegeek):	Oops typo! Tan shouldn't have accepted that!
+00:10:05	Tan Ho:	umm
+00:10:18	Tyler Grant Smith:	I never take notes, but if I did, I wish I would take them like this
+00:10:24	Jon Harmon (jonthegeek):	Certainly can't be MY fault for TYPING it.
+00:10:32	Tan Ho:	what typo are we talking about?
+00:10:36	Tony ElHabr:	you don't need docs if you got diagrams like this
+00:10:43	Jon Harmon (jonthegeek):	"too list training data"
+00:10:55	Tan Ho:	also...is "data spending" a hadleyism?
+00:10:57	Tyler Grant Smith:	I also object to this order
+00:11:11	Jonathan Trattner:	@Jon My professor always gets mad at R for doing what she tells it to instead of what she wants it to do
+00:11:12	Jon Harmon (jonthegeek):	I think it's a Maxim. And I like it.
+00:11:17	Tyler Grant Smith:	preprocessing needs to be done after the split
+00:11:31	Tyler Grant Smith:	some of it does anyway...
+00:11:40	Jonathan Trattner:	Does PCA Tyler?
+00:11:58	Tyler Grant Smith:	yes, I would say so
+00:12:35	Jonathan Trattner:	👍🏼
+00:12:47	Jon Harmon (jonthegeek):	We'll talk about processing in the next chapter :)
+00:12:56	Tony ElHabr:	pre-processing is done after the splitting in the normal tidy workflow. I guess the diagram was just "wrong"?
+00:13:38	Jon Harmon (jonthegeek):	It can make sense to do the processing before splitting if you don't have a nice system like recipes to make sure they're processed the same.
+00:14:07	Tyler Grant Smith:	it can make sense to be wrong too :)
+00:14:15	Jonathan Trattner:	Also if you can reduce the dimensionality of it before hand, would it not make sense to do that first and split the simpler data?
+00:14:29	Jon Harmon (jonthegeek):	The idea is you should treat your test data the same as you'd treat new data.
+00:14:54	Jon Harmon (jonthegeek):	If you do it before the split, you might do something that's hard to do or might include it in an ~average, etc, and thus leak into the training data.
+00:15:12	Jonathan Trattner:	That makes sense, thanks!
+00:15:16	Jarad Jones:	Class imbalance, perfect! I was hoping to go over how to decide between upsampling or downsampling
+00:15:39	Jon Harmon (jonthegeek):	We won't do much there yet, he goes into it more in 10 I think.
+00:15:59	Jon Harmon (jonthegeek):	But feel free to ask Asmae about it!
+00:16:12	Jarad Jones:	Haha, shoot, will have to wait a bit then
+00:17:02	Tyler Grant Smith:	question for later:  for what types models is upsampling/downsampling suggested/necessary?  I find in xgboost, for example, that I rarely need to do it.  or at least that it doesn't make the model results any better
+00:18:09	Maya Gans:	+1 this question ^^^
+00:18:13	Conor Tompkins:	Tabyl is such a useful function
+00:18:29	Tyler Grant Smith:	janitor as a whole is fantastic
+00:18:45	Jordan Krogmann:	janitor::clean_names() mvp
+00:18:56	Jonathan Trattner:	Huge facts ^^
+00:18:58	Tyler Grant Smith:	^
+00:19:03	Jon Harmon (jonthegeek):	Correction: He briefly mentions upsampling in the next chapter.
+00:19:09	arjun paudel:	is it prob or prop? I thought the argument for initial_split was prop
+00:19:25	Scott Nestler:	Yes!  We recently did a "Blue Collar Data Wrangling" class with coverage of janitor and plumber.
+00:19:29	Tony ElHabr:	the upsampling/downsampling question is a good one. I think frameworks that use boosting/bagging may not need it, but it's always worth testing
+00:20:07	Tony ElHabr:	the downside is not using stratification
+00:20:36	Tan Ho:	always log, always stratify
+00:20:37	Tan Ho:	got it
+00:22:14	Tan Ho:	*looks around nervously*
+00:22:51	Jordan Krogmann:	I mean youre not going to not log
+00:23:12	Jordan Krogmann:	*waiting for the number of counter articles*
+00:24:00	Jon Harmon (jonthegeek):	Woot, I have a PR accepted in this book now (for a minor typo at the end of this chapter) :)
+00:24:01	Tyler Grant Smith:	I gotta imagine that stratified sampling and random sampling converge as n->inf
+00:24:23	Tony ElHabr:	law of large numbers
+00:24:25	Tyler Grant Smith:	and it happens probably pretty quickly
+00:24:43	Jon Harmon (jonthegeek):	Yeah, I guess a downside would be if you stratify so much that it doesn't make sense and causes rsample to complain.
+00:25:12	Jon Harmon (jonthegeek):	There's a minor change starting next chapter, not yet merged: https://github.com/tidymodels/TMwR/pull/106/files
+00:27:55	Tyler Grant Smith:	i frequently work with data like this
+00:28:18	Conor Tompkins:	It would be interesting to have a table of model types and how they react to things like missingness, class imbalance, one-hot encoding etc. so you can choose the appropriate model for the specific weirdness of your data.
+00:28:36	Tony ElHabr:	so at what point do you use longitudinal model over something else
+00:29:31	Jordan Krogmann:	student re-enrollment cycle... how does the last term impact future terms
+00:31:14	Tony ElHabr:	memes in the wild
+00:31:17	Tony ElHabr:	i'm here for it
+00:31:20	Jon Harmon (jonthegeek):	Yup! And there's a whole thing about the fact that each question a student answers technically influences the next one, even if they don't get feedback.
+00:32:57	Scott Nestler:	I recall learning (many years ago) about using 3 sets -- Training, Test, and Validation.  Training to train/build models, Validation to assess the performance of different (types of) models on data not used to train them, and then Test to fine-tune model parameters once you have picked one.  The splits were usually something like 70/15/15 or 80/10/10.  This didn't seem to be discussed in this chapter.  Any idea why?
+00:33:37	Jon Harmon (jonthegeek):	We'll talk about validation later, I think. There's a minute of it. Gonna talk about this out loud in a sec...
+00:34:43	Tyler Grant Smith:	5.3 What about a validation set?
+00:35:49	Tony ElHabr:	If you do cross-validation, the CV eval metric is effectively your validation
+00:35:50	Jonathan Trattner:	What about cross-validation on the training set? Is that different than what we’re discussing now?
+00:35:53	Tony ElHabr:	and your training
+00:36:10	Tyler Grant Smith:	ya...split first train-validate and test   and then split train-validate into train and validate
+00:36:42	Jarad Jones:	I think cross-validation is used during model training on the training set
+00:37:08	Ben Gramza:	I actually watched a "deep-learning" lecture on this today. The guy said that a validation set is used to select your parameters/hyperparameters, then you test your tuned model on the test set. 
+00:40:11	Tony ElHabr:	validation makes more sense when you're comparing multiple model frameworks too. the best one on the validation set is what is ultimately used for the test set
+00:41:45	Jordan Krogmann:	i think it comes into play when you are hyperparameter tuning for a single model
+00:44:21	Ben Gramza:	yeah, for example if you are using a K-nearest neighbor model, you use the validation set on your models with K=1, 2, 3, … . You select the best performing K from the validation set, then test that on the test set. 
+00:46:22	Joe Sydlowski:	Good question!
+00:46:28	Jordan Krogmann:	i do it on all of it
+00:46:45	Jordan Krogmann:	annnnnnnnnnd i am probably in the wrong lol
+00:50:20	Jordan Krogmann:	yuup otherwise you will cause leakage
+00:57:41	Tyler Grant Smith:	i suppose I need to add inviolate to my day-to-day vernacular
+00:58:52	Jon Harmon (jonthegeek):	I'm noticing myself say that over and over and I don't know why!
+00:59:50	Tony ElHabr:	i had to google that
+01:05:17	Conor Tompkins:	Great job asmae!
+01:05:22	Jonathan Trattner:	^^^
+01:05:28	Tony ElHabr:	Pavitra getting ready for recipes
+01:05:37	Jordan Krogmann:	great job!
+01:05:42	Joe Sydlowski:	Thanks Asmae!
+01:05:46	Andy Farina:	That was great Asmae, thank you!
+01:05:47	Pavitra Chakravarty:	🤣🤣🤣🤣
+01:05:56	caroline:	Thank you Asmae :)
+01:05:59	Pavitra Chakravarty:	great presentation Asmae
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/GnNMkKxidl4")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:07:17	Janita Botha:	Sorry I'm late... Been slow booting up...
+00:08:46	Amélie Gourdon-Kanhukamwe (she/they):	https://supervised-ml-course.netlify.app/
+00:08:58	shamsuddeen:	Thank you
+00:09:07	Stephen Holsenbeck:	thanks!
+00:22:06	Janita Botha:	Just a side warren... I find the focus on testing vs training data in tidymodels very frustrating since the field that I am in focusses more on inferential statistics because we tend to have relatively small sample sizes for the large amount of variance we encounter
+00:22:52	Janita Botha:	In other words in my field my data is ususally better "spent" as traininig data...
+00:38:09	Louis Carlo Medina:	Thanks Rahul! yeah, I think I conflated oversampling with strata. I think I remember the strata now, where you actually sample within groups as opposed to the group as a whole.
+00:38:29	shamsuddeen:	Yes, !
+00:41:00	rahul bahadur:	No worries.
+00:42:26	Mikhael Manurung:	It should be random regardless whether strata is specified or not
+00:43:00	rahul bahadur:	For stratified random sampling, the strata are created first and then random samples are taken from it
+00:43:31	shamsuddeen:	Why don’t we stratified all the time?
+00:44:14	rahul bahadur:	it is not needed when the data is balanced. However, you can
+00:44:16	shamsuddeen:	The book says: “There is very little downside to using stratified sampling. “
+00:44:40	shamsuddeen:	Ah, I see.  Stratified is for imbalance data
+00:44:52	shamsuddeen:	Thanks raul.
+00:45:01	Stephen Holsenbeck:	stratification should basically be the default
+00:45:06	shamsuddeen:	*rahul
+00:45:36	Stephen Holsenbeck:	If you go completely random, your classes in the test set may not match the category distributions in the dataset
+00:45:45	August:	https://otexts.com/fpp2/accuracy.html
+00:45:48	Stephen Holsenbeck:	same with the training set
+00:46:02	August:	this is a good diagram for time series cross validation
+00:46:34	August:	Training test at top of section
+00:46:46	Janita Botha:	@Amelie that is a really good question - you should add that to the questions for Julia and Max
+00:47:11	Louis Carlo Medina:	^+1. Hyndman et al's texts for timeseries stuff are really good
+00:47:43	rahul bahadur:	Yes, Hyndman has good timeseries
+00:49:43	shamsuddeen:	From the book.
+00:49:44	shamsuddeen:	Too much data in the training set lowers the quality of the performance estimates.
+00:49:52	shamsuddeen:	too much data in the test set handicaps the model’s ability to find appropriate parameter estimates.
+00:50:14	shamsuddeen:	What is difference between performance estimates and parameter estimates.?
+00:51:26	Janita Botha:	https://otexts.com/fpp3/
+00:51:35	rahul bahadur:	Parameter estimates, in case of regression for example, would be the beta estimates
+00:51:38	Amélie Gourdon-Kanhukamwe (she/they):	Performance estimates = grossly statistics assessing the quality of the model, such as MSE, percentage correct, area under the curve
+00:51:45	rahul bahadur:	Performance estimates = MSE
+00:51:47	Amélie Gourdon-Kanhukamwe (she/they):	And yes, as Rahul
+00:52:08	Janita Botha:	I shared the link above
+00:52:13	Kevin Kent:	Modeltime - https://cran.r-project.org/web/packages/modeltime/vignettes/getting-started-with-modeltime.html
+00:52:32	Amélie Gourdon-Kanhukamwe (she/they):	Thanks Janitha
+00:55:56	Kevin Kent:	https://physionet.org/
+00:59:34	Amélie Gourdon-Kanhukamwe (she/they):	https://cran.r-project.org/web/packages/anomalize/vignettes/anomalize_quick_start_guide.html
+00:59:38	August:	https://cran.r-project.org/web/packages/anomalize/anomalize.pdf
+00:59:58	August:	https://cran.r-project.org/web/packages/anomalize/vignettes/anomalize_methods.html
+```
+</details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/Dxf3kgIkbpI")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:23:04	Daniel Chen (he/him):	I don't know why it's 10%
+00:23:23	Daniel Chen (he/him):	it seems like a good heuristic?
+00:29:33	Daniel Chen (he/him):	(Strata below 10% of the total are pooled together.)
+00:54:00	Ildiko Czeller:	https://spatialsample.tidymodels.org/reference/spatialsample.html
+```
+</details>
+
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/tdMUrdEKZWc")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:17:06	Isabella Velásquez:	Need an R2Cobalt package...
+00:17:16	Laura Rose:	yes!
+00:28:03	Isabella Velásquez:	https://juliasilge.com/blog/
+00:29:36	Isabella Velásquez:	Supervised Machine Learning for Text Analysis in R: https://smltar.com/
+00:29:45	Isabella Velásquez:	ISLR tidymodels Labs: https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/index.html
+00:31:46	Isabella Velásquez:	A couple more posts! https://www.danielphadley.com/bootstrap_tutto/
+00:31:51	Isabella Velásquez:	https://www.rebeccabarter.com/blog/2020-03-25_machine_learning/
+00:32:10	Stephen Charlesworth:	Here’s a spreadsheet w/ different tidymodels uses: https://docs.google.com/spreadsheets/d/1PzbtanwieCCpaUt9G6XMhKXQ_0cBWfq_9xG9bH33Occ/edit#gid=652338894
+00:33:34	Federica Gazzelloni:	https://www.tidymodels.org/
+00:52:38	Stephen Charlesworth:	https://twitter.com/towards_ai/status/1332567246011555840
+00:53:06	Laura Rose:	😆
+00:55:13	Isabella Velásquez:	https://en.wikipedia.org/wiki/Pareto_principle
+01:05:39	Laura Rose:	cross validation using modeltime https://cran.r-project.org/web/packages/modeltime.resample/vignettes/getting-started.html
+```
+</details>

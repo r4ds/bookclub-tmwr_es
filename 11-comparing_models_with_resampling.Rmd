@@ -1,0 +1,198 @@
+# Comparing models with resampling
+
+**Learning objectives:**
+
+- Calculate **performance statistics** for **multiple models.**
+  - Recognize that **within-resample correlation** can impact model comparison.
+  - Define **practical effect size.**
+- **Compare models** using **differences** in metrics.
+- Use {tidyposterior} to compare models using Bayesian methods.
+
+## Calculate performance statistics
+
+```{r metric-calculation, eval = FALSE}
+my_cool_model_rsq <- my_cool_model %>% 
+  collect_metrics(summarize = FALSE) %>% 
+  filter(.metric == "rsq") %>% 
+  select(id, my_cool_model = .estimate)
+
+## Repeat that for more models, then:
+rsq_estimates <- my_cool_model_rsq %>% 
+  inner_join(my_other_model_rsq) %>% 
+  inner_join(my_other_other_model_rsq)
+```
+
+## Calculate performance statistics: {workflowsets}
+
+We'll take a closer look at this, but workflowsets makes this stuff way cleaner!
+
+```{r metric-calculation-workflowsets, eval = FALSE}
+lm_models <- workflowsets::workflow_set(
+  preproc = list(
+    basic = basic_recipe,
+    interact = interaction_recipe,
+    splines = spline_recipe
+  ),
+  models = list(lm = lm_model),
+  cross = FALSE
+) %>% 
+  workflowsets::workflow_map(
+    fn = "fit_resamples", 
+    # Options to `workflow_map()`: 
+    seed = 1101, verbose = TRUE,
+    # Options to `fit_resamples()`: 
+    resamples = ames_folds, control = keep_pred
+  )
+
+collect_metrics(lm_models) %>% 
+  filter(.metric == "rsq")
+```
+
+## Within-resample correlation
+
+- **Within-resample correlation:** some folds are easier to predict than others
+
+![Comparison of R^2 between models](images/compare-rsq-plot-1.svg)
+
+> "If the resample-to-resample effect was not real, there would not be any parallel lines."
+> - Max Kuhn & Julia Silge
+
+*ie,* the lines don't cross **that** much, so there's an effect.
+
+## Practical effect size
+
+- It's a good idea to think about how big of a difference matters to you.
+- Maybe a change will be statistically significant, but is it worth the trouble of deploying a new model?
+
+## Simple Comparison
+
+Use difference to cancel out the resample-to-resample effect.
+
+```{r compare-lm, eval = FALSE}
+compare_lm <- rsq_estimates %>% 
+  mutate(difference = `with splines` - `no splines`)
+
+lm(difference ~ 1, data = compare_lm) %>% 
+  tidy(conf.int = TRUE) %>% 
+  select(estimate, p.value, starts_with("conf"))
+```
+
+## Bayesian methods
+
+```{r full-bayesian-process, eval = FALSE}
+library(tidyposterior)
+library(rstanarm)
+
+rqs_diff <- ames_folds %>% 
+  bind_cols(rsq_estimates %>% arrange(id) %>% select(-id)) %>% 
+  perf_mod(
+    prior_intercept = student_t(df = 1),
+    chains = 4,
+    iter = 5000,
+    seed = 2
+  ) %>% 
+  contrast_models(
+    list_1 = "with splines",
+    list_2 = "no splines",
+    seed = 36
+  )
+
+summary(rqs_diff, size = 0.02) %>% # 0.02 is our practical effect size.
+  select(contrast, starts_with("pract"))
+#> # A tibble: 1 x 4
+#>   contrast                   pract_neg pract_equiv pract_pos
+#>   <chr>                          <dbl>       <dbl>     <dbl>
+#> 1 with splines vs no splines         0       0.989    0.0113
+```
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/2A1QIp6IFYE")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:14:48	Tony ElHabr:	seed = 1101
+00:14:52	Tony ElHabr:	what a hipster
+00:15:11	pavitra:	I see a subliminal binary message
+00:17:41	Tony ElHabr:	1101 -> D in hex
+00:18:08	pavitra:	D for dark magicks
+00:39:59	Jonathan Leslie:	I’m heading off. Thanks, Jon…really nice presentation!
+00:45:54	Jim Gruman:	thank you Jon!!!
+00:47:45	Andy Farina:	Thank you Jon, great presentation and addition of workflow sets
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/ECzECMexLzc")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:08:57	Janita Botha:	I have problems with physical knitting too... :)
+00:10:18	Roberto Villegas-Diaz:	XSEDE
+00:13:15	rahul bahadur:	Anyone works with Spark here? - SparkR/sparklyr?
+00:22:38	Luke Shaw:	no sorry, have used pyspark before so have some spark understanding though
+01:04:05	Amélie Gourdon-Kanhukamwe (she/they):	I have another call this week, gonna dash
+01:04:18	Stephen Holsenbeck:	ok, thanks for coming!
+01:04:24	Janita Botha:	bye!
+01:04:28	Luke Shaw:	Bye :)
+01:13:19	Janita Botha:	cool! :)
+01:14:37	Janita Botha:	I have to run! See you folks next week!
+01:14:55	Stephen Holsenbeck:	Bye Janita, have a good Monday!
+```
+</details>
+
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/oyc5T8fh5r0")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:12:38	Daniel Chen:	it's essentially doing the multiple recipes and collecting the model metrics for you across all your preprocessing steps/models
+00:12:40	Daniel Chen:	?
+00:14:29	Daniel Chen:	fn 	
+
+The function to run. Acceptable values are: tune::tune_grid(), tune::tune_bayes(), tune::fit_resamples(), finetune::tune_race_anova(), finetune::tune_race_win_loss(), or finetune::tune_sim_anneal().
+00:15:00	Daniel Chen:	seems like there's only a few functions that are availiable to be used
+00:16:36	Daniel Chen:	but they're using the string instead of quoted form because they're matching on string to see which functions are allowed: https://github.com/tidymodels/workflowsets/blob/main/R/workflow_map.R#L101
+00:16:53	Ildiko Czeller:	makes sense, thanks
+00:16:55	Toryn Schafer (she/her):	Thanks, Daniel!
+00:32:13	Daniel Chen:	i guess they're using tidyposterior, instead of tidymodels. so i guess that's what's adding to the confusion
+00:35:06	Daniel Chen:	cross 	
+
+A logical: should all combinations of the preprocessors and models be used to create the workflows? If FALSE, the length of preproc and models should be equal.
+00:49:17	jiwan:	tune_grid(
+  object,
+  preprocessor,
+  resamples,
+  ...,
+  param_info = NULL,
+  grid = 10,
+  metrics = NULL,
+  control = control_grid()
+)
+00:50:04	Daniel Chen:	https://tune.tidymodels.org/reference/tune_grid.html
+00:50:52	jiwan:	A data frame of tuning combinations or a positive integer. The data frame should have columns for each parameter being tuned and rows for tuning parameter candidates. An integer denotes the number of candidate parameter sets to be created automatically
+```
+</details>
+
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+LOG
+```
+</details>

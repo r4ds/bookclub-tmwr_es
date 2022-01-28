@@ -1,0 +1,63 @@
+Package: bookclub-tmwr_es
+Title: Tidy Modeling with R Book Club
+Version: 0.0.0.9000
+Authors@R: c(
+  person("R4DS Online Learning Community", role = c("aut", "cre", "cph"))
+  )
+URL: https://r4ds.github.io/bookclub-tmwr_es, https://github.com/r4ds/bookclub-tmwr_es
+Depends:
+    R (>= 3.1.0)
+Imports: 
+    AmesHousing,
+    applicable,
+    baguette,
+    beans,
+    bestNormalize,
+    bookdown,
+    corrplot,
+    corrr,
+    DALEX,
+    DALEXtra,
+    details,
+    dimRed,
+    discrim,
+    DiagrammeR,
+    earth,
+    emo,
+    fastICA,
+    finetune,
+    ggforce,
+    ggfortify,
+    glmnet,
+    here,
+    iBreakDown,
+    janitor,
+    kableExtra,
+    kernlab,
+    learntidymodels,
+    mda,
+    mixOmics,
+    nycflights13,
+    palmerpenguins,
+    patchwork,
+    ranger,
+    remotes,
+    rmarkdown,
+    rsample,
+    rules,
+    skimr,
+    stacks,
+    tidymodels,
+    tidyverse,
+    tidytuesdayR,
+    tufte,
+    tweetrmd,
+    workflowsets,
+    probably
+Remotes: 
+    hadley/emo,
+    gadenbuie/tweetrmd,
+    tidymodels/embed,
+    tidymodels/finetune,
+    tidymodels/learntidymodels
+biocViews: mixOmics
