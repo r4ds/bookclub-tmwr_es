@@ -1,18 +1,18 @@
-# Software for modeling
+# Software para modelado
 
-**Learning objectives:**
+**Objetivos de aprendizaje:**
 
-- **Recognize the principles** around which the `{tidymodels}` packages were designed.
-- Classify models as **descriptive, inferential,** and/or **predictive.**
-- Define **descriptive model.**
-- Define **inferential model.**
-- Define **predictive model.**
-- Differentiate between **supervised** and **unsupervised** models.
-- Differentiate between **regression** and **classification** models.
-- Differentiate between **quantitative** and **qualitative** data.
-- Understand the **roles that data can have** in an analysis.
-- Apply the **data science process.**
-- Recognize the **phases of modeling.**
+- **Reconocer los principios** alrededor del diseño de los paquetes en `{tidymodels}`.
+- Clasificar modelos en **descriptivos, inferenciales,** y/o **predictivos**
+- Definir un **modelo descriptivo.**
+- Definir un **modelo inferencial.**
+- Definir un **model predictivo.**
+- Diferenciar entre modelos **supervisados** y **no supervisados**.
+- Diferenciar entre modelos de **regresión** y **clasificación**.
+- Diferenciar entre datos **cuantitativos** y **cualitativos**.
+- Entender los **roles que los datos pueden tener** en un análisis.
+- Aplicar el **proceso de ciencia de datos**.
+- Reconocer las **fases de modelado**.
 
 >The utility of a model hinges on its ability to be *reductive*. The primary influences in the data can be captured mathematically in a useful way, such as in a relationship that can be expressed as an equation.
 
@@ -94,16 +94,23 @@ Choosing a model type will depend on the type of question we want to answer / pr
 
 The final model may be used for a conclusion and/or produce predictions on new data.
 
-## Meeting Videos
+## Videos de las reuniones
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/O4cJiSH0zIc")`
 
 <details>
-  <summary> Meeting chat log </summary>
+  <summary> Chat de la reunión </summary>
   
 ```
-LOG
+00:08:44	Armando Ocampo:	ok, de acuerdo
+00:21:35	Roberto Villegas-Diaz:	GitHub: https://github.com/r4ds/bookclub-tmwr_es
+00:22:52	Roberto Villegas-Diaz:	Hoja de Excel para presentar: https://docs.google.com/spreadsheets/d/1apDY5yyimVUwebhZvTwM3P7Pysa9ztZvj4EUF_KFVdw/edit#gid=0
+00:26:35	Armando Ocampo:	yo estoy bien en esta hora
+00:27:49	Armando Guzmán Mx:	No tengo problema con el horario que acuerden.
+00:44:50	Armando Ocampo:	la hoja me pide permiso de acceso
+00:46:01	Cecilia Cruz:	Perdón, soy esmeralda 
+00:47:33	Armando Guzmán Mx:	👋🏼
 ```
 </details>
