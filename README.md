@@ -1,41 +1,49 @@
-# R4DS Tidy Modeling with R Book Club
+# R4DS Modelado Tidy con R - Club de Lectura
 
-Welcome to the R4DS Tidy Modeling with R Book Club! This will be translated into Spanish soon!
+¡Bienvenidxs al Club de Lectura de R4DS Modelado Tidy con R!
 
-We are working together to read [Tidy Modeling with R](https://www.tmwr.org/) by Max Kuhn and Julia Silge.
-Join the #book_club-tidy_modeling_with_r channel on the [R4DS Slack](https://r4ds.io/join) to participate.
-As we read, we are producing [notes about the book](https://r4ds.github.io/bookclub-tmwr_es/).
+Estamos leyendo juntos el libro [Modelado Tidy con R](https://www.tmwr.org/) por Max Kuhn y Julia Silge.
+Únete al canal `#book_club-tidy_modeling_with_r` en el [Slack de R4DS](https://r4ds.io/join) para participar.
+En paralelo a la lectura del libro, estamos produciendo [notas sobre el libro](https://r4ds.github.io/bookclub-tmwr_es/).
 
-## Meeting Schedule
+## Horario de reuniones
 
-If you would like to present, please add your name next to a chapter using the [GitHub Web Editor](https://youtu.be/d41oc2OMAuI)!
+Si gustas presentar, por favor agrega tu nombre al lado del capítulo usando el [Editor Web de GitHub](https://youtu.be/d41oc2OMAuI) (guía en inglés).
 
-*Cohorte 1: Martes, 4:00pm CST/CDT*
+*Cohorte 1: Martes, 4:00pm CST/CDT (GMT-6)*
 
 <details>
-  <summary> Past Meetings </summary>
-
-- None yet
+  <summary> Reuniones pasadas </summary>
+- 2022-02-01: Bienvenida - Esmeralda Cruz-Silva y [Roberto Villegas-Diaz](https://github.com/villegar)
+- 2022-02-08: Capítulo 1 - Software para modelado: [Roberto Villegas-Diaz](https://github.com/villegar)
+- 2022-02-15: Capítulo 2 - Una cartilla tidyverse: Armando Ocampo
+- 2022-02-22: Capítulo 3 - Una revisión de fundamentos de modelado en R: Esmeralda Cruz-Silva
 </details>
 
-- 2022-01-01: Chapter 1: Software for modeling: Fill this in
+**Reuniones futuras:**
 
+- 2022-03-01: Extra - Revisión de Tidyverse (`purrr`, `dplyr`, etc.): [Roberto Villegas-Diaz](https://github.com/villegar)
+- 2022-03-08: Capítulo 4 - Datos sobre casas Ames: Diana García
+- 2022-03-15: Capítulo 5 - Gastando/usando nuestros datos: Armando Guzman
+- 2022-03-22: Capítulo 6 - Ingeniería de características usando el paquete `recipes`: PENDIENTE
+- 2022-04-05: Capítulo 7 - Ajustando models con el paquete `parsnip`: PENDIENTE
 <hr>  
 
-## How to Present
+## Instrucciones sobre como presentar
 
-This repository is structured as a [{bookdown}](https://CRAN.R-project.org/package=bookdown) site.
-To present, follow these instructions:
+Este repositorio está estructurado como un sitio [{bookdown}](https://CRAN.R-project.org/package=bookdown).
+Para presentar, sigue estas instrucciones:
 
-1. [Setup Github Locally](https://www.youtube.com/watch?v=hNUNPkoledI)
-2. Fork this repository.
-3. Create a New Project in RStudio using your fork.
-4. Install dependencies for this book with `devtools::install_dev_deps()` (technically optional but it's nice to be able to rebuild the full book).
-5. Create a New Branch in your fork for your work.
-6. Edit the appropriate chapter file. Use `##` to indicate new slides (new sections).
-7. If you use any packages that are not already in the `DESCRIPTION`, add them. You can use `usethis::use_package("myCoolPackage")` to add them quickly!
-8. Commit your changes.
-9. Push your changes to your branch.
-10. Open a Pull Request (PR) to let us know that your slides are ready.
+1. [Configura GitHub localmente](https://www.youtube.com/watch?v=hNUNPkoledI) (en inglés).
+2. Haz un *fork* (crea una copia en tu cuenta personal) de este repositorio.
+3. Crea un nuevo proyecto en RStudio (`File > New Project > Version Control`) con este *fork*.
+4. Instala las dependencias de este libro con el comando `devtools::install_dev_deps()` (técnicamente este paso es opcional, pero necesitas las dependencias para renderizar el libro completo, de forma local).
+5. Crea una nueva rama (*branch*) en tu *fork* para incluir tus cambios.
+6. Edita el archivo del capítulo apropiado. Usa `##` para crear nuevas secciones dentro del capítulo.
+7. Si usas paquetes adicionales, no incluídos en el archivo llamado `DESCRIPTION`, agrégalos. Puedes usar el comando `usethis::use_package("miPaquete")` para agregarlos rápidamente.
+8. Registra tus cambios haciendo un *commit*.
+9. Empuja tus cambios a tu rama (*branch*) en tu *fork* de GitHub.
+10. Abre un *pull request (PR)* para hacernos saber que hay cambios listos, para ser incorporados en el repositorio principal.
 
-When your PR is checked into the main branch, the bookdown site will rebuild, adding your slides to [this site](https://r4ds.github.io/bookclub-tmwr_es/).
+Cuando tu *PR* sea incorporado en el repositorio principal, el sitio con las notas será automáticamente renderizado para incluir tus cambios en [el sitio](https://r4ds.github.io/bookclub-tmwr_es/).
+

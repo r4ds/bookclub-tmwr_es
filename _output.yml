@@ -5,12 +5,12 @@ bookdown::gitbook:
     toc:
       collapse: section
       before: |
-        <li><a href="./">Tidy Modeling with R Book Club</a></li>
+        <li><a href="./">Modelado Tidy con R - Club de Lectura</a></li>
       after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+        <li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
     edit:
       link: https://github.com/r4ds/bookclub-tmwr_es/edit/main/%s
-      text: "Edit"
+      text: "Editar"
     sharing:
       github: yes
       facebook: no
