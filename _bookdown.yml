@@ -4,5 +4,23 @@ edit: "https://github.com/r4ds/bookclub-tmwr_es/edit/main/%s"
 output_dir: "_book"
 delete_merged_file: true
 language:
+  label:
+      fig: 'Figura '
+      tab: 'Tabla '
+      eq: 'Ecuación '
+      thm: 'Teorema '
+      lem: 'Lema '
+      cor: 'Corolario '
+      prp: 'Proposición '
+      cnj: 'Conjetura '
+      def: 'Definición '
+      exm: 'Ejemplo '
+      exr: 'Ejercicio '
+      hyp: 'Hipótesis '
+      proof: 'Prueba. '
+      remark: 'Observación. '
+      solution: 'Solución. '
   ui:
-    chapter_name: "Chapter "
+    edit: Editar
+    chapter_name: "Capítulo "
+    appendix_name: "Apéndice "
