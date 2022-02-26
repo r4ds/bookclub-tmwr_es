@@ -1,5 +1,5 @@
 Package: bookclub-tmwr_es
-Title: Tidy Modeling with R Book Club
+Title: Modelado Tidy con R - Club de Lectura
 Version: 0.0.0.9000
 Authors@R: c(
   person("R4DS Online Learning Community", role = c("aut", "cre", "cph"))

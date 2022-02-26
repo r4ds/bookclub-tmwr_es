@@ -1,6 +1,6 @@
 --- 
-title: "Tidy Modeling with R Book Club"
-author: "The R4DS Online Learning Community"
+title: "Modelado Tidy con R - Club de Lectura"
+author: "La Comunidad de Aprendizaje en línea R4DS"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -8,22 +8,22 @@ bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
 github-repo: r4ds/bookclub-tmwr_es
-description: "This is the product of the R4DS Online Learning Community's Tidy Modeling with R Book Club."
+description: "Este es el producto del Club de Lectura - Modelado Tidy con R de la Comunidad de Aprendizaje en línea R4DS."
 ---
 
-# Welcome {-}
+# Bienvenida {-}
 
-This is a companion for the book [Tidy Modeling with R](https://www.tmwr.org/) by Max Kuhn and Julia Silge.
-This companion is available at [r4ds.io/tmwr_es](https://r4ds.io/tmwr_es).
+Este es un suplemento para el libro [Modelado Tidy con R](https://www.tmwr.org/) por Max Kuhn y Julia Silge.
+Este suplemento está disponible en [r4ds.io/tmwr_es](https://r4ds.io/tmwr_es).
 
-This website is being developed by the [R4DS Online Learning Community](https://rfordatasci.com). Follow along, and [join the community](https://r4ds.io/join) to participate.
+Este sitio es mantenido por la [Comunidad de Aprendizaje en línea R4DS](https://rfordatasci.com). Sigue y [únete a la comunidad](https://r4ds.io/join) para participar.
 
-This companion follows the [R4DS Online Learning Community Code of Conduct](https://r4ds.io/conduct).
+Este suplemento sigue el [código de conducta de la Comunidad de Aprendizaje en línea R4DS](https://r4ds.io/conduct).
 
-## Book club meetings {-}
+## Reuniones del club de lectura {-}
 
-- Each week, a volunteer will present a chapter from the book.
-  - **This is the best way to learn the material.**
-- Presentations will usually consist of a review of the material, a discussion, and/or a demonstration of the principles presented in that chapter.
-- More information about how to present is available in the [github repo](https://github.com/r4ds/bookclub-tmwr).
-- Presentations will be recorded, and will be available on the [R4DS Online Learning Community YouTube Channel](https://r4ds.io/youtube).
+- Cada semana, unx voluntarix presentará un capítulo del libro.
+  - **Esta es la mejor manera de aprender los contenidos.**
+- Las presentaciones usualmente consisten de una revisión de los contenidos, una discusión y/o una demostración de los conceptos presentados en el capítulo.
+- Detalles adicionales sobre como presentar, pueden ser encontrados en el [repositorio de GitHub](https://github.com/r4ds/bookclub-tmwr).
+- Las presentaciones serán grabadas y estarán disponibles en el [canal de YouTube de la Comunidad de Aprendizaje en línea R4DS](https://r4ds.io/youtube).
