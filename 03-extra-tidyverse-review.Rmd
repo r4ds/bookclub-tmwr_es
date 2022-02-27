@@ -1,0 +1,303 @@
+# Revisión de Tidyverse {-}
+
+Los miembros del Cohorte 01 decidieron incluir una sesión para cubrir algunos de los paquetes más usados en el `{tidyverse}`.
+
+**Requisitos**
+
+Los siguientes paquetes serán usados:
+
+```{R, eval = FALSE, echo = FALSE}
+install.packages("tidyverse")
+install.packages("datos")
+```
+
+```{r, echo = FALSE}
+library(magrittr)
+mtautos <- datos::mtautos
+```
+
+```{R, eval = FALSE}
+install.packages("datos")
+install.packages("magrittr")
+install.packages("purrr")
+install.packages("repurrrsive")
+```
+
+## Usando pipes {-}
+
+> El objetivo de un pipe es ayudarte a escribir código de una manera que sea más fácil de leer y entender.
+
+<img src="images/the_little_rabbit_foo_foo.jpeg" />
+
+Antes de programar, veamos un ejemplo de motivación:
+
+> El pequeño conejito Foo Foo <br />
+> Fue saltando por el bosque <br />
+> Recogiendo ratones del campo <br />
+> Y golpeándolos en la cabeza.
+
+Podemos empezar por declarar un objeto que represente a nuestro protagonista:
+
+```{r, eval = FALSE}
+foo_foo <- pequeño_conejito()
+```
+
+Usando este objeto y verbos para cada acción (por ejemplo __saltar__), podemos contar la misma historia en las siguientes formas:
+
+1. Guardar cada paso intermedio como un nuevo objeto.
+2. Sobreescribir el objeto original muchas veces.
+3. Componer funciones.
+4. Usar un pipe.
+
+
+#### 1. Pasos intermedios {-}
+
+```{r, eval = FALSE}
+foo_foo_1 <- saltar(foo_foo, a_traves = bosque)
+foo_foo_2 <- recoger(foo_foo_1, que = ratones_del_campo)
+foo_foo_3 <- golpear(foo_foo_2, en = cabeza)
+```
+
+#### 2. Sobrescribir el original {-}
+
+```{r, eval = FALSE}
+foo_foo <- saltar(foo_foo, a_traves = bosque)
+foo_foo <- recoger(foo_foo, que = ratones_del_campo)
+foo_foo <- golpear(foo_foo, en = cabeza)
+```
+
+
+#### 3. Composición de funciones {-}
+
+```{r, eval = FALSE}
+golpear(
+  recoger(
+    saltar(foo_foo, por_el = bosque),
+    que = raton_de_campo
+  ),
+  en = la_cabeza
+)
+```
+
+
+#### 4. Usando el pipe {-}
+
+```{r, eval = FALSE}
+foo_foo %>%
+  saltar(a_través = bosque) %>%
+  recoger(que = ratones_campo) %>%
+  golpear(en = cabeza)
+```
+
+
+---
+
+Internamente, `magrittr` transforma el código anterior en:
+
+```{r, eval = FALSE}
+mi_pipe <- function(.) {
+  . <- saltar(., a_traves = bosque)
+  . <- recoger(., que = ratones_campo)
+  golpear(., en = la_cabeza)
+}
+mi_pipe(foo_foo)
+```
+
+#### Otras herramientas de `magrittr` {-}
+
+##### 1. Devolver los contenidos de la izquierda, `%T>%` {-}
+```{r ejemplo_pipe_T_1, fig.height = 5}
+set.seed(2021)
+rnorm(100) %>%
+  matrix(ncol = 2) %>%
+  plot() %>%
+  str()
+```
+
+````{r ejemplo_pipe_T_2, fig.height = 5}
+set.seed(2021)
+rnorm(100) %>%
+  matrix(ncol = 2) %T>%
+  plot() %>%
+  str()
+```
+
+##### 2. Trabajar con funciones que no tienen una API basada en data frames, `%$%` {-}
+
+```{r}
+mtautos %$%
+  cor(cilindrada, millas)
+```
+
+##### 3. Para asignaciones, `%<>%` {-}
+
+```{r}
+mtautos <- mtautos %>%
+  transform(cilindros = cilindros * 2)
+```
+
+```{r}
+mtautos %<>% transform(cilindros = cilindros * 2)
+```
+
+
+##### 4. Para cambiar nombres de columnas {-}
+
+```{r}
+mtautos %>%
+  magrittr::set_names(c("millas_por_galon", colnames(.)[-1]))
+```
+
+##### 5. Para cambiar la clase de un objeto {-}
+
+```{r}
+class(mtautos)
+mtautos %>%
+  magrittr::set_class(c("autos", class(.))) %>%
+  class()
+```
+
+
+<!-- `magrittr` {-} -->
+
+<!-- Basado en la presentación por Luis Francisco Gomez Lopez (https://r4ds.github.io/bookclub-r4ds_es/Presentaciones/Semana22-23/Cohorte01/021_iteracion.html). -->
+
+<!-- **Objetivos** -->
+
+<!-- - El uso de la iteración para reducir la duplicación de código como complemento al uso de funciones -->
+<!-- - El uso de 2 paradigmas de iteración: -->
+
+<!--     + Programación imperativa utilizando base R -->
+<!--     + Programación funcional utilizando el paquete `purrr` -->
+
+
+## Iteraciones en R {-}
+
+#### Funciones para iterar {-}
+
++ Base R 
+    
+    + Familia apply
+    
+        + `apply()`, `lapply()`, `sapply()`, `vapply()`, `mapply()`, `rapply()`, `tapply()`
+    
++ Tidyverse
+
+    + Paquete `purrr` en relación a la familia `map`
+    
+        + `map()`, `map_lgl()`, `map_chr()`, `map_int()`, `map_dbl()`,
+        `map_raw()`, `map_dfr()`, `map_dfc()`, `walk()`
+        
+> Las funciones `map` en `purrr` siempre retornan una lista o listas.
+
+#### Subgrupos {-}
+
++ `purrr::map()` - aplica una función a cada elemento en una lista o vector.
++ `purrr::map2()` - aplica una función a un **par** de elementos de dos listas o vectores.
++ `purrr::pmap()` - aplica una función a un **grupo** de elementos de una lista de listas.
+
+#### Ejemplos {-}
+
+`mtautos` es el equivalente en español a `mtcars`
+```{r}
+`%>%` <- magrittr::`%>%`
+# data("mtautos", package = "datos")
+mtautos <- datos::mtautos
+mtautos %>%
+  dplyr::group_by(cilindros) %>%
+  dplyr::summarise(mean(millas))
+```
+
+##### Ejemplo 1 {-}
+
+Imaginen que queremos calcular los valores de R$^2$ para la regresión lineal de `peso` y millas por galón (`millas`), según el número de `cilindros`.
+
+Un caso en particular, **`cilindros = 4`**
+
+```{r}
+# Crear un subconjunto
+cilindros_4 <- mtautos %>%
+  dplyr::filter(cilindros == 4)
+# Crear un modelo lineal
+ml_cilindros_4 <- lm(millas ~ peso, data = cilindros_4)
+# Crear resumen
+ml_cilindros_4_resumen <- summary(ml_cilindros_4)
+# Obtener R^2
+ml_cilindros_4_r2 <- ml_cilindros_4_resumen["r.squared"]
+ml_cilindros_4_r2
+```
+
+Usando el pipe `%>%`:
+```{r}
+ml_cilindros_4_r2 <- mtautos %>% 
+  dplyr::filter(cilindros == 4) %>%
+  lm(millas ~ peso, data = .) %>% 
+  summary() %>% 
+  .$"r.squared"
+ml_cilindros_4_r2
+```
+
+
+**Solución con `purrr`**
+
+```{r}
+mtautos %>%
+  split(.$cilindros) %>%
+  purrr::map(~lm(millas ~ peso, data = .x)) %>%
+  purrr::map(summary) %>%
+  purrr::map_dbl("r.squared")
+```
+
+
+##### Ejemplo 2 {-}
+
+Imaginen que necesitamos ejecutar varios análisis de varianza (ANOVA) unidireccionales, típicamente usaríamos el siguiente código:
+
+```{r, error=TRUE}
+aov_millas <- aov(millas ~ factor(cilindros), data = mtautos)
+summary(aov_millas)
+```
+
+Este código tiene errores
+```{r, eval=FALSE}
+# aov_cilindrada <- aov(cilindrada ~ factor(cilindross), data = mtautos)
+# summary(aov_cilindrada)
+# aov_caballos <- aov(caballos ~ factor(cilindros), data = mrautos)
+# summry(aov_caballoss)
+# aov_peso <- aov(peso ~ factor(cilindros), datas = mtautos)
+# summary(aov_peso)
+```
+
+**Solución con `purrr`**
+
+```{r}
+mtautos %>%
+  dplyr::mutate(cilindros = factor(cilindros),
+                transmision = factor(transmision)) %>%
+  dplyr::select(millas, cilindrada, caballos) %>%
+  purrr::map(~aov(.x ~ cilindros * transmision, data = mtautos)) %>%
+  purrr::map_dfr(~broom::tidy(.), .id = 'source') #%>%
+  # mutate(p.value = round(p.value, 5))
+```
+
+
+
+```{r, eval = FALSE}
+data("got_chars", package = "repurrrsive")
+listviewer::jsonedit(got_chars, mode = "view")
+```
+
+```{r, eval = FALSE}
+purrr::map(.x = got_chars, 
+           .f = magrittr::extract,
+           c("name"))
+purrr::map_dfr(.x = got_chars, 
+           .f = magrittr::extract,
+           c("name"))
+```
+
+## Referencias {-}
+
+- [Purrr cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/purrr.pdf) para una referencia rápida.
+- Mock, T., 2018. Programación funcional en R con `purrr`: https://towardsdatascience.com/functional-programming-in-r-with-purrr-469e597d0229
+- Wickham, H. and Grolemund, G., 2017. R para Ciencia de Datos: https://es.r4ds.hadley.nz
