@@ -1,0 +1,573 @@
+# Revisión de Tidyverse {-}
+
+Los miembros del Cohorte 01 decidieron incluir una sesión para cubrir algunos de los paquetes más usados en el `{tidyverse}`.
+
+**Requisitos**
+
+Los siguientes paquetes serán usados:
+
+```{R, eval = FALSE, echo = FALSE}
+install.packages("tidyverse")
+install.packages("datos")
+```
+
+```{r, echo = FALSE}
+library(magrittr)
+mtautos <- datos::mtautos
+```
+
+```{R, eval = FALSE}
+install.packages("datos")
+install.packages("magrittr")
+install.packages("purrr")
+install.packages("repurrrsive")
+```
+
+## Usando pipes {-}
+
+> El objetivo de un pipe es ayudarte a escribir código de una manera que sea más fácil de leer y entender.
+
+<img src="images/the_little_rabbit_foo_foo.jpeg" />
+
+Antes de programar, veamos un ejemplo de motivación:
+
+> El pequeño conejito Foo Foo <br />
+> Fue saltando por el bosque <br />
+> Recogiendo ratones del campo <br />
+> Y golpeándolos en la cabeza.
+
+Podemos empezar por declarar un objeto que represente a nuestro protagonista:
+
+```{r, eval = FALSE}
+foo_foo <- pequeño_conejito()
+```
+
+Usando este objeto y verbos para cada acción (por ejemplo __saltar__), podemos contar la misma historia en las siguientes formas:
+
+1. Guardar cada paso intermedio como un nuevo objeto.
+2. Sobreescribir el objeto original muchas veces.
+3. Componer funciones.
+4. Usar un pipe.
+
+
+#### 1. Pasos intermedios {-}
+
+```{r, eval = FALSE}
+foo_foo_1 <- saltar(foo_foo, a_traves = bosque)
+foo_foo_2 <- recoger(foo_foo_1, que = ratones_del_campo)
+foo_foo_3 <- golpear(foo_foo_2, en = cabeza)
+```
+
+#### 2. Sobrescribir el original {-}
+
+```{r, eval = FALSE}
+foo_foo <- saltar(foo_foo, a_traves = bosque)
+foo_foo <- recoger(foo_foo, que = ratones_del_campo)
+foo_foo <- golpear(foo_foo, en = cabeza)
+```
+
+
+#### 3. Composición de funciones {-}
+
+```{r, eval = FALSE}
+golpear(
+  recoger(
+    saltar(foo_foo, por_el = bosque),
+    que = raton_de_campo
+  ),
+  en = la_cabeza
+)
+```
+
+
+#### 4. Usando el pipe {-}
+
+```{r, eval = FALSE}
+foo_foo %>%
+  saltar(a_través = bosque) %>%
+  recoger(que = ratones_campo) %>%
+  golpear(en = cabeza)
+```
+
+
+---
+
+Internamente, `magrittr` transforma el código anterior en:
+
+```{r, eval = FALSE}
+mi_pipe <- function(.) {
+  . <- saltar(., a_traves = bosque)
+  . <- recoger(., que = ratones_campo)
+  golpear(., en = la_cabeza)
+}
+mi_pipe(foo_foo)
+```
+
+#### Otras herramientas de `magrittr` {-}
+
+##### 1. Devolver los contenidos de la izquierda, `%T>%` {-}
+```{r ejemplo_pipe_T_1, fig.height = 5}
+set.seed(2021)
+rnorm(100) %>%
+  matrix(ncol = 2) %>%
+  plot() %>%
+  str()
+```
+
+````{r ejemplo_pipe_T_2, fig.height = 5}
+set.seed(2021)
+rnorm(100) %>%
+  matrix(ncol = 2) %T>%
+  plot() %>%
+  str()
+```
+
+##### 2. Trabajar con funciones que no tienen una API basada en data frames, `%$%` {-}
+
+```{r}
+mtautos %$%
+  cor(cilindrada, millas)
+```
+
+##### 3. Para asignaciones, `%<>%` {-}
+
+```{r}
+mtautos <- mtautos %>%
+  transform(cilindros = cilindros * 2)
+```
+
+```{r}
+mtautos %<>% transform(cilindros = cilindros * 2)
+```
+
+
+##### 4. Para cambiar nombres de columnas {-}
+
+```{r}
+mtautos %>%
+  magrittr::set_names(c("millas_por_galon", colnames(.)[-1]))
+```
+
+##### 5. Para cambiar la clase de un objeto {-}
+
+```{r}
+class(mtautos)
+mtautos %>%
+  magrittr::set_class(c("autos", class(.))) %>%
+  class()
+```
+
+
+<!-- `magrittr` {-} -->
+
+<!-- Basado en la presentación por Luis Francisco Gomez Lopez (https://r4ds.github.io/bookclub-r4ds_es/Presentaciones/Semana22-23/Cohorte01/021_iteracion.html). -->
+
+<!-- **Objetivos** -->
+
+<!-- - El uso de la iteración para reducir la duplicación de código como complemento al uso de funciones -->
+<!-- - El uso de 2 paradigmas de iteración: -->
+
+<!--     + Programación imperativa utilizando base R -->
+<!--     + Programación funcional utilizando el paquete `purrr` -->
+
+
+## Iteraciones en R {-}
+
+<img src="images/purrr.jpg" />
+
+#### Funciones para iterar {-}
+
++ Base R 
+    
+    + Familia apply
+    
+        + `apply()`, `lapply()`, `sapply()`, `vapply()`, `mapply()`, `rapply()`, `tapply()`
+    
++ Tidyverse
+
+    + Paquete `purrr` en relación a la familia `map`
+    
+        + `map()`, `map_lgl()`, `map_chr()`, `map_int()`, `map_dbl()`,
+        `map_raw()`, `map_dfr()`, `map_dfc()`, `walk()`
+        
+> Las funciones `map` en `purrr` siempre retornan una lista o listas.
+
+#### Subgrupos {-}
+
++ `purrr::map()` - aplica una función a cada elemento en una lista o vector.
++ `purrr::map2()` - aplica una función a un **par** de elementos de dos listas o vectores.
++ `purrr::pmap()` - aplica una función a un **grupo** de elementos de una lista de listas.
+
+Cada uno de ellos tiene subfunctiones con el sufijo del tipo de valores que se desean retornar, por ejemplo `purrr::map_dbl()` devuleve un vector númerico y `purrr::map_lgl()` uno de valores lógicos.
+
+Adicionalmente, si no deseamos retornar nada (en otras palabras, llamar a una función por sus "efectos secundarios", como graficar), podemos reemplazar `map` por `walk`:
++ `purrr::walk()` - aplica una función a cada elemento en una lista o vector.
++ `purrr::walk2()` - aplica una función a un **par** de elementos de dos listas o vectores.
++ `purrr::pwalk()` - aplica una función a un **grupo** de elementos de una lista de listas.
+
+#### Ejemplos {-}
+
+`mtautos` es el equivalente en español a `mtcars`
+```{r}
+`%>%` <- magrittr::`%>%`
+# data("mtautos", package = "datos")
+mtautos <- datos::mtautos
+mtautos %>%
+  dplyr::group_by(cilindros) %>%
+  dplyr::summarise(mean(millas))
+```
+
+`paises` es el equivalente en español a `gapminder` (del paquete `gapminder`)
+```{r}
+paises <- datos::paises
+head(paises)
+```
+
+##### Ejemplo 1 {-}
+Definamos una función muy simple
+
+```{r}
+suma_diez <- function(x) {
+  return(x + 10)
+}
+```
+
+Apliquemos la función usando `purrr::map`
+
+```{r}
+purrr::map(.x = c(1:5),
+           .f = suma_diez)
+
+# O sin los nombres:
+# purrr::map(c(1:5), suma_diez)
+```
+
+
+Pero, ¿no sería mejor retornar un vector númerico?
+
+```{r}
+purrr::map_dbl(c(1:5), suma_diez)
+```
+
+¿Y qué tal si queremos un *data frame*? 
+
+```{r, error=TRUE}
+purrr::map_df(c(1:5), suma_diez)
+```
+
+```{r, error=TRUE}
+purrr::map_df(c(1:5), function(x) c(nuevo = x + 10))
+```
+
+Algo no anda bien, esto se debe a nuestra definición de la función `suma_diez`, que solo retorna un vector númerico. Podríamos definir una nueva función o podemos aprender un pequeño truco (*funciones anónimas*):
+
+```{r}
+purrr::map_df(c(1:5), 
+              function(x) {
+                data.frame(original = x,
+                           nuevo = x + 10)
+              })
+```
+
+**Advertencia:** No es recomendable usar este "truco" para funciones muy complejas, siempre es mejor definir la función por separado y luego usarla dentro de `map`.
+
+Otra forma:
+
+```{r}
+purrr::map_df(c(1:5), ~data.frame(original = .x, nuevo = .x + 10))
+```
+
+##### Ejemplo 2 {-}
+
+Usemos el dataset llamado `paises`, para ver las classes de cada columna:
+
+```{r}
+paises %>% purrr::map_chr(class)
+```
+
+Si queremos ver el número de valores únicos en cada columna:
+
+```{r}
+paises %>% purrr::map_dbl(dplyr::n_distinct)
+```
+
+Podríamos resumir las dos operaciones anteriores en un solo paso:
+
+```{r}
+paises %>% 
+  purrr::map_df(~data.frame(clase = class(.x), 
+                            n_distintos = dplyr::n_distinct(.x)))
+```
+
+¿Y los nombres de las variables?
+```{r}
+paises %>% 
+  purrr::map_df(~data.frame(clase = class(.x), 
+                            n_distintos = dplyr::n_distinct(.x)), 
+                .id = "variable")
+```
+
+
+##### Ejemplo 3 {-}
+
+**Mapeos sobre dos objetos:**
+
+Extraígamos los continentes y años de `paises`:
+
+```{r}
+continente_anio <- paises %>%
+  dplyr::distinct(continente, anio)
+head(continente_anio)
+```
+
+```{r}
+lista_de_graficos <- 
+  purrr::map2(.x = continente_anio$continente,
+              .y = continente_anio$anio,
+              .f = ~paises %>%
+                dplyr::filter(continente == .x,
+                              anio == .y) %>%
+                ggplot2::ggplot() +
+                ggplot2::geom_point(ggplot2::aes(x = pib_per_capita,
+                                                 y = esperanza_de_vida)) +
+                ggplot2::labs(title = paste(.x, .y),
+                              x = "PIB per capita [USD]",
+                              y = "Esperanza de vida [años]")
+              )
+
+lista_de_graficos[[1]]
+lista_de_graficos[[22]]
+```
+
+¿Y para más de dos objetos? Podemos usar `pmap`.
+
+```{r}
+paises %>%
+  dplyr::slice(1:2) %>%
+  purrr::pmap(function(pais, continente, anio, ...) {
+    paises %>%
+      dplyr::filter(pais == !!pais,
+                    continente == !!continente,
+                    anio == !!anio)
+  })
+```
+
+```{r}
+paises %>%
+  dplyr::distinct(pais, continente, anio) %>%
+  dplyr::slice(1:2) %>%
+  purrr::pmap(~paises %>%
+      dplyr::filter(pais == 1.,
+                    continente == 2.,
+                    anio == 3.)
+      )
+```
+
+Este código no es muy útil, pero sirve para introducir el concepto de "mapeos múlti-objeto". Un caso en el que sería útil es si tenemos una tabla con combinaciones de párametros que deben ser ejecutados.
+
+El `!!` se llama el "operador bang-bang", podemos pensar de este como una forma de "forzar" la evaluación temprana de código antes de que la expresión en si sea ejecutada.
+
+En el código anterior, la expresión `pais == !!pais`, sería evaluada como `pais == "<VALOR DENTRO DE PAÍS>"`.
+
+##### Ejemplo 4 {-}
+
+**Agrupando datos**
+
+```{r}
+paises_agrupados <- paises %>%
+  dplyr::group_by(continente) %>%
+  tidyr::nest()
+
+paises_agrupados$data[[1]] %>% head()
+paises_agrupados$data[[5]] %>% head()
+```
+
+Alternativamente, podemos usar `purrr::pluck` para extraer elementos en una lista
+
+```{r}
+paises_agrupados %>%
+  purrr::pluck("data", 1) %>%
+  head()
+
+paises_agrupados %>%
+  purrr::pluck("data", 5) %>%
+  head()
+```
+
+¿Y esto para qué sirve? Bueno, podríamos calcular valores para cada "sub-grupo", por ejemplo: la esperanza de vida promedio por continente.
+
+```{r}
+paises_agrupados %>% 
+  dplyr::mutate(esperanza_de_vida_promedio = 
+                  purrr::map_dbl(data, ~mean(.x$esperanza_de_vida)))
+```
+
+Pero, podríamos usar `dplyr`, ¿no?
+
+```{r}
+paises %>%
+  dplyr::group_by(continente) %>%
+  dplyr::summarise(esperanza_de_vida_promedio = mean(esperanza_de_vida))
+```
+
+La idea es ilustrar el concepto, detrás del tipo de operaciones que podríamos ejecutar con `purrr`.
+
+
+**Ajustando un modelo lineal**
+
+Usando este mismo concepto, podríamos ajustar un modelo lineal para cada continente:
+```{r}
+paises_agrupados_ml <- paises_agrupados %>%
+  dplyr::mutate(ml = purrr::map(data, ~lm(esperanza_de_vida ~ poblacion + pib_per_capita + anio, data = .x)))
+paises_agrupados_ml
+```
+
+Para extraer el modelo de Asia:
+
+```{r}
+paises_agrupados_ml %>%
+  purrr::pluck("ml", 1)
+```
+
+
+*¿Y ahora qué sigue?* Podemos usar el modelo y los datos de entrada, para predecir la respuesta de los modelos:
+
+```{r}
+paises_agrupados_ml_predicciones <- paises_agrupados_ml %>%
+  dplyr::mutate(predicciones =
+                  purrr::map2(ml, data, ~predict(.x, .y)))
+paises_agrupados_ml_predicciones
+```
+
+*¿Y eso es todo?* No, podemos repetir este proceso para incluir más variables, como por ejemplo, la correlación:
+
+```{r}
+paises_agrupados_ml_predicciones_corr <- paises_agrupados_ml_predicciones %>%
+  dplyr::mutate(correlacion =
+                  purrr::map2_dbl(predicciones, data, ~cor(.x, .y$esperanza_de_vida)))
+paises_agrupados_ml_predicciones_corr
+```
+
+
+Finalmente, podemos usar uno de los paquetes de `tidymodels` (`broom`) para extraer algunas otras métricas, del modelo lineal:
+
+```{r}
+paises_agrupados_ml %>%
+  dplyr::select(-data) %>%
+  dplyr::mutate(metricas = purrr::map(ml, ~broom::tidy(.x))) %>%
+  dplyr::select(-ml) %>%
+  tidyr::unnest(metricas)
+```
+
+
+##### Ejemplo N-1 {-}
+
+Imaginen que queremos calcular los valores de R$^2$ para la regresión lineal de `peso` y millas por galón (`millas`), según el número de `cilindros`.
+
+Un caso en particular, **`cilindros = 4`**
+
+```{r}
+# Crear un subconjunto
+cilindros_4 <- mtautos %>%
+  dplyr::filter(cilindros == 4)
+# Crear un modelo lineal
+ml_cilindros_4 <- lm(millas ~ peso, data = cilindros_4)
+# Crear resumen
+ml_cilindros_4_resumen <- summary(ml_cilindros_4)
+# Obtener R^2
+ml_cilindros_4_r2 <- ml_cilindros_4_resumen["r.squared"]
+ml_cilindros_4_r2
+```
+
+Usando el pipe `%>%`:
+```{r}
+ml_cilindros_4_r2 <- mtautos %>% 
+  dplyr::filter(cilindros == 4) %>%
+  lm(millas ~ peso, data = .) %>% 
+  summary() %>% 
+  .$"r.squared"
+ml_cilindros_4_r2
+```
+
+
+**Solución con `purrr`**
+
+```{r}
+mtautos %>%
+  split(.$cilindros) %>%
+  purrr::map(~lm(millas ~ peso, data = .x)) %>%
+  purrr::map(summary) %>%
+  purrr::map_dbl("r.squared")
+```
+
+
+##### Ejemplo N {-}
+
+Imaginen que necesitamos ejecutar varios análisis de varianza (ANOVA) unidireccionales, típicamente usaríamos el siguiente código:
+
+```{r, error=TRUE}
+aov_millas <- aov(millas ~ factor(cilindros), data = mtautos)
+summary(aov_millas)
+```
+
+Este código tiene errores
+```{r, eval=FALSE}
+# aov_cilindrada <- aov(cilindrada ~ factor(cilindross), data = mtautos)
+# summary(aov_cilindrada)
+# aov_caballos <- aov(caballos ~ factor(cilindros), data = mrautos)
+# summry(aov_caballoss)
+# aov_peso <- aov(peso ~ factor(cilindros), datas = mtautos)
+# summary(aov_peso)
+```
+
+**Solución con `purrr`**
+
+```{r}
+mtautos %>%
+  dplyr::mutate(cilindros = factor(cilindros),
+                transmision = factor(transmision)) %>%
+  dplyr::select(millas, cilindrada, caballos) %>%
+  purrr::map(~aov(.x ~ cilindros * transmision, data = mtautos)) %>%
+  purrr::map_dfr(~broom::tidy(.), .id = 'fuente')
+```
+
+### En paralelo {-}
+Existe un paquete llamado `furrrr` (https://cran.r-project.org/package=furrr) que 
+tiene funciones de mapeo para computación en paralelo. Por ejemplo en lugar de 
+usar `purrr:map` podemos usar `furrr::future_map` todo lo demás se queda igual. 
+Para indicar el número de procesos que quieres ejecutar en paralelo, tienes que 
+usar `future::plan(future::multisession, workers = CPUS)` donde CPUS es el 
+número de procesos que quieres ejecutar en paralelo.
+
+Un pequeño ejemplo:
+
+```{r, eval = FALSE}
+future::plan(future::multisession, workers = 2)
+out <- seq_len(1e9) %>%
+    furrr::future_map(~.x + 10)
+```
+
+Una guía muy útil: https://www.r-bloggers.com/2021/09/tidy-parallel-processing-in-r-with-furrr/
+
+Es incluso posible agregar una barrita de progreso con el paquete `progressr`
+(https://cran.r-project.org/package=progressr)
+(https://furrr.futureverse.org/articles/articles/progress.html)
+
+## Referencias {-}
+
+- [Purrr cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/purrr.pdf) para una referencia rápida.
+- Barter, R., 2019. *Learn to `purrr`*: https://www.rebeccabarter.com/blog/2019-08-19_purrr/
+- Mock, T., 2018. *Functional Programming in R with `purrr`*: https://towardsdatascience.com/functional-programming-in-r-with-purrr-469e597d0229
+- Wickham, H. and Grolemund, G., 2017. R para Ciencia de Datos: https://es.r4ds.hadley.nz
+
+
+## Videos de las reuniones {-}
+
+### Cohorte 1 {-}
+
+`r knitr::include_url("https://www.youtube.com/embed/UqQ_N6EkTbo")`
+
+<details>
+  <summary> Chat de la reunión </summary>
+
+</details>
