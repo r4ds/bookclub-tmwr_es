@@ -255,6 +255,10 @@ purrr::map_dbl(c(1:5), suma_diez)
 purrr::map_df(c(1:5), suma_diez)
 ```
 
+```{r, error=TRUE}
+purrr::map_df(c(1:5), function(x) c(nuevo = x + 10))
+```
+
 Algo no anda bien, esto se debe a nuestra definición de la función `suma_diez`, que solo retorna un vector númerico. Podríamos definir una nueva función o podemos aprender un pequeño truco (*funciones anónimas*):
 
 ```{r}
@@ -339,14 +343,24 @@ lista_de_graficos[[22]]
 
 ```{r}
 paises %>%
-  dplyr::distinct(pais, continente, anio) %>%
   dplyr::slice(1:2) %>%
-  purrr::pmap(function(pais, continente, anio) {
+  purrr::pmap(function(pais, continente, anio, ...) {
     paises %>%
       dplyr::filter(pais == !!pais,
                     continente == !!continente,
                     anio == !!anio)
   })
+```
+
+```{r}
+paises %>%
+  dplyr::distinct(pais, continente, anio) %>%
+  dplyr::slice(1:2) %>%
+  purrr::pmap(~paises %>%
+      dplyr::filter(pais == 1.,
+                    continente == 2.,
+                    anio == 3.)
+      )
 ```
 
 Este código no es muy útil, pero sirve para introducir el concepto de "mapeos múlti-objeto". Un caso en el que sería útil es si tenemos una tabla con combinaciones de párametros que deben ser ejecutados.
@@ -514,10 +528,30 @@ mtautos %>%
                 transmision = factor(transmision)) %>%
   dplyr::select(millas, cilindrada, caballos) %>%
   purrr::map(~aov(.x ~ cilindros * transmision, data = mtautos)) %>%
-  purrr::map_dfr(~broom::tidy(.), .id = 'fuente') #%>%
-  # mutate(p.value = round(p.value, 5))
+  purrr::map_dfr(~broom::tidy(.), .id = 'fuente')
 ```
 
+### En paralelo {-}
+Existe un paquete llamado `furrrr` (https://cran.r-project.org/package=furrr) que 
+tiene funciones de mapeo para computación en paralelo. Por ejemplo en lugar de 
+usar `purrr:map` podemos usar `furrr::future_map` todo lo demás se queda igual. 
+Para indicar el número de procesos que quieres ejecutar en paralelo, tienes que 
+usar `future::plan(future::multisession, workers = CPUS)` donde CPUS es el 
+número de procesos que quieres ejecutar en paralelo.
+
+Un pequeño ejemplo:
+
+```{r, eval = FALSE}
+future::plan(future::multisession, workers = 2)
+out <- seq_len(1e9) %>%
+    furrr::future_map(~.x + 10)
+```
+
+Una guía muy útil: https://www.r-bloggers.com/2021/09/tidy-parallel-processing-in-r-with-furrr/
+
+Es incluso posible agregar una barrita de progreso con el paquete `progressr`
+(https://cran.r-project.org/package=progressr)
+(https://furrr.futureverse.org/articles/articles/progress.html)
 
 ## Referencias {-}
 
@@ -525,3 +559,15 @@ mtautos %>%
 - Barter, R., 2019. *Learn to `purrr`*: https://www.rebeccabarter.com/blog/2019-08-19_purrr/
 - Mock, T., 2018. *Functional Programming in R with `purrr`*: https://towardsdatascience.com/functional-programming-in-r-with-purrr-469e597d0229
 - Wickham, H. and Grolemund, G., 2017. R para Ciencia de Datos: https://es.r4ds.hadley.nz
+
+
+## Videos de las reuniones {-}
+
+### Cohorte 1 {-}
+
+`r knitr::include_url("https://www.youtube.com/embed/UqQ_N6EkTbo")`
+
+<details>
+  <summary> Chat de la reunión </summary>
+
+</details>
