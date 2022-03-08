@@ -18,6 +18,7 @@ Imports:
     corrr,
     DALEX,
     DALEXtra,
+    datos,
     details,
     dimRed,
     discrim,
