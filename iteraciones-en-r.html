@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Iteraciones en R | Modelado Tidy con R - Club de Lectura</title>
+  <meta name="description" content="Este es el producto del Club de Lectura - Modelado Tidy con R de la Comunidad de Aprendizaje en línea R4DS." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Iteraciones en R | Modelado Tidy con R - Club de Lectura" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Este es el producto del Club de Lectura - Modelado Tidy con R de la Comunidad de Aprendizaje en línea R4DS." />
+  <meta name="github-repo" content="r4ds/bookclub-tmwr_es" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Iteraciones en R | Modelado Tidy con R - Club de Lectura" />
+  
+  <meta name="twitter:description" content="Este es el producto del Club de Lectura - Modelado Tidy con R de la Comunidad de Aprendizaje en línea R4DS." />
+  
+
+<meta name="author" content="La Comunidad de Aprendizaje en línea R4DS" />
+
+
+<meta name="date" content="2022-03-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="usando-pipes.html"/>
+<link rel="next" href="referencias.html"/>
+<script src="libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/twitter-widget-0.0.1/widgets.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Modelado Tidy con R - Club de Lectura</a></li>
+
+<li class="divider"></li>
+<li><a href="index.html#bienvenida">Bienvenida<span></span></a>
+<ul>
+<li><a href="reuniones-del-club-de-lectura.html#reuniones-del-club-de-lectura">Reuniones del club de lectura<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="software-para-modelado.html"><a href="software-para-modelado.html"><i class="fa fa-check"></i><b>1</b> Software para modelado<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="the-pit-of-success.html"><a href="the-pit-of-success.html"><i class="fa fa-check"></i><b>1.1</b> The pit of success<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="types-of-models.html"><a href="types-of-models.html"><i class="fa fa-check"></i><b>1.2</b> Types of models<span></span></a></li>
+<li class="chapter" data-level="1.3" data-path="terminology.html"><a href="terminology.html"><i class="fa fa-check"></i><b>1.3</b> Terminology<span></span></a></li>
+<li class="chapter" data-level="1.4" data-path="the-data-analysis-process.html"><a href="the-data-analysis-process.html"><i class="fa fa-check"></i><b>1.4</b> The data analysis process<span></span></a></li>
+<li class="chapter" data-level="1.5" data-path="the-modeling-process.html"><a href="the-modeling-process.html"><i class="fa fa-check"></i><b>1.5</b> The modeling process<span></span></a></li>
+<li class="chapter" data-level="1.6" data-path="videos-de-las-reuniones.html"><a href="videos-de-las-reuniones.html"><i class="fa fa-check"></i><b>1.6</b> Videos de las reuniones<span></span></a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="videos-de-las-reuniones.html"><a href="videos-de-las-reuniones.html#cohorte-1"><i class="fa fa-check"></i><b>1.6.1</b> Cohorte 1<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="a-tidyverse-primer.html"><a href="a-tidyverse-primer.html"><i class="fa fa-check"></i><b>2</b> A tidyverse primer<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tidyverse-design-principles.html"><a href="tidyverse-design-principles.html"><i class="fa fa-check"></i><b>2.1</b> Tidyverse design Principles<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="design-for-humans---overview.html"><a href="design-for-humans---overview.html"><i class="fa fa-check"></i><b>2.2</b> Design for Humans - Overview<span></span></a></li>
+<li class="chapter" data-level="2.3" data-path="design-for-humans.html"><a href="design-for-humans.html"><i class="fa fa-check"></i><b>2.3</b> Design for Humans and the Tidyverse<span></span></a></li>
+<li class="chapter" data-level="2.4" data-path="reusing-existing-data-structures.html"><a href="reusing-existing-data-structures.html"><i class="fa fa-check"></i><b>2.4</b> Reusing existing data structures<span></span></a></li>
+<li class="chapter" data-level="2.5" data-path="designed-for-the-pipe.html"><a href="designed-for-the-pipe.html"><i class="fa fa-check"></i><b>2.5</b> Designed for the pipe<span></span></a></li>
+<li class="chapter" data-level="2.6" data-path="designed-for-functional-programming.html"><a href="designed-for-functional-programming.html"><i class="fa fa-check"></i><b>2.6</b> Designed for Functional Programming<span></span></a></li>
+<li class="chapter" data-level="2.7" data-path="tibbles-vs.-data-frames.html"><a href="tibbles-vs.-data-frames.html"><i class="fa fa-check"></i><b>2.7</b> Tibbles vs. Data Frames<span></span></a></li>
+<li class="chapter" data-level="2.8" data-path="how-to-read-and-wrangle-data.html"><a href="how-to-read-and-wrangle-data.html"><i class="fa fa-check"></i><b>2.8</b> How to read and wrangle data<span></span></a></li>
+<li class="chapter" data-level="2.9" data-path="further-reading.html"><a href="further-reading.html"><i class="fa fa-check"></i><b>2.9</b> Further Reading<span></span></a></li>
+<li class="chapter" data-level="2.10" data-path="meeting-videos.html"><a href="meeting-videos.html"><i class="fa fa-check"></i><b>2.10</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="2.10.1" data-path="meeting-videos.html"><a href="meeting-videos.html#cohort-1"><i class="fa fa-check"></i><b>2.10.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="2.10.2" data-path="meeting-videos.html"><a href="meeting-videos.html#cohort-2"><i class="fa fa-check"></i><b>2.10.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="2.10.3" data-path="meeting-videos.html"><a href="meeting-videos.html#cohort-3"><i class="fa fa-check"></i><b>2.10.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="2.10.4" data-path="meeting-videos.html"><a href="meeting-videos.html#cohort-4"><i class="fa fa-check"></i><b>2.10.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="a-review-of-r-modeling-fundamentals.html"><a href="a-review-of-r-modeling-fundamentals.html"><i class="fa fa-check"></i><b>3</b> A review of R modeling fundamentals<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="r-formula-syntax.html"><a href="r-formula-syntax.html"><i class="fa fa-check"></i><b>3.1</b> R formula syntax<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="r-formula-syntax.html"><a href="r-formula-syntax.html#recap"><i class="fa fa-check"></i><b>3.1.1</b> Recap<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="inspecting-and-developing-models.html"><a href="inspecting-and-developing-models.html"><i class="fa fa-check"></i><b>3.2</b> Inspecting and developing models<span></span></a></li>
+<li class="chapter" data-level="3.3" data-path="more-of-base-and-stats.html"><a href="more-of-base-and-stats.html"><i class="fa fa-check"></i><b>3.3</b> More of <code>{base}</code> and <code>{stats}</code><span></span></a></li>
+<li class="chapter" data-level="3.4" data-path="why-tidy-principles-and-tidymodels.html"><a href="why-tidy-principles-and-tidymodels.html"><i class="fa fa-check"></i><b>3.4</b> Why Tidy Principles and <code>{tidymodels}</code>?<span></span></a></li>
+<li class="chapter" data-level="3.5" data-path="meeting-videos-1.html"><a href="meeting-videos-1.html"><i class="fa fa-check"></i><b>3.5</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="meeting-videos-1.html"><a href="meeting-videos-1.html#cohort-1-1"><i class="fa fa-check"></i><b>3.5.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="3.5.2" data-path="meeting-videos-1.html"><a href="meeting-videos-1.html#cohort-2-1"><i class="fa fa-check"></i><b>3.5.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="3.5.3" data-path="meeting-videos-1.html"><a href="meeting-videos-1.html#cohort-3-1"><i class="fa fa-check"></i><b>3.5.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="3.5.4" data-path="meeting-videos-1.html"><a href="meeting-videos-1.html#cohort-4-1"><i class="fa fa-check"></i><b>3.5.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="revisión-de-tidyverse.html#revisión-de-tidyverse">Revisión de Tidyverse<span></span></a>
+<ul>
+<li><a href="usando-pipes.html#usando-pipes">Usando pipes<span></span></a></li>
+<li><a href="iteraciones-en-r.html#iteraciones-en-r">Iteraciones en R<span></span></a>
+<ul>
+<li><a href="iteraciones-en-r.html#en-paralelo">En paralelo<span></span></a></li>
+</ul></li>
+<li><a href="referencias.html#referencias">Referencias<span></span></a></li>
+<li><a href="videos-de-las-reuniones-1.html#videos-de-las-reuniones-1">Videos de las reuniones<span></span></a>
+<ul>
+<li><a href="videos-de-las-reuniones-1.html#cohorte-1-1">Cohorte 1<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Basics<span></span></b></span></li>
+<li class="chapter" data-level="4" data-path="the-ames-housing-data.html"><a href="the-ames-housing-data.html"><i class="fa fa-check"></i><b>4</b> The Ames housing data<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="pittsburgh-a-parallel-real-world-example.html"><a href="pittsburgh-a-parallel-real-world-example.html"><i class="fa fa-check"></i><b>4.1</b> Pittsburgh: a parallel real world example<span></span></a></li>
+<li class="chapter" data-level="4.2" data-path="meeting-videos-2.html"><a href="meeting-videos-2.html"><i class="fa fa-check"></i><b>4.2</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="meeting-videos-2.html"><a href="meeting-videos-2.html#cohort-1-2"><i class="fa fa-check"></i><b>4.2.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="4.2.2" data-path="meeting-videos-2.html"><a href="meeting-videos-2.html#cohort-2-2"><i class="fa fa-check"></i><b>4.2.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="4.2.3" data-path="meeting-videos-2.html"><a href="meeting-videos-2.html#cohort-3-2"><i class="fa fa-check"></i><b>4.2.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="4.2.4" data-path="meeting-videos-2.html"><a href="meeting-videos-2.html#cohort-4-2"><i class="fa fa-check"></i><b>4.2.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="spending-our-data.html"><a href="spending-our-data.html"><i class="fa fa-check"></i><b>5</b> Spending our data<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="spending-our-data-1.html"><a href="spending-our-data-1.html"><i class="fa fa-check"></i><b>5.1</b> Spending our data<span></span></a></li>
+<li class="chapter" data-level="5.2" data-path="common-methods-for-splitting-data.html"><a href="common-methods-for-splitting-data.html"><i class="fa fa-check"></i><b>5.2</b> Common methods for splitting data<span></span></a></li>
+<li class="chapter" data-level="5.3" data-path="class-imbalance.html"><a href="class-imbalance.html"><i class="fa fa-check"></i><b>5.3</b> Class imbalance<span></span></a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="class-imbalance.html"><a href="class-imbalance.html#stratified-sampling-simulation"><i class="fa fa-check"></i><b>5.3.1</b> Stratified sampling simulation<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="continuous-outcome-data.html"><a href="continuous-outcome-data.html"><i class="fa fa-check"></i><b>5.4</b> Continuous outcome data<span></span></a></li>
+<li class="chapter" data-level="5.5" data-path="time-series-data.html"><a href="time-series-data.html"><i class="fa fa-check"></i><b>5.5</b> Time series data<span></span></a></li>
+<li class="chapter" data-level="5.6" data-path="multi-level-data.html"><a href="multi-level-data.html"><i class="fa fa-check"></i><b>5.6</b> Multi-level data<span></span></a></li>
+<li class="chapter" data-level="5.7" data-path="what-proportion-should-be-used.html"><a href="what-proportion-should-be-used.html"><i class="fa fa-check"></i><b>5.7</b> What proportion should be used?<span></span></a></li>
+<li class="chapter" data-level="5.8" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>5.8</b> Summary<span></span></a>
+<ul>
+<li class="chapter" data-level="5.8.1" data-path="summary.html"><a href="summary.html#references"><i class="fa fa-check"></i><b>5.8.1</b> References<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="meeting-videos-3.html"><a href="meeting-videos-3.html"><i class="fa fa-check"></i><b>5.9</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="5.9.1" data-path="meeting-videos-3.html"><a href="meeting-videos-3.html#cohort-1-3"><i class="fa fa-check"></i><b>5.9.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="5.9.2" data-path="meeting-videos-3.html"><a href="meeting-videos-3.html#cohort-2-3"><i class="fa fa-check"></i><b>5.9.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="5.9.3" data-path="meeting-videos-3.html"><a href="meeting-videos-3.html#cohort-3-3"><i class="fa fa-check"></i><b>5.9.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="5.9.4" data-path="meeting-videos-3.html"><a href="meeting-videos-3.html#cohort-4-3"><i class="fa fa-check"></i><b>5.9.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="fitting-models-with-parsnip.html"><a href="fitting-models-with-parsnip.html"><i class="fa fa-check"></i><b>6</b> Fitting models with parsnip<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="create-a-model.html"><a href="create-a-model.html"><i class="fa fa-check"></i><b>6.1</b> Create a Model<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="create-a-model.html"><a href="create-a-model.html#different-model-interfaces"><i class="fa fa-check"></i><b>6.1.1</b> Different Model Interfaces<span></span></a></li>
+<li class="chapter" data-level="6.1.2" data-path="create-a-model.html"><a href="create-a-model.html#model-specification"><i class="fa fa-check"></i><b>6.1.2</b> Model Specification<span></span></a></li>
+<li class="chapter" data-level="6.1.3" data-path="create-a-model.html"><a href="create-a-model.html#model-fitting"><i class="fa fa-check"></i><b>6.1.3</b> Model Fitting<span></span></a></li>
+<li class="chapter" data-level="6.1.4" data-path="create-a-model.html"><a href="create-a-model.html#generalized-model-arguments"><i class="fa fa-check"></i><b>6.1.4</b> Generalized Model Arguments<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="use-model-results.html"><a href="use-model-results.html"><i class="fa fa-check"></i><b>6.2</b> Use Model results<span></span></a></li>
+<li class="chapter" data-level="6.3" data-path="make-predictions.html"><a href="make-predictions.html"><i class="fa fa-check"></i><b>6.3</b> Make Predictions<span></span></a></li>
+<li class="chapter" data-level="6.4" data-path="tidymodels-adjacent-packages.html"><a href="tidymodels-adjacent-packages.html"><i class="fa fa-check"></i><b>6.4</b> {tidymodels}-Adjacent Packages<span></span></a></li>
+<li class="chapter" data-level="6.5" data-path="summary-1.html"><a href="summary-1.html"><i class="fa fa-check"></i><b>6.5</b> Summary<span></span></a></li>
+<li class="chapter" data-level="6.6" data-path="meeting-videos-4.html"><a href="meeting-videos-4.html"><i class="fa fa-check"></i><b>6.6</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="6.6.1" data-path="meeting-videos-4.html"><a href="meeting-videos-4.html#cohort-1-4"><i class="fa fa-check"></i><b>6.6.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="6.6.2" data-path="meeting-videos-4.html"><a href="meeting-videos-4.html#cohort-2-4"><i class="fa fa-check"></i><b>6.6.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="6.6.3" data-path="meeting-videos-4.html"><a href="meeting-videos-4.html#cohort-3-4"><i class="fa fa-check"></i><b>6.6.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="6.6.4" data-path="meeting-videos-4.html"><a href="meeting-videos-4.html#cohort-4-4"><i class="fa fa-check"></i><b>6.6.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="ai-ethics.html#ai-ethics">AI Ethics<span></span></a>
+<ul>
+<li class="chapter" data-level="6.7" data-path="meeting-videos-5.html"><a href="meeting-videos-5.html"><i class="fa fa-check"></i><b>6.7</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="6.7.1" data-path="meeting-videos-5.html"><a href="meeting-videos-5.html#cohort-2-5"><i class="fa fa-check"></i><b>6.7.1</b> Cohort 2<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="a-model-workflow.html"><a href="a-model-workflow.html"><i class="fa fa-check"></i><b>7</b> A model workflow<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="workflows.html"><a href="workflows.html"><i class="fa fa-check"></i><b>7.1</b> Workflows<span></span></a></li>
+<li class="chapter" data-level="7.2" data-path="demonstration.html"><a href="demonstration.html"><i class="fa fa-check"></i><b>7.2</b> Demonstration<span></span></a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="demonstration.html"><a href="demonstration.html#some-data-exploration-and-cleaning"><i class="fa fa-check"></i><b>7.2.1</b> Some data exploration and cleaning<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="modeling-with-workflows.html"><a href="modeling-with-workflows.html"><i class="fa fa-check"></i><b>7.3</b> Modeling with workflows<span></span></a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="modeling-with-workflows.html"><a href="modeling-with-workflows.html#different-model-same-recipe"><i class="fa fa-check"></i><b>7.3.1</b> Different model, same recipe<span></span></a></li>
+<li class="chapter" data-level="7.3.2" data-path="modeling-with-workflows.html"><a href="modeling-with-workflows.html#same-model-different-preprocessing"><i class="fa fa-check"></i><b>7.3.2</b> Same model, different preprocessing<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="managing-many-workflows.html"><a href="managing-many-workflows.html"><i class="fa fa-check"></i><b>7.4</b> Managing many workflows<span></span></a></li>
+<li class="chapter" data-level="7.5" data-path="notes.html"><a href="notes.html"><i class="fa fa-check"></i><b>7.5</b> Notes<span></span></a></li>
+<li class="chapter" data-level="7.6" data-path="meeting-videos-6.html"><a href="meeting-videos-6.html"><i class="fa fa-check"></i><b>7.6</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="7.6.1" data-path="meeting-videos-6.html"><a href="meeting-videos-6.html#cohort-1-5"><i class="fa fa-check"></i><b>7.6.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="7.6.2" data-path="meeting-videos-6.html"><a href="meeting-videos-6.html#cohort-2-6"><i class="fa fa-check"></i><b>7.6.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="7.6.3" data-path="meeting-videos-6.html"><a href="meeting-videos-6.html#cohort-3-5"><i class="fa fa-check"></i><b>7.6.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="7.6.4" data-path="meeting-videos-6.html"><a href="meeting-videos-6.html#cohort-4-5"><i class="fa fa-check"></i><b>7.6.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="feature-engineering-with-recipes.html"><a href="feature-engineering-with-recipes.html"><i class="fa fa-check"></i><b>8</b> Feature engineering with recipes<span></span></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="meeting-videos-7.html"><a href="meeting-videos-7.html"><i class="fa fa-check"></i><b>8.1</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="meeting-videos-7.html"><a href="meeting-videos-7.html#cohort-1-6"><i class="fa fa-check"></i><b>8.1.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="8.1.2" data-path="meeting-videos-7.html"><a href="meeting-videos-7.html#cohort-2-7"><i class="fa fa-check"></i><b>8.1.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="8.1.3" data-path="meeting-videos-7.html"><a href="meeting-videos-7.html#cohort-3-6"><i class="fa fa-check"></i><b>8.1.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="8.1.4" data-path="meeting-videos-7.html"><a href="meeting-videos-7.html#cohort-4-6"><i class="fa fa-check"></i><b>8.1.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="judging-model-effectiveness.html"><a href="judging-model-effectiveness.html"><i class="fa fa-check"></i><b>9</b> Judging model effectiveness<span></span></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="measures-of-model-fit.html"><a href="measures-of-model-fit.html"><i class="fa fa-check"></i><b>9.1</b> Measures of Model Fit<span></span></a></li>
+<li class="chapter" data-level="9.2" data-path="disclaimers.html"><a href="disclaimers.html"><i class="fa fa-check"></i><b>9.2</b> Disclaimers<span></span></a></li>
+<li class="chapter" data-level="9.3" data-path="regression-metrics.html"><a href="regression-metrics.html"><i class="fa fa-check"></i><b>9.3</b> Regression Metrics<span></span></a></li>
+<li class="chapter" data-level="9.4" data-path="binary-classification-metrics.html"><a href="binary-classification-metrics.html"><i class="fa fa-check"></i><b>9.4</b> Binary Classification Metrics<span></span></a></li>
+<li class="chapter" data-level="9.5" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i><b>9.5</b> References<span></span></a></li>
+<li class="chapter" data-level="9.6" data-path="meeting-videos-8.html"><a href="meeting-videos-8.html"><i class="fa fa-check"></i><b>9.6</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="meeting-videos-8.html"><a href="meeting-videos-8.html#cohort-1-7"><i class="fa fa-check"></i><b>9.6.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="9.6.2" data-path="meeting-videos-8.html"><a href="meeting-videos-8.html#cohort-2-8"><i class="fa fa-check"></i><b>9.6.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="9.6.3" data-path="meeting-videos-8.html"><a href="meeting-videos-8.html#cohort-3-7"><i class="fa fa-check"></i><b>9.6.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="9.6.4" data-path="meeting-videos-8.html"><a href="meeting-videos-8.html#cohort-4-7"><i class="fa fa-check"></i><b>9.6.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="review-of-chapters-4-9.html#review-of-chapters-4-9">Review of chapters 4-9<span></span></a>
+<ul>
+<li class="chapter" data-level="9.7" data-path="meeting-videos-9.html"><a href="meeting-videos-9.html"><i class="fa fa-check"></i><b>9.7</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="9.7.1" data-path="meeting-videos-9.html"><a href="meeting-videos-9.html#cohort-1-8"><i class="fa fa-check"></i><b>9.7.1</b> Cohort 1<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Tools for Creating Effective Models<span></span></b></span></li>
+<li class="chapter" data-level="10" data-path="resampling-for-evaluating-performance.html"><a href="resampling-for-evaluating-performance.html"><i class="fa fa-check"></i><b>10</b> Resampling for evaluating performance<span></span></a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="why.html"><a href="why.html"><i class="fa fa-check"></i><b>10.1</b> Why?<span></span></a></li>
+<li class="chapter" data-level="10.2" data-path="resubstitution-approach.html"><a href="resubstitution-approach.html"><i class="fa fa-check"></i><b>10.2</b> Resubstitution approach<span></span></a></li>
+<li class="chapter" data-level="10.3" data-path="resampling-methods.html"><a href="resampling-methods.html"><i class="fa fa-check"></i><b>10.3</b> Resampling methods<span></span></a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="resampling-methods.html"><a href="resampling-methods.html#cross-validation"><i class="fa fa-check"></i><b>10.3.1</b> Cross-validation<span></span></a></li>
+<li class="chapter" data-level="10.3.2" data-path="resampling-methods.html"><a href="resampling-methods.html#validation-sets"><i class="fa fa-check"></i><b>10.3.2</b> Validation sets<span></span></a></li>
+<li class="chapter" data-level="10.3.3" data-path="resampling-methods.html"><a href="resampling-methods.html#boostrapping"><i class="fa fa-check"></i><b>10.3.3</b> Boostrapping<span></span></a></li>
+<li class="chapter" data-level="10.3.4" data-path="resampling-methods.html"><a href="resampling-methods.html#rolling-forecasting-origin-resampling"><i class="fa fa-check"></i><b>10.3.4</b> Rolling forecasting origin resampling<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="estimating-performance.html"><a href="estimating-performance.html"><i class="fa fa-check"></i><b>10.4</b> Estimating performance<span></span></a></li>
+<li class="chapter" data-level="10.5" data-path="parallel-processing.html"><a href="parallel-processing.html"><i class="fa fa-check"></i><b>10.5</b> Parallel processing<span></span></a></li>
+<li class="chapter" data-level="10.6" data-path="saving-the-resampled-objects.html"><a href="saving-the-resampled-objects.html"><i class="fa fa-check"></i><b>10.6</b> Saving the resampled objects<span></span></a></li>
+<li class="chapter" data-level="10.7" data-path="meeting-videos-10.html"><a href="meeting-videos-10.html"><i class="fa fa-check"></i><b>10.7</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="10.7.1" data-path="meeting-videos-10.html"><a href="meeting-videos-10.html#cohort-1-9"><i class="fa fa-check"></i><b>10.7.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="10.7.2" data-path="meeting-videos-10.html"><a href="meeting-videos-10.html#cohort-2-9"><i class="fa fa-check"></i><b>10.7.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="10.7.3" data-path="meeting-videos-10.html"><a href="meeting-videos-10.html#cohort-3-8"><i class="fa fa-check"></i><b>10.7.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="10.7.4" data-path="meeting-videos-10.html"><a href="meeting-videos-10.html#cohort-4-8"><i class="fa fa-check"></i><b>10.7.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="comparing-models-with-resampling.html"><a href="comparing-models-with-resampling.html"><i class="fa fa-check"></i><b>11</b> Comparing models with resampling<span></span></a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="calculate-performance-statistics.html"><a href="calculate-performance-statistics.html"><i class="fa fa-check"></i><b>11.1</b> Calculate performance statistics<span></span></a></li>
+<li class="chapter" data-level="11.2" data-path="calculate-performance-statistics-workflowsets.html"><a href="calculate-performance-statistics-workflowsets.html"><i class="fa fa-check"></i><b>11.2</b> Calculate performance statistics: {workflowsets}<span></span></a></li>
+<li class="chapter" data-level="11.3" data-path="within-resample-correlation.html"><a href="within-resample-correlation.html"><i class="fa fa-check"></i><b>11.3</b> Within-resample correlation<span></span></a></li>
+<li class="chapter" data-level="11.4" data-path="practical-effect-size.html"><a href="practical-effect-size.html"><i class="fa fa-check"></i><b>11.4</b> Practical effect size<span></span></a></li>
+<li class="chapter" data-level="11.5" data-path="simple-comparison.html"><a href="simple-comparison.html"><i class="fa fa-check"></i><b>11.5</b> Simple Comparison<span></span></a></li>
+<li class="chapter" data-level="11.6" data-path="bayesian-methods.html"><a href="bayesian-methods.html"><i class="fa fa-check"></i><b>11.6</b> Bayesian methods<span></span></a></li>
+<li class="chapter" data-level="11.7" data-path="meeting-videos-11.html"><a href="meeting-videos-11.html"><i class="fa fa-check"></i><b>11.7</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="11.7.1" data-path="meeting-videos-11.html"><a href="meeting-videos-11.html#cohort-1-10"><i class="fa fa-check"></i><b>11.7.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="11.7.2" data-path="meeting-videos-11.html"><a href="meeting-videos-11.html#cohort-2-10"><i class="fa fa-check"></i><b>11.7.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="11.7.3" data-path="meeting-videos-11.html"><a href="meeting-videos-11.html#cohort-3-9"><i class="fa fa-check"></i><b>11.7.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="11.7.4" data-path="meeting-videos-11.html"><a href="meeting-videos-11.html#cohort-4-9"><i class="fa fa-check"></i><b>11.7.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="model-tuning-and-the-dangers-of-overfitting.html"><a href="model-tuning-and-the-dangers-of-overfitting.html"><i class="fa fa-check"></i><b>12</b> Model tuning and the dangers of overfitting<span></span></a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="what-is-a-tuning-parameter.html"><a href="what-is-a-tuning-parameter.html"><i class="fa fa-check"></i><b>12.1</b> What is a Tuning Parameter?<span></span></a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="what-is-a-tuning-parameter.html"><a href="what-is-a-tuning-parameter.html#examples"><i class="fa fa-check"></i><b>12.1.1</b> Examples<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="when-not-to-tune.html"><a href="when-not-to-tune.html"><i class="fa fa-check"></i><b>12.2</b> When not to tune<span></span></a></li>
+<li class="chapter" data-level="12.3" data-path="decisions-decisions.html"><a href="decisions-decisions.html"><i class="fa fa-check"></i><b>12.3</b> Decisions, Decisions…<span></span></a></li>
+<li class="chapter" data-level="12.4" data-path="what-metric-should-we-use.html"><a href="what-metric-should-we-use.html"><i class="fa fa-check"></i><b>12.4</b> What Metric Should We Use?<span></span></a></li>
+<li class="chapter" data-level="12.5" data-path="can-we-make-our-model-too-good.html"><a href="can-we-make-our-model-too-good.html"><i class="fa fa-check"></i><b>12.5</b> Can we make our model <em>too</em> good?<span></span></a></li>
+<li class="chapter" data-level="12.6" data-path="tuning-parameter-optimization-strategies.html"><a href="tuning-parameter-optimization-strategies.html"><i class="fa fa-check"></i><b>12.6</b> Tuning Parameter Optimization Strategies<span></span></a></li>
+<li class="chapter" data-level="12.7" data-path="tuning-parameters-in-tidymodels-dials.html"><a href="tuning-parameters-in-tidymodels-dials.html"><i class="fa fa-check"></i><b>12.7</b> Tuning Parameters in tidymodels <code>{dials}</code><span></span></a></li>
+<li class="chapter" data-level="12.8" data-path="lets-try-an-example.html"><a href="lets-try-an-example.html"><i class="fa fa-check"></i><b>12.8</b> Let’s try an example:<span></span></a></li>
+<li class="chapter" data-level="12.9" data-path="build-our-random-forest-model.html"><a href="build-our-random-forest-model.html"><i class="fa fa-check"></i><b>12.9</b> Build our random forest model:<span></span></a></li>
+<li class="chapter" data-level="12.10" data-path="add-tuning-parameters.html"><a href="add-tuning-parameters.html"><i class="fa fa-check"></i><b>12.10</b> Add tuning parameters:<span></span></a></li>
+<li class="chapter" data-level="12.11" data-path="updating-tuning-parameters.html"><a href="updating-tuning-parameters.html"><i class="fa fa-check"></i><b>12.11</b> Updating tuning parameters:<span></span></a></li>
+<li class="chapter" data-level="12.12" data-path="finalizing-tuning-parameters.html"><a href="finalizing-tuning-parameters.html"><i class="fa fa-check"></i><b>12.12</b> Finalizing tuning parameters:<span></span></a></li>
+<li class="chapter" data-level="12.13" data-path="what-is-next.html"><a href="what-is-next.html"><i class="fa fa-check"></i><b>12.13</b> What is next?<span></span></a></li>
+<li class="chapter" data-level="12.14" data-path="meeting-videos-12.html"><a href="meeting-videos-12.html"><i class="fa fa-check"></i><b>12.14</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="12.14.1" data-path="meeting-videos-12.html"><a href="meeting-videos-12.html#cohort-1-11"><i class="fa fa-check"></i><b>12.14.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="12.14.2" data-path="meeting-videos-12.html"><a href="meeting-videos-12.html#cohort-2-11"><i class="fa fa-check"></i><b>12.14.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="12.14.3" data-path="meeting-videos-12.html"><a href="meeting-videos-12.html#cohort-3-10"><i class="fa fa-check"></i><b>12.14.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="12.14.4" data-path="meeting-videos-12.html"><a href="meeting-videos-12.html#cohort-4-10"><i class="fa fa-check"></i><b>12.14.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="grid-search.html"><a href="grid-search.html"><i class="fa fa-check"></i><b>13</b> Grid search<span></span></a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="regular-and-non-regular-grids.html"><a href="regular-and-non-regular-grids.html"><i class="fa fa-check"></i><b>13.1</b> Regular and non-regular grids<span></span></a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="regular-and-non-regular-grids.html"><a href="regular-and-non-regular-grids.html#regular-grids"><i class="fa fa-check"></i><b>13.1.1</b> Regular Grids<span></span></a></li>
+<li class="chapter" data-level="13.1.2" data-path="regular-and-non-regular-grids.html"><a href="regular-and-non-regular-grids.html#irregular-grids"><i class="fa fa-check"></i><b>13.1.2</b> Irregular Grids<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="evaluating-the-grid.html"><a href="evaluating-the-grid.html"><i class="fa fa-check"></i><b>13.2</b> Evaluating the grid<span></span></a></li>
+<li class="chapter" data-level="13.3" data-path="finalizing-the-model.html"><a href="finalizing-the-model.html"><i class="fa fa-check"></i><b>13.3</b> Finalizing the model<span></span></a></li>
+<li class="chapter" data-level="13.4" data-path="tools-for-efficient-grid-search.html"><a href="tools-for-efficient-grid-search.html"><i class="fa fa-check"></i><b>13.4</b> Tools for efficient grid search<span></span></a>
+<ul>
+<li class="chapter" data-level="13.4.1" data-path="tools-for-efficient-grid-search.html"><a href="tools-for-efficient-grid-search.html#submodel-optimization"><i class="fa fa-check"></i><b>13.4.1</b> Submodel optimization<span></span></a></li>
+<li class="chapter" data-level="13.4.2" data-path="tools-for-efficient-grid-search.html"><a href="tools-for-efficient-grid-search.html#parallel-processing-1"><i class="fa fa-check"></i><b>13.4.2</b> Parallel processing<span></span></a></li>
+<li class="chapter" data-level="13.4.3" data-path="tools-for-efficient-grid-search.html"><a href="tools-for-efficient-grid-search.html#benchmarking-parallel-with-boosted-trees"><i class="fa fa-check"></i><b>13.4.3</b> Benchmarking Parallel with boosted trees<span></span></a></li>
+<li class="chapter" data-level="13.4.4" data-path="tools-for-efficient-grid-search.html"><a href="tools-for-efficient-grid-search.html#racing-methods"><i class="fa fa-check"></i><b>13.4.4</b> Racing Methods<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="13.5" data-path="chapter-summary.html"><a href="chapter-summary.html"><i class="fa fa-check"></i><b>13.5</b> Chapter Summary<span></span></a></li>
+<li class="chapter" data-level="13.6" data-path="meeting-videos-13.html"><a href="meeting-videos-13.html"><i class="fa fa-check"></i><b>13.6</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="13.6.1" data-path="meeting-videos-13.html"><a href="meeting-videos-13.html#cohort-1-12"><i class="fa fa-check"></i><b>13.6.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="13.6.2" data-path="meeting-videos-13.html"><a href="meeting-videos-13.html#cohort-2-12"><i class="fa fa-check"></i><b>13.6.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="13.6.3" data-path="meeting-videos-13.html"><a href="meeting-videos-13.html#cohort-3-11"><i class="fa fa-check"></i><b>13.6.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="13.6.4" data-path="meeting-videos-13.html"><a href="meeting-videos-13.html#cohort-4-11"><i class="fa fa-check"></i><b>13.6.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="iterative-search.html"><a href="iterative-search.html"><i class="fa fa-check"></i><b>14</b> Iterative search<span></span></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="svm-model-as-motivating-example.html"><a href="svm-model-as-motivating-example.html"><i class="fa fa-check"></i><b>14.1</b> SVM model as motivating example<span></span></a></li>
+<li class="chapter" data-level="14.2" data-path="bayesian-optimization.html"><a href="bayesian-optimization.html"><i class="fa fa-check"></i><b>14.2</b> Bayesian Optimization<span></span></a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="bayesian-optimization.html"><a href="bayesian-optimization.html#gaussian-process-model-at-a-high-level"><i class="fa fa-check"></i><b>14.2.1</b> Gaussian process model, at a high level<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="simulated-annealing.html"><a href="simulated-annealing.html"><i class="fa fa-check"></i><b>14.3</b> Simulated annealing<span></span></a>
+<ul>
+<li class="chapter" data-level="14.3.1" data-path="simulated-annealing.html"><a href="simulated-annealing.html#how-it-works"><i class="fa fa-check"></i><b>14.3.1</b> How it works<span></span></a></li>
+<li class="chapter" data-level="14.3.2" data-path="simulated-annealing.html"><a href="simulated-annealing.html#the-tune_sim_anneal-function"><i class="fa fa-check"></i><b>14.3.2</b> The tune_sim_anneal() function<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="references-2.html"><a href="references-2.html"><i class="fa fa-check"></i><b>14.4</b> References<span></span></a></li>
+<li class="chapter" data-level="14.5" data-path="meeting-videos-14.html"><a href="meeting-videos-14.html"><i class="fa fa-check"></i><b>14.5</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="14.5.1" data-path="meeting-videos-14.html"><a href="meeting-videos-14.html#cohort-1-13"><i class="fa fa-check"></i><b>14.5.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="14.5.2" data-path="meeting-videos-14.html"><a href="meeting-videos-14.html#cohort-2-13"><i class="fa fa-check"></i><b>14.5.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="14.5.3" data-path="meeting-videos-14.html"><a href="meeting-videos-14.html#cohort-3-12"><i class="fa fa-check"></i><b>14.5.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="14.5.4" data-path="meeting-videos-14.html"><a href="meeting-videos-14.html#cohort-4-12"><i class="fa fa-check"></i><b>14.5.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="screening-many-models.html"><a href="screening-many-models.html"><i class="fa fa-check"></i><b>15</b> Screening Many Models<span></span></a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="obligatory-setup.html"><a href="obligatory-setup.html"><i class="fa fa-check"></i><b>15.1</b> Obligatory Setup<span></span></a></li>
+<li class="chapter" data-level="15.2" data-path="creating-workflow_sets.html"><a href="creating-workflow_sets.html"><i class="fa fa-check"></i><b>15.2</b> Creating <code>workflow_set</code>s<span></span></a></li>
+<li class="chapter" data-level="15.3" data-path="ranking-models.html"><a href="ranking-models.html"><i class="fa fa-check"></i><b>15.3</b> Ranking models<span></span></a></li>
+<li class="chapter" data-level="15.4" data-path="finalizing-the-model-1.html"><a href="finalizing-the-model-1.html"><i class="fa fa-check"></i><b>15.4</b> Finalizing the model<span></span></a></li>
+<li class="chapter" data-level="15.5" data-path="meeting-videos-15.html"><a href="meeting-videos-15.html"><i class="fa fa-check"></i><b>15.5</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="15.5.1" data-path="meeting-videos-15.html"><a href="meeting-videos-15.html#cohort-1-14"><i class="fa fa-check"></i><b>15.5.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="15.5.2" data-path="meeting-videos-15.html"><a href="meeting-videos-15.html#cohort-2-14"><i class="fa fa-check"></i><b>15.5.2</b> Cohort 2<span></span></a></li>
+<li class="chapter" data-level="15.5.3" data-path="meeting-videos-15.html"><a href="meeting-videos-15.html#cohort-3-13"><i class="fa fa-check"></i><b>15.5.3</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="15.5.4" data-path="meeting-videos-15.html"><a href="meeting-videos-15.html#cohort-4-13"><i class="fa fa-check"></i><b>15.5.4</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="review-of-chapters-10-15.html#review-of-chapters-10-15">Review of chapters 10-15<span></span></a>
+<ul>
+<li class="chapter" data-level="15.6" data-path="meeting-videos-16.html"><a href="meeting-videos-16.html"><i class="fa fa-check"></i><b>15.6</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="15.6.1" data-path="meeting-videos-16.html"><a href="meeting-videos-16.html#cohort-1-15"><i class="fa fa-check"></i><b>15.6.1</b> Cohort 1<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="dimensionality-reduction.html"><a href="dimensionality-reduction.html"><i class="fa fa-check"></i><b>16</b> Dimensionality reduction<span></span></a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="recipes-without-workflows.html"><a href="recipes-without-workflows.html"><i class="fa fa-check"></i><b>16.1</b> {recipes} without {workflows}<span></span></a></li>
+<li class="chapter" data-level="16.2" data-path="principal-component-analysis-pca.html"><a href="principal-component-analysis-pca.html"><i class="fa fa-check"></i><b>16.2</b> Principal Component Analysis (PCA)<span></span></a></li>
+<li class="chapter" data-level="16.3" data-path="partial-least-squares-pls.html"><a href="partial-least-squares-pls.html"><i class="fa fa-check"></i><b>16.3</b> Partial Least Squares (PLS)<span></span></a></li>
+<li class="chapter" data-level="16.4" data-path="independent-component-anysis-ica.html"><a href="independent-component-anysis-ica.html"><i class="fa fa-check"></i><b>16.4</b> Independent Component Anysis (ICA)<span></span></a></li>
+<li class="chapter" data-level="16.5" data-path="uniform-manifold-approximation-and-projection-umap.html"><a href="uniform-manifold-approximation-and-projection-umap.html"><i class="fa fa-check"></i><b>16.5</b> Uniform Manifold Approximation and Projection (UMAP)<span></span></a></li>
+<li class="chapter" data-level="16.6" data-path="modeling.html"><a href="modeling.html"><i class="fa fa-check"></i><b>16.6</b> Modeling<span></span></a></li>
+<li class="chapter" data-level="16.7" data-path="meeting-videos-17.html"><a href="meeting-videos-17.html"><i class="fa fa-check"></i><b>16.7</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="16.7.1" data-path="meeting-videos-17.html"><a href="meeting-videos-17.html#cohort-1-16"><i class="fa fa-check"></i><b>16.7.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="16.7.2" data-path="meeting-videos-17.html"><a href="meeting-videos-17.html#cohort-3-14"><i class="fa fa-check"></i><b>16.7.2</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="16.7.3" data-path="meeting-videos-17.html"><a href="meeting-videos-17.html#cohort-4-14"><i class="fa fa-check"></i><b>16.7.3</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Other Topics<span></span></b></span></li>
+<li class="chapter" data-level="17" data-path="encoding-categorical-data.html"><a href="encoding-categorical-data.html"><i class="fa fa-check"></i><b>17</b> Encoding categorical data<span></span></a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="slide-1-title.html"><a href="slide-1-title.html"><i class="fa fa-check"></i><b>17.1</b> Slide 1 Title<span></span></a></li>
+<li class="chapter" data-level="17.2" data-path="slide-2-title.html"><a href="slide-2-title.html"><i class="fa fa-check"></i><b>17.2</b> Slide 2 Title<span></span></a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="slide-2-title.html"><a href="slide-2-title.html#cohort-4-15"><i class="fa fa-check"></i><b>17.2.1</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="explaining-models-and-predictions.html"><a href="explaining-models-and-predictions.html"><i class="fa fa-check"></i><b>18</b> Explaining models and predictions<span></span></a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="chapter-18-setup.html"><a href="chapter-18-setup.html"><i class="fa fa-check"></i><b>18.1</b> Chapter 18 Setup<span></span></a></li>
+<li class="chapter" data-level="18.2" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>18.2</b> Overview<span></span></a></li>
+<li class="chapter" data-level="18.3" data-path="local-explanations.html"><a href="local-explanations.html"><i class="fa fa-check"></i><b>18.3</b> Local Explanations<span></span></a></li>
+<li class="chapter" data-level="18.4" data-path="local-explanations-for-interactions.html"><a href="local-explanations-for-interactions.html"><i class="fa fa-check"></i><b>18.4</b> Local Explanations for Interactions<span></span></a></li>
+<li class="chapter" data-level="18.5" data-path="global-explanations.html"><a href="global-explanations.html"><i class="fa fa-check"></i><b>18.5</b> Global Explanations<span></span></a></li>
+<li class="chapter" data-level="18.6" data-path="global-explanations-from-local-explanations.html"><a href="global-explanations-from-local-explanations.html"><i class="fa fa-check"></i><b>18.6</b> Global Explanations from Local Explanations<span></span></a></li>
+<li class="chapter" data-level="18.7" data-path="references-3.html"><a href="references-3.html"><i class="fa fa-check"></i><b>18.7</b> References<span></span></a></li>
+<li class="chapter" data-level="18.8" data-path="meeting-videos-18.html"><a href="meeting-videos-18.html"><i class="fa fa-check"></i><b>18.8</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="18.8.1" data-path="meeting-videos-18.html"><a href="meeting-videos-18.html#cohort-1-17"><i class="fa fa-check"></i><b>18.8.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="18.8.2" data-path="meeting-videos-18.html"><a href="meeting-videos-18.html#cohort-3-15"><i class="fa fa-check"></i><b>18.8.2</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="18.8.3" data-path="meeting-videos-18.html"><a href="meeting-videos-18.html#cohort-4-16"><i class="fa fa-check"></i><b>18.8.3</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="when-should-you-trust-predictions.html"><a href="when-should-you-trust-predictions.html"><i class="fa fa-check"></i><b>19</b> When should you trust predictions?<span></span></a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="equivocal-results.html"><a href="equivocal-results.html"><i class="fa fa-check"></i><b>19.1</b> Equivocal Results<span></span></a></li>
+<li class="chapter" data-level="19.2" data-path="model-applicability.html"><a href="model-applicability.html"><i class="fa fa-check"></i><b>19.2</b> Model Applicability<span></span></a></li>
+<li class="chapter" data-level="19.3" data-path="meeting-videos-19.html"><a href="meeting-videos-19.html"><i class="fa fa-check"></i><b>19.3</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="19.3.1" data-path="meeting-videos-19.html"><a href="meeting-videos-19.html#cohort-1-18"><i class="fa fa-check"></i><b>19.3.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="19.3.2" data-path="meeting-videos-19.html"><a href="meeting-videos-19.html#cohort-3-16"><i class="fa fa-check"></i><b>19.3.2</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="19.3.3" data-path="meeting-videos-19.html"><a href="meeting-videos-19.html#cohort-4-17"><i class="fa fa-check"></i><b>19.3.3</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="ensembles-of-models.html"><a href="ensembles-of-models.html"><i class="fa fa-check"></i><b>20</b> Ensembles of models<span></span></a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="ensembling.html"><a href="ensembling.html"><i class="fa fa-check"></i><b>20.1</b> Ensembling<span></span></a></li>
+<li class="chapter" data-level="20.2" data-path="ensembling-with-stacks.html"><a href="ensembling-with-stacks.html"><i class="fa fa-check"></i><b>20.2</b> Ensembling with <code>stacks</code>!<span></span></a></li>
+<li class="chapter" data-level="20.3" data-path="define-some-models.html"><a href="define-some-models.html"><i class="fa fa-check"></i><b>20.3</b> Define some models<span></span></a></li>
+<li class="chapter" data-level="20.4" data-path="initialize-and-add-members-to-stack..html"><a href="initialize-and-add-members-to-stack..html"><i class="fa fa-check"></i><b>20.4</b> Initialize and add members to stack.<span></span></a></li>
+<li class="chapter" data-level="20.5" data-path="blend-fit-predict.html"><a href="blend-fit-predict.html"><i class="fa fa-check"></i><b>20.5</b> Blend, fit, predict<span></span></a></li>
+<li class="chapter" data-level="20.6" data-path="meeting-videos-20.html"><a href="meeting-videos-20.html"><i class="fa fa-check"></i><b>20.6</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="20.6.1" data-path="meeting-videos-20.html"><a href="meeting-videos-20.html#cohort-1-19"><i class="fa fa-check"></i><b>20.6.1</b> Cohort 1<span></span></a></li>
+<li class="chapter" data-level="20.6.2" data-path="meeting-videos-20.html"><a href="meeting-videos-20.html#cohort-3-17"><i class="fa fa-check"></i><b>20.6.2</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="20.6.3" data-path="meeting-videos-20.html"><a href="meeting-videos-20.html#cohort-4-18"><i class="fa fa-check"></i><b>20.6.3</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="inferential-analysis.html"><a href="inferential-analysis.html"><i class="fa fa-check"></i><b>21</b> Inferential analysis<span></span></a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="dataset-used-for-demonstrating-inference.html"><a href="dataset-used-for-demonstrating-inference.html"><i class="fa fa-check"></i><b>21.1</b> Dataset used for demonstrating inference<span></span></a></li>
+<li class="chapter" data-level="21.2" data-path="tidy-method-from-the-broom-package.html"><a href="tidy-method-from-the-broom-package.html"><i class="fa fa-check"></i><b>21.2</b> Tidy method from the {broom} package<span></span></a></li>
+<li class="chapter" data-level="21.3" data-path="infer-for-simple-high-level-hypothesis-testing.html"><a href="infer-for-simple-high-level-hypothesis-testing.html"><i class="fa fa-check"></i><b>21.3</b> {infer} for simple, high level hypothesis testing<span></span></a>
+<ul>
+<li class="chapter" data-level="21.3.1" data-path="infer-for-simple-high-level-hypothesis-testing.html"><a href="infer-for-simple-high-level-hypothesis-testing.html#p-value-for-idependence-based-on-simulation-with-permutation"><i class="fa fa-check"></i><b>21.3.1</b> p value for idependence based on simulation with permutation<span></span></a></li>
+<li class="chapter" data-level="21.3.2" data-path="infer-for-simple-high-level-hypothesis-testing.html"><a href="infer-for-simple-high-level-hypothesis-testing.html#confidence-interval-for-correlation-based-on-simulation-with-bootstrapping"><i class="fa fa-check"></i><b>21.3.2</b> Confidence interval for correlation based on simulation with bootstrapping<span></span></a></li>
+<li class="chapter" data-level="21.3.3" data-path="infer-for-simple-high-level-hypothesis-testing.html"><a href="infer-for-simple-high-level-hypothesis-testing.html#use-theory-instead-of-simulation"><i class="fa fa-check"></i><b>21.3.3</b> Use theory instead of simulation<span></span></a></li>
+<li class="chapter" data-level="21.3.4" data-path="infer-for-simple-high-level-hypothesis-testing.html"><a href="infer-for-simple-high-level-hypothesis-testing.html#linear-models-with-multiple-explanatory-variables"><i class="fa fa-check"></i><b>21.3.4</b> Linear models with multiple explanatory variables<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="21.4" data-path="reg_intervals-from-rsample.html"><a href="reg_intervals-from-rsample.html"><i class="fa fa-check"></i><b>21.4</b> reg_intervals from {rsample}<span></span></a></li>
+<li class="chapter" data-level="21.5" data-path="inference-with-lower-level-helpers.html"><a href="inference-with-lower-level-helpers.html"><i class="fa fa-check"></i><b>21.5</b> Inference with lower level helpers<span></span></a></li>
+<li class="chapter" data-level="21.6" data-path="meeting-videos-21.html"><a href="meeting-videos-21.html"><i class="fa fa-check"></i><b>21.6</b> Meeting Videos<span></span></a>
+<ul>
+<li class="chapter" data-level="21.6.1" data-path="meeting-videos-21.html"><a href="meeting-videos-21.html#cohort-3-18"><i class="fa fa-check"></i><b>21.6.1</b> Cohort 3<span></span></a></li>
+<li class="chapter" data-level="21.6.2" data-path="meeting-videos-21.html"><a href="meeting-videos-21.html#cohort-4-19"><i class="fa fa-check"></i><b>21.6.2</b> Cohort 4<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Modelado Tidy con R - Club de Lectura</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="iteraciones-en-r" class="section level2 unnumbered hasAnchor">
+<h2>Iteraciones en R<a href="iteraciones-en-r.html#iteraciones-en-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="images/purrr.jpg" /></p>
+<div id="funciones-para-iterar" class="section level4 unnumbered hasAnchor">
+<h4>Funciones para iterar<a href="iteraciones-en-r.html#funciones-para-iterar" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><p>Base R</p>
+<ul>
+<li><p>Familia apply</p>
+<ul>
+<li><code>apply()</code>, <code>lapply()</code>, <code>sapply()</code>, <code>vapply()</code>, <code>mapply()</code>, <code>rapply()</code>, <code>tapply()</code></li>
+</ul></li>
+</ul></li>
+<li><p>Tidyverse</p>
+<ul>
+<li><p>Paquete <code>purrr</code> en relación a la familia <code>map</code></p>
+<ul>
+<li><code>map()</code>, <code>map_lgl()</code>, <code>map_chr()</code>, <code>map_int()</code>, <code>map_dbl()</code>,
+<code>map_raw()</code>, <code>map_dfr()</code>, <code>map_dfc()</code>, <code>walk()</code></li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote>
+<p>Las funciones <code>map</code> en <code>purrr</code> siempre retornan una lista o listas.</p>
+</blockquote>
+</div>
+<div id="subgrupos" class="section level4 unnumbered hasAnchor">
+<h4>Subgrupos<a href="iteraciones-en-r.html#subgrupos" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><code>purrr::map()</code> - aplica una función a cada elemento en una lista o vector.</li>
+<li><code>purrr::map2()</code> - aplica una función a un <strong>par</strong> de elementos de dos listas o vectores.</li>
+<li><code>purrr::pmap()</code> - aplica una función a un <strong>grupo</strong> de elementos de una lista de listas.</li>
+</ul>
+<p>Cada uno de ellos tiene subfunctiones con el sufijo del tipo de valores que se desean retornar, por ejemplo <code>purrr::map_dbl()</code> devuleve un vector númerico y <code>purrr::map_lgl()</code> uno de valores lógicos.</p>
+<p>Adicionalmente, si no deseamos retornar nada (en otras palabras, llamar a una función por sus “efectos secundarios”, como graficar), podemos reemplazar <code>map</code> por <code>walk</code>:
++ <code>purrr::walk()</code> - aplica una función a cada elemento en una lista o vector.
++ <code>purrr::walk2()</code> - aplica una función a un <strong>par</strong> de elementos de dos listas o vectores.
++ <code>purrr::pwalk()</code> - aplica una función a un <strong>grupo</strong> de elementos de una lista de listas.</p>
+</div>
+<div id="ejemplos" class="section level4 unnumbered hasAnchor">
+<h4>Ejemplos<a href="iteraciones-en-r.html#ejemplos" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><code>mtautos</code> es el equivalente en español a <code>mtcars</code></p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="iteraciones-en-r.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">%&gt;%</span><span class="st">`</span> <span class="ot">&lt;-</span> magrittr<span class="sc">::</span><span class="st">`</span><span class="at">%&gt;%</span><span class="st">`</span></span>
+<span id="cb117-2"><a href="iteraciones-en-r.html#cb117-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data(&quot;mtautos&quot;, package = &quot;datos&quot;)</span></span>
+<span id="cb117-3"><a href="iteraciones-en-r.html#cb117-3" aria-hidden="true" tabindex="-1"></a>mtautos <span class="ot">&lt;-</span> datos<span class="sc">::</span>mtautos</span>
+<span id="cb117-4"><a href="iteraciones-en-r.html#cb117-4" aria-hidden="true" tabindex="-1"></a>mtautos <span class="sc">%&gt;%</span></span>
+<span id="cb117-5"><a href="iteraciones-en-r.html#cb117-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(cilindros) <span class="sc">%&gt;%</span></span>
+<span id="cb117-6"><a href="iteraciones-en-r.html#cb117-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="fu">mean</span>(millas))</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   cilindros `mean(millas)`
+##       &lt;dbl&gt;          &lt;dbl&gt;
+## 1         4           26.7
+## 2         6           19.7
+## 3         8           15.1</code></pre>
+<p><code>paises</code> es el equivalente en español a <code>gapminder</code> (del paquete <code>gapminder</code>)</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="iteraciones-en-r.html#cb119-1" aria-hidden="true" tabindex="-1"></a>paises <span class="ot">&lt;-</span> datos<span class="sc">::</span>paises</span>
+<span id="cb119-2"><a href="iteraciones-en-r.html#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(paises)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##   pais       continente  anio esperanza_de_vida poblacion pib_per_capita
+##   &lt;fct&gt;      &lt;fct&gt;      &lt;int&gt;             &lt;dbl&gt;     &lt;int&gt;          &lt;dbl&gt;
+## 1 Afganistán Asia        1952              28.8   8425333           779.
+## 2 Afganistán Asia        1957              30.3   9240934           821.
+## 3 Afganistán Asia        1962              32.0  10267083           853.
+## 4 Afganistán Asia        1967              34.0  11537966           836.
+## 5 Afganistán Asia        1972              36.1  13079460           740.
+## 6 Afganistán Asia        1977              38.4  14880372           786.</code></pre>
+<div id="ejemplo-1" class="section level5 unnumbered hasAnchor">
+<h5>Ejemplo 1<a href="iteraciones-en-r.html#ejemplo-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Definamos una función muy simple</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="iteraciones-en-r.html#cb121-1" aria-hidden="true" tabindex="-1"></a>suma_diez <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb121-2"><a href="iteraciones-en-r.html#cb121-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x <span class="sc">+</span> <span class="dv">10</span>)</span>
+<span id="cb121-3"><a href="iteraciones-en-r.html#cb121-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Apliquemos la función usando <code>purrr::map</code></p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="iteraciones-en-r.html#cb122-1" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map</span>(<span class="at">.x =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>),</span>
+<span id="cb122-2"><a href="iteraciones-en-r.html#cb122-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">.f =</span> suma_diez)</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] 11
+## 
+## [[2]]
+## [1] 12
+## 
+## [[3]]
+## [1] 13
+## 
+## [[4]]
+## [1] 14
+## 
+## [[5]]
+## [1] 15</code></pre>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="iteraciones-en-r.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># O sin los nombres:</span></span>
+<span id="cb124-2"><a href="iteraciones-en-r.html#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="co"># purrr::map(c(1:5), suma_diez)</span></span></code></pre></div>
+<p>Pero, ¿no sería mejor retornar un vector númerico?</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="iteraciones-en-r.html#cb125-1" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map_dbl</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), suma_diez)</span></code></pre></div>
+<pre><code>## [1] 11 12 13 14 15</code></pre>
+<p>¿Y qué tal si queremos un <em>data frame</em>?</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="iteraciones-en-r.html#cb127-1" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map_df</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), suma_diez)</span></code></pre></div>
+<pre><code>## Error in `dplyr::bind_rows()`:
+## ! Argument 1 must have names.</code></pre>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="iteraciones-en-r.html#cb129-1" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map_df</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), <span class="cf">function</span>(x) <span class="fu">c</span>(<span class="at">nuevo =</span> x <span class="sc">+</span> <span class="dv">10</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 1
+##   nuevo
+##   &lt;dbl&gt;
+## 1    11
+## 2    12
+## 3    13
+## 4    14
+## 5    15</code></pre>
+<p>Algo no anda bien, esto se debe a nuestra definición de la función <code>suma_diez</code>, que solo retorna un vector númerico. Podríamos definir una nueva función o podemos aprender un pequeño truco (<em>funciones anónimas</em>):</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="iteraciones-en-r.html#cb131-1" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map_df</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), </span>
+<span id="cb131-2"><a href="iteraciones-en-r.html#cb131-2" aria-hidden="true" tabindex="-1"></a>              <span class="cf">function</span>(x) {</span>
+<span id="cb131-3"><a href="iteraciones-en-r.html#cb131-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">data.frame</span>(<span class="at">original =</span> x,</span>
+<span id="cb131-4"><a href="iteraciones-en-r.html#cb131-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">nuevo =</span> x <span class="sc">+</span> <span class="dv">10</span>)</span>
+<span id="cb131-5"><a href="iteraciones-en-r.html#cb131-5" aria-hidden="true" tabindex="-1"></a>              })</span></code></pre></div>
+<pre><code>##   original nuevo
+## 1        1    11
+## 2        2    12
+## 3        3    13
+## 4        4    14
+## 5        5    15</code></pre>
+<p><strong>Advertencia:</strong> No es recomendable usar este “truco” para funciones muy complejas, siempre es mejor definir la función por separado y luego usarla dentro de <code>map</code>.</p>
+<p>Otra forma:</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="iteraciones-en-r.html#cb133-1" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map_df</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), <span class="sc">~</span><span class="fu">data.frame</span>(<span class="at">original =</span> .x, <span class="at">nuevo =</span> .x <span class="sc">+</span> <span class="dv">10</span>))</span></code></pre></div>
+<pre><code>##   original nuevo
+## 1        1    11
+## 2        2    12
+## 3        3    13
+## 4        4    14
+## 5        5    15</code></pre>
+</div>
+<div id="ejemplo-2" class="section level5 unnumbered hasAnchor">
+<h5>Ejemplo 2<a href="iteraciones-en-r.html#ejemplo-2" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Usemos el dataset llamado <code>paises</code>, para ver las classes de cada columna:</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="iteraciones-en-r.html#cb135-1" aria-hidden="true" tabindex="-1"></a>paises <span class="sc">%&gt;%</span> purrr<span class="sc">::</span><span class="fu">map_chr</span>(class)</span></code></pre></div>
+<pre><code>##              pais        continente              anio esperanza_de_vida 
+##          &quot;factor&quot;          &quot;factor&quot;         &quot;integer&quot;         &quot;numeric&quot; 
+##         poblacion    pib_per_capita 
+##         &quot;integer&quot;         &quot;numeric&quot;</code></pre>
+<p>Si queremos ver el número de valores únicos en cada columna:</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="iteraciones-en-r.html#cb137-1" aria-hidden="true" tabindex="-1"></a>paises <span class="sc">%&gt;%</span> purrr<span class="sc">::</span><span class="fu">map_dbl</span>(dplyr<span class="sc">::</span>n_distinct)</span></code></pre></div>
+<pre><code>##              pais        continente              anio esperanza_de_vida 
+##               142                 5                12              1626 
+##         poblacion    pib_per_capita 
+##              1704              1704</code></pre>
+<p>Podríamos resumir las dos operaciones anteriores en un solo paso:</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="iteraciones-en-r.html#cb139-1" aria-hidden="true" tabindex="-1"></a>paises <span class="sc">%&gt;%</span> </span>
+<span id="cb139-2"><a href="iteraciones-en-r.html#cb139-2" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map_df</span>(<span class="sc">~</span><span class="fu">data.frame</span>(<span class="at">clase =</span> <span class="fu">class</span>(.x), </span>
+<span id="cb139-3"><a href="iteraciones-en-r.html#cb139-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">n_distintos =</span> dplyr<span class="sc">::</span><span class="fu">n_distinct</span>(.x)))</span></code></pre></div>
+<pre><code>##     clase n_distintos
+## 1  factor         142
+## 2  factor           5
+## 3 integer          12
+## 4 numeric        1626
+## 5 integer        1704
+## 6 numeric        1704</code></pre>
+<p>¿Y los nombres de las variables?</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="iteraciones-en-r.html#cb141-1" aria-hidden="true" tabindex="-1"></a>paises <span class="sc">%&gt;%</span> </span>
+<span id="cb141-2"><a href="iteraciones-en-r.html#cb141-2" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map_df</span>(<span class="sc">~</span><span class="fu">data.frame</span>(<span class="at">clase =</span> <span class="fu">class</span>(.x), </span>
+<span id="cb141-3"><a href="iteraciones-en-r.html#cb141-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">n_distintos =</span> dplyr<span class="sc">::</span><span class="fu">n_distinct</span>(.x)), </span>
+<span id="cb141-4"><a href="iteraciones-en-r.html#cb141-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">.id =</span> <span class="st">&quot;variable&quot;</span>)</span></code></pre></div>
+<pre><code>##            variable   clase n_distintos
+## 1              pais  factor         142
+## 2        continente  factor           5
+## 3              anio integer          12
+## 4 esperanza_de_vida numeric        1626
+## 5         poblacion integer        1704
+## 6    pib_per_capita numeric        1704</code></pre>
+</div>
+<div id="ejemplo-3" class="section level5 unnumbered hasAnchor">
+<h5>Ejemplo 3<a href="iteraciones-en-r.html#ejemplo-3" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><strong>Mapeos sobre dos objetos:</strong></p>
+<p>Extraígamos los continentes y años de <code>paises</code>:</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="iteraciones-en-r.html#cb143-1" aria-hidden="true" tabindex="-1"></a>continente_anio <span class="ot">&lt;-</span> paises <span class="sc">%&gt;%</span></span>
+<span id="cb143-2"><a href="iteraciones-en-r.html#cb143-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(continente, anio)</span>
+<span id="cb143-3"><a href="iteraciones-en-r.html#cb143-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(continente_anio)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##   continente  anio
+##   &lt;fct&gt;      &lt;int&gt;
+## 1 Asia        1952
+## 2 Asia        1957
+## 3 Asia        1962
+## 4 Asia        1967
+## 5 Asia        1972
+## 6 Asia        1977</code></pre>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="iteraciones-en-r.html#cb145-1" aria-hidden="true" tabindex="-1"></a>lista_de_graficos <span class="ot">&lt;-</span> </span>
+<span id="cb145-2"><a href="iteraciones-en-r.html#cb145-2" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map2</span>(<span class="at">.x =</span> continente_anio<span class="sc">$</span>continente,</span>
+<span id="cb145-3"><a href="iteraciones-en-r.html#cb145-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">.y =</span> continente_anio<span class="sc">$</span>anio,</span>
+<span id="cb145-4"><a href="iteraciones-en-r.html#cb145-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">.f =</span> <span class="sc">~</span>paises <span class="sc">%&gt;%</span></span>
+<span id="cb145-5"><a href="iteraciones-en-r.html#cb145-5" aria-hidden="true" tabindex="-1"></a>                dplyr<span class="sc">::</span><span class="fu">filter</span>(continente <span class="sc">==</span> .x,</span>
+<span id="cb145-6"><a href="iteraciones-en-r.html#cb145-6" aria-hidden="true" tabindex="-1"></a>                              anio <span class="sc">==</span> .y) <span class="sc">%&gt;%</span></span>
+<span id="cb145-7"><a href="iteraciones-en-r.html#cb145-7" aria-hidden="true" tabindex="-1"></a>                ggplot2<span class="sc">::</span><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb145-8"><a href="iteraciones-en-r.html#cb145-8" aria-hidden="true" tabindex="-1"></a>                ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> pib_per_capita,</span>
+<span id="cb145-9"><a href="iteraciones-en-r.html#cb145-9" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">y =</span> esperanza_de_vida)) <span class="sc">+</span></span>
+<span id="cb145-10"><a href="iteraciones-en-r.html#cb145-10" aria-hidden="true" tabindex="-1"></a>                ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">paste</span>(.x, .y),</span>
+<span id="cb145-11"><a href="iteraciones-en-r.html#cb145-11" aria-hidden="true" tabindex="-1"></a>                              <span class="at">x =</span> <span class="st">&quot;PIB per capita [USD]&quot;</span>,</span>
+<span id="cb145-12"><a href="iteraciones-en-r.html#cb145-12" aria-hidden="true" tabindex="-1"></a>                              <span class="at">y =</span> <span class="st">&quot;Esperanza de vida [años]&quot;</span>)</span>
+<span id="cb145-13"><a href="iteraciones-en-r.html#cb145-13" aria-hidden="true" tabindex="-1"></a>              )</span>
+<span id="cb145-14"><a href="iteraciones-en-r.html#cb145-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb145-15"><a href="iteraciones-en-r.html#cb145-15" aria-hidden="true" tabindex="-1"></a>lista_de_graficos[[<span class="dv">1</span>]]</span></code></pre></div>
+<p><img src="bookclub-tmwr_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="iteraciones-en-r.html#cb146-1" aria-hidden="true" tabindex="-1"></a>lista_de_graficos[[<span class="dv">22</span>]]</span></code></pre></div>
+<p><img src="bookclub-tmwr_files/figure-html/unnamed-chunk-29-2.png" width="672" /></p>
+<p>¿Y para más de dos objetos? Podemos usar <code>pmap</code>.</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="iteraciones-en-r.html#cb147-1" aria-hidden="true" tabindex="-1"></a>paises <span class="sc">%&gt;%</span></span>
+<span id="cb147-2"><a href="iteraciones-en-r.html#cb147-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb147-3"><a href="iteraciones-en-r.html#cb147-3" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">pmap</span>(<span class="cf">function</span>(pais, continente, anio, ...) {</span>
+<span id="cb147-4"><a href="iteraciones-en-r.html#cb147-4" aria-hidden="true" tabindex="-1"></a>    paises <span class="sc">%&gt;%</span></span>
+<span id="cb147-5"><a href="iteraciones-en-r.html#cb147-5" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">filter</span>(pais <span class="sc">==</span> <span class="sc">!!</span>pais,</span>
+<span id="cb147-6"><a href="iteraciones-en-r.html#cb147-6" aria-hidden="true" tabindex="-1"></a>                    continente <span class="sc">==</span> <span class="sc">!!</span>continente,</span>
+<span id="cb147-7"><a href="iteraciones-en-r.html#cb147-7" aria-hidden="true" tabindex="-1"></a>                    anio <span class="sc">==</span> <span class="sc">!!</span>anio)</span>
+<span id="cb147-8"><a href="iteraciones-en-r.html#cb147-8" aria-hidden="true" tabindex="-1"></a>  })</span></code></pre></div>
+<pre><code>## [[1]]
+## # A tibble: 1 × 6
+##   pais       continente  anio esperanza_de_vida poblacion pib_per_capita
+##   &lt;fct&gt;      &lt;fct&gt;      &lt;int&gt;             &lt;dbl&gt;     &lt;int&gt;          &lt;dbl&gt;
+## 1 Afganistán Asia        1952              28.8   8425333           779.
+## 
+## [[2]]
+## # A tibble: 1 × 6
+##   pais       continente  anio esperanza_de_vida poblacion pib_per_capita
+##   &lt;fct&gt;      &lt;fct&gt;      &lt;int&gt;             &lt;dbl&gt;     &lt;int&gt;          &lt;dbl&gt;
+## 1 Afganistán Asia        1957              30.3   9240934           821.</code></pre>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="iteraciones-en-r.html#cb149-1" aria-hidden="true" tabindex="-1"></a>paises <span class="sc">%&gt;%</span></span>
+<span id="cb149-2"><a href="iteraciones-en-r.html#cb149-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(pais, continente, anio) <span class="sc">%&gt;%</span></span>
+<span id="cb149-3"><a href="iteraciones-en-r.html#cb149-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb149-4"><a href="iteraciones-en-r.html#cb149-4" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">pmap</span>(<span class="sc">~</span>paises <span class="sc">%&gt;%</span></span>
+<span id="cb149-5"><a href="iteraciones-en-r.html#cb149-5" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">filter</span>(pais <span class="sc">==</span> <span class="fl">1.</span>,</span>
+<span id="cb149-6"><a href="iteraciones-en-r.html#cb149-6" aria-hidden="true" tabindex="-1"></a>                    continente <span class="sc">==</span> <span class="fl">2.</span>,</span>
+<span id="cb149-7"><a href="iteraciones-en-r.html#cb149-7" aria-hidden="true" tabindex="-1"></a>                    anio <span class="sc">==</span> <span class="fl">3.</span>)</span>
+<span id="cb149-8"><a href="iteraciones-en-r.html#cb149-8" aria-hidden="true" tabindex="-1"></a>      )</span></code></pre></div>
+<pre><code>## [[1]]
+## # A tibble: 0 × 6
+## # … with 6 variables: pais &lt;fct&gt;, continente &lt;fct&gt;, anio &lt;int&gt;,
+## #   esperanza_de_vida &lt;dbl&gt;, poblacion &lt;int&gt;, pib_per_capita &lt;dbl&gt;
+## 
+## [[2]]
+## # A tibble: 0 × 6
+## # … with 6 variables: pais &lt;fct&gt;, continente &lt;fct&gt;, anio &lt;int&gt;,
+## #   esperanza_de_vida &lt;dbl&gt;, poblacion &lt;int&gt;, pib_per_capita &lt;dbl&gt;</code></pre>
+<p>Este código no es muy útil, pero sirve para introducir el concepto de “mapeos múlti-objeto”. Un caso en el que sería útil es si tenemos una tabla con combinaciones de párametros que deben ser ejecutados.</p>
+<p>El <code>!!</code> se llama el “operador bang-bang”, podemos pensar de este como una forma de “forzar” la evaluación temprana de código antes de que la expresión en si sea ejecutada.</p>
+<p>En el código anterior, la expresión <code>pais == !!pais</code>, sería evaluada como <code>pais == "&lt;VALOR DENTRO DE PAÍS&gt;"</code>.</p>
+</div>
+<div id="ejemplo-4" class="section level5 unnumbered hasAnchor">
+<h5>Ejemplo 4<a href="iteraciones-en-r.html#ejemplo-4" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p><strong>Agrupando datos</strong></p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="iteraciones-en-r.html#cb151-1" aria-hidden="true" tabindex="-1"></a>paises_agrupados <span class="ot">&lt;-</span> paises <span class="sc">%&gt;%</span></span>
+<span id="cb151-2"><a href="iteraciones-en-r.html#cb151-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(continente) <span class="sc">%&gt;%</span></span>
+<span id="cb151-3"><a href="iteraciones-en-r.html#cb151-3" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">nest</span>()</span>
+<span id="cb151-4"><a href="iteraciones-en-r.html#cb151-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb151-5"><a href="iteraciones-en-r.html#cb151-5" aria-hidden="true" tabindex="-1"></a>paises_agrupados<span class="sc">$</span>data[[<span class="dv">1</span>]] <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   pais        anio esperanza_de_vida poblacion pib_per_capita
+##   &lt;fct&gt;      &lt;int&gt;             &lt;dbl&gt;     &lt;int&gt;          &lt;dbl&gt;
+## 1 Afganistán  1952              28.8   8425333           779.
+## 2 Afganistán  1957              30.3   9240934           821.
+## 3 Afganistán  1962              32.0  10267083           853.
+## 4 Afganistán  1967              34.0  11537966           836.
+## 5 Afganistán  1972              36.1  13079460           740.
+## 6 Afganistán  1977              38.4  14880372           786.</code></pre>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="iteraciones-en-r.html#cb153-1" aria-hidden="true" tabindex="-1"></a>paises_agrupados<span class="sc">$</span>data[[<span class="dv">5</span>]] <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   pais       anio esperanza_de_vida poblacion pib_per_capita
+##   &lt;fct&gt;     &lt;int&gt;             &lt;dbl&gt;     &lt;int&gt;          &lt;dbl&gt;
+## 1 Australia  1952              69.1   8691212         10040.
+## 2 Australia  1957              70.3   9712569         10950.
+## 3 Australia  1962              70.9  10794968         12217.
+## 4 Australia  1967              71.1  11872264         14526.
+## 5 Australia  1972              71.9  13177000         16789.
+## 6 Australia  1977              73.5  14074100         18334.</code></pre>
+<p>Alternativamente, podemos usar <code>purrr::pluck</code> para extraer elementos en una lista</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="iteraciones-en-r.html#cb155-1" aria-hidden="true" tabindex="-1"></a>paises_agrupados <span class="sc">%&gt;%</span></span>
+<span id="cb155-2"><a href="iteraciones-en-r.html#cb155-2" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">pluck</span>(<span class="st">&quot;data&quot;</span>, <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb155-3"><a href="iteraciones-en-r.html#cb155-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   pais        anio esperanza_de_vida poblacion pib_per_capita
+##   &lt;fct&gt;      &lt;int&gt;             &lt;dbl&gt;     &lt;int&gt;          &lt;dbl&gt;
+## 1 Afganistán  1952              28.8   8425333           779.
+## 2 Afganistán  1957              30.3   9240934           821.
+## 3 Afganistán  1962              32.0  10267083           853.
+## 4 Afganistán  1967              34.0  11537966           836.
+## 5 Afganistán  1972              36.1  13079460           740.
+## 6 Afganistán  1977              38.4  14880372           786.</code></pre>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="iteraciones-en-r.html#cb157-1" aria-hidden="true" tabindex="-1"></a>paises_agrupados <span class="sc">%&gt;%</span></span>
+<span id="cb157-2"><a href="iteraciones-en-r.html#cb157-2" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">pluck</span>(<span class="st">&quot;data&quot;</span>, <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb157-3"><a href="iteraciones-en-r.html#cb157-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   pais       anio esperanza_de_vida poblacion pib_per_capita
+##   &lt;fct&gt;     &lt;int&gt;             &lt;dbl&gt;     &lt;int&gt;          &lt;dbl&gt;
+## 1 Australia  1952              69.1   8691212         10040.
+## 2 Australia  1957              70.3   9712569         10950.
+## 3 Australia  1962              70.9  10794968         12217.
+## 4 Australia  1967              71.1  11872264         14526.
+## 5 Australia  1972              71.9  13177000         16789.
+## 6 Australia  1977              73.5  14074100         18334.</code></pre>
+<p>¿Y esto para qué sirve? Bueno, podríamos calcular valores para cada “sub-grupo”, por ejemplo: la esperanza de vida promedio por continente.</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="iteraciones-en-r.html#cb159-1" aria-hidden="true" tabindex="-1"></a>paises_agrupados <span class="sc">%&gt;%</span> </span>
+<span id="cb159-2"><a href="iteraciones-en-r.html#cb159-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">esperanza_de_vida_promedio =</span> </span>
+<span id="cb159-3"><a href="iteraciones-en-r.html#cb159-3" aria-hidden="true" tabindex="-1"></a>                  purrr<span class="sc">::</span><span class="fu">map_dbl</span>(data, <span class="sc">~</span><span class="fu">mean</span>(.x<span class="sc">$</span>esperanza_de_vida)))</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 3
+## # Groups:   continente [5]
+##   continente data               esperanza_de_vida_promedio
+##   &lt;fct&gt;      &lt;list&gt;                                  &lt;dbl&gt;
+## 1 Asia       &lt;tibble [396 × 5]&gt;                       60.1
+## 2 Europa     &lt;tibble [360 × 5]&gt;                       71.9
+## 3 África     &lt;tibble [624 × 5]&gt;                       48.9
+## 4 Américas   &lt;tibble [300 × 5]&gt;                       64.7
+## 5 Oceanía    &lt;tibble [24 × 5]&gt;                        74.3</code></pre>
+<p>Pero, podríamos usar <code>dplyr</code>, ¿no?</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="iteraciones-en-r.html#cb161-1" aria-hidden="true" tabindex="-1"></a>paises <span class="sc">%&gt;%</span></span>
+<span id="cb161-2"><a href="iteraciones-en-r.html#cb161-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(continente) <span class="sc">%&gt;%</span></span>
+<span id="cb161-3"><a href="iteraciones-en-r.html#cb161-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">esperanza_de_vida_promedio =</span> <span class="fu">mean</span>(esperanza_de_vida))</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 2
+##   continente esperanza_de_vida_promedio
+##   &lt;fct&gt;                           &lt;dbl&gt;
+## 1 África                           48.9
+## 2 Américas                         64.7
+## 3 Asia                             60.1
+## 4 Europa                           71.9
+## 5 Oceanía                          74.3</code></pre>
+<p>La idea es ilustrar el concepto, detrás del tipo de operaciones que podríamos ejecutar con <code>purrr</code>.</p>
+<p><strong>Ajustando un modelo lineal</strong></p>
+<p>Usando este mismo concepto, podríamos ajustar un modelo lineal para cada continente:</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="iteraciones-en-r.html#cb163-1" aria-hidden="true" tabindex="-1"></a>paises_agrupados_ml <span class="ot">&lt;-</span> paises_agrupados <span class="sc">%&gt;%</span></span>
+<span id="cb163-2"><a href="iteraciones-en-r.html#cb163-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">ml =</span> purrr<span class="sc">::</span><span class="fu">map</span>(data, <span class="sc">~</span><span class="fu">lm</span>(esperanza_de_vida <span class="sc">~</span> poblacion <span class="sc">+</span> pib_per_capita <span class="sc">+</span> anio, <span class="at">data =</span> .x)))</span>
+<span id="cb163-3"><a href="iteraciones-en-r.html#cb163-3" aria-hidden="true" tabindex="-1"></a>paises_agrupados_ml</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 3
+## # Groups:   continente [5]
+##   continente data               ml    
+##   &lt;fct&gt;      &lt;list&gt;             &lt;list&gt;
+## 1 Asia       &lt;tibble [396 × 5]&gt; &lt;lm&gt;  
+## 2 Europa     &lt;tibble [360 × 5]&gt; &lt;lm&gt;  
+## 3 África     &lt;tibble [624 × 5]&gt; &lt;lm&gt;  
+## 4 Américas   &lt;tibble [300 × 5]&gt; &lt;lm&gt;  
+## 5 Oceanía    &lt;tibble [24 × 5]&gt;  &lt;lm&gt;</code></pre>
+<p>Para extraer el modelo de Asia:</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="iteraciones-en-r.html#cb165-1" aria-hidden="true" tabindex="-1"></a>paises_agrupados_ml <span class="sc">%&gt;%</span></span>
+<span id="cb165-2"><a href="iteraciones-en-r.html#cb165-2" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">pluck</span>(<span class="st">&quot;ml&quot;</span>, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = esperanza_de_vida ~ poblacion + pib_per_capita + 
+##     anio, data = .x)
+## 
+## Coefficients:
+##    (Intercept)       poblacion  pib_per_capita            anio  
+##     -7.833e+02       4.228e-11       2.510e-04       4.251e-01</code></pre>
+<p><em>¿Y ahora qué sigue?</em> Podemos usar el modelo y los datos de entrada, para predecir la respuesta de los modelos:</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="iteraciones-en-r.html#cb167-1" aria-hidden="true" tabindex="-1"></a>paises_agrupados_ml_predicciones <span class="ot">&lt;-</span> paises_agrupados_ml <span class="sc">%&gt;%</span></span>
+<span id="cb167-2"><a href="iteraciones-en-r.html#cb167-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">predicciones =</span></span>
+<span id="cb167-3"><a href="iteraciones-en-r.html#cb167-3" aria-hidden="true" tabindex="-1"></a>                  purrr<span class="sc">::</span><span class="fu">map2</span>(ml, data, <span class="sc">~</span><span class="fu">predict</span>(.x, .y)))</span>
+<span id="cb167-4"><a href="iteraciones-en-r.html#cb167-4" aria-hidden="true" tabindex="-1"></a>paises_agrupados_ml_predicciones</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 4
+## # Groups:   continente [5]
+##   continente data               ml     predicciones
+##   &lt;fct&gt;      &lt;list&gt;             &lt;list&gt; &lt;list&gt;      
+## 1 Asia       &lt;tibble [396 × 5]&gt; &lt;lm&gt;   &lt;dbl [396]&gt; 
+## 2 Europa     &lt;tibble [360 × 5]&gt; &lt;lm&gt;   &lt;dbl [360]&gt; 
+## 3 África     &lt;tibble [624 × 5]&gt; &lt;lm&gt;   &lt;dbl [624]&gt; 
+## 4 Américas   &lt;tibble [300 × 5]&gt; &lt;lm&gt;   &lt;dbl [300]&gt; 
+## 5 Oceanía    &lt;tibble [24 × 5]&gt;  &lt;lm&gt;   &lt;dbl [24]&gt;</code></pre>
+<p><em>¿Y eso es todo?</em> No, podemos repetir este proceso para incluir más variables, como por ejemplo, la correlación:</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="iteraciones-en-r.html#cb169-1" aria-hidden="true" tabindex="-1"></a>paises_agrupados_ml_predicciones_corr <span class="ot">&lt;-</span> paises_agrupados_ml_predicciones <span class="sc">%&gt;%</span></span>
+<span id="cb169-2"><a href="iteraciones-en-r.html#cb169-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">correlacion =</span></span>
+<span id="cb169-3"><a href="iteraciones-en-r.html#cb169-3" aria-hidden="true" tabindex="-1"></a>                  purrr<span class="sc">::</span><span class="fu">map2_dbl</span>(predicciones, data, <span class="sc">~</span><span class="fu">cor</span>(.x, .y<span class="sc">$</span>esperanza_de_vida)))</span>
+<span id="cb169-4"><a href="iteraciones-en-r.html#cb169-4" aria-hidden="true" tabindex="-1"></a>paises_agrupados_ml_predicciones_corr</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 5
+## # Groups:   continente [5]
+##   continente data               ml     predicciones correlacion
+##   &lt;fct&gt;      &lt;list&gt;             &lt;list&gt; &lt;list&gt;             &lt;dbl&gt;
+## 1 Asia       &lt;tibble [396 × 5]&gt; &lt;lm&gt;   &lt;dbl [396]&gt;        0.723
+## 2 Europa     &lt;tibble [360 × 5]&gt; &lt;lm&gt;   &lt;dbl [360]&gt;        0.834
+## 3 África     &lt;tibble [624 × 5]&gt; &lt;lm&gt;   &lt;dbl [624]&gt;        0.645
+## 4 Américas   &lt;tibble [300 × 5]&gt; &lt;lm&gt;   &lt;dbl [300]&gt;        0.779
+## 5 Oceanía    &lt;tibble [24 × 5]&gt;  &lt;lm&gt;   &lt;dbl [24]&gt;         0.987</code></pre>
+<p>Finalmente, podemos usar uno de los paquetes de <code>tidymodels</code> (<code>broom</code>) para extraer algunas otras métricas, del modelo lineal:</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="iteraciones-en-r.html#cb171-1" aria-hidden="true" tabindex="-1"></a>paises_agrupados_ml <span class="sc">%&gt;%</span></span>
+<span id="cb171-2"><a href="iteraciones-en-r.html#cb171-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>data) <span class="sc">%&gt;%</span></span>
+<span id="cb171-3"><a href="iteraciones-en-r.html#cb171-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">metricas =</span> purrr<span class="sc">::</span><span class="fu">map</span>(ml, <span class="sc">~</span>broom<span class="sc">::</span><span class="fu">tidy</span>(.x))) <span class="sc">%&gt;%</span></span>
+<span id="cb171-4"><a href="iteraciones-en-r.html#cb171-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>ml) <span class="sc">%&gt;%</span></span>
+<span id="cb171-5"><a href="iteraciones-en-r.html#cb171-5" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">unnest</span>(metricas)</span></code></pre></div>
+<pre><code>## # A tibble: 20 × 6
+## # Groups:   continente [5]
+##    continente term            estimate std.error statistic  p.value
+##    &lt;fct&gt;      &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+##  1 Asia       (Intercept)    -7.83e+ 2   4.83e+1  -16.2    1.22e-45
+##  2 Asia       poblacion       4.23e-11   2.04e-9    0.0207 9.83e- 1
+##  3 Asia       pib_per_capita  2.51e- 4   3.01e-5    8.34   1.31e-15
+##  4 Asia       anio            4.25e- 1   2.44e-2   17.4    1.13e-50
+##  5 Europa     (Intercept)    -1.61e+ 2   2.28e+1   -7.09   7.44e-12
+##  6 Europa     poblacion      -8.18e- 9   7.80e-9   -1.05   2.95e- 1
+##  7 Europa     pib_per_capita  3.25e- 4   2.15e-5   15.2    2.21e-40
+##  8 Europa     anio            1.16e- 1   1.16e-2    9.96   8.88e-21
+##  9 África     (Intercept)    -4.70e+ 2   3.39e+1  -13.9    2.17e-38
+## 10 África     poblacion      -3.68e- 9   1.89e-8   -0.195  8.45e- 1
+## 11 África     pib_per_capita  1.12e- 3   1.01e-4   11.1    2.46e-26
+## 12 África     anio            2.61e- 1   1.71e-2   15.2    1.07e-44
+## 13 Américas   (Intercept)    -5.33e+ 2   4.10e+1  -13.0    6.40e-31
+## 14 Américas   poblacion      -2.15e- 8   8.62e-9   -2.49   1.32e- 2
+## 15 Américas   pib_per_capita  6.75e- 4   7.15e-5    9.44   1.13e-18
+## 16 Américas   anio            3.00e- 1   2.08e-2   14.4    3.79e-36
+## 17 Oceanía    (Intercept)    -2.10e+ 2   5.12e+1   -4.10   5.61e- 4
+## 18 Oceanía    poblacion       8.37e- 9   3.34e-8    0.251  8.05e- 1
+## 19 Oceanía    pib_per_capita  2.03e- 4   8.47e-5    2.39   2.66e- 2
+## 20 Oceanía    anio            1.42e- 1   2.65e-2    5.34   3.19e- 5</code></pre>
+</div>
+<div id="ejemplo-n-1" class="section level5 unnumbered hasAnchor">
+<h5>Ejemplo N-1<a href="iteraciones-en-r.html#ejemplo-n-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Imaginen que queremos calcular los valores de R<span class="math inline">\(^2\)</span> para la regresión lineal de <code>peso</code> y millas por galón (<code>millas</code>), según el número de <code>cilindros</code>.</p>
+<p>Un caso en particular, <strong><code>cilindros = 4</code></strong></p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="iteraciones-en-r.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un subconjunto</span></span>
+<span id="cb173-2"><a href="iteraciones-en-r.html#cb173-2" aria-hidden="true" tabindex="-1"></a>cilindros_4 <span class="ot">&lt;-</span> mtautos <span class="sc">%&gt;%</span></span>
+<span id="cb173-3"><a href="iteraciones-en-r.html#cb173-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(cilindros <span class="sc">==</span> <span class="dv">4</span>)</span>
+<span id="cb173-4"><a href="iteraciones-en-r.html#cb173-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un modelo lineal</span></span>
+<span id="cb173-5"><a href="iteraciones-en-r.html#cb173-5" aria-hidden="true" tabindex="-1"></a>ml_cilindros_4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(millas <span class="sc">~</span> peso, <span class="at">data =</span> cilindros_4)</span>
+<span id="cb173-6"><a href="iteraciones-en-r.html#cb173-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear resumen</span></span>
+<span id="cb173-7"><a href="iteraciones-en-r.html#cb173-7" aria-hidden="true" tabindex="-1"></a>ml_cilindros_4_resumen <span class="ot">&lt;-</span> <span class="fu">summary</span>(ml_cilindros_4)</span>
+<span id="cb173-8"><a href="iteraciones-en-r.html#cb173-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtener R^2</span></span>
+<span id="cb173-9"><a href="iteraciones-en-r.html#cb173-9" aria-hidden="true" tabindex="-1"></a>ml_cilindros_4_r2 <span class="ot">&lt;-</span> ml_cilindros_4_resumen[<span class="st">&quot;r.squared&quot;</span>]</span>
+<span id="cb173-10"><a href="iteraciones-en-r.html#cb173-10" aria-hidden="true" tabindex="-1"></a>ml_cilindros_4_r2</span></code></pre></div>
+<pre><code>## $r.squared
+## [1] 0.5086326</code></pre>
+<p>Usando el pipe <code>%&gt;%</code>:</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="iteraciones-en-r.html#cb175-1" aria-hidden="true" tabindex="-1"></a>ml_cilindros_4_r2 <span class="ot">&lt;-</span> mtautos <span class="sc">%&gt;%</span> </span>
+<span id="cb175-2"><a href="iteraciones-en-r.html#cb175-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(cilindros <span class="sc">==</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb175-3"><a href="iteraciones-en-r.html#cb175-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(millas <span class="sc">~</span> peso, <span class="at">data =</span> .) <span class="sc">%&gt;%</span> </span>
+<span id="cb175-4"><a href="iteraciones-en-r.html#cb175-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb175-5"><a href="iteraciones-en-r.html#cb175-5" aria-hidden="true" tabindex="-1"></a>  .<span class="sc">$</span><span class="st">&quot;r.squared&quot;</span></span>
+<span id="cb175-6"><a href="iteraciones-en-r.html#cb175-6" aria-hidden="true" tabindex="-1"></a>ml_cilindros_4_r2</span></code></pre></div>
+<pre><code>## [1] 0.5086326</code></pre>
+<p><strong>Solución con <code>purrr</code></strong></p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="iteraciones-en-r.html#cb177-1" aria-hidden="true" tabindex="-1"></a>mtautos <span class="sc">%&gt;%</span></span>
+<span id="cb177-2"><a href="iteraciones-en-r.html#cb177-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(.<span class="sc">$</span>cilindros) <span class="sc">%&gt;%</span></span>
+<span id="cb177-3"><a href="iteraciones-en-r.html#cb177-3" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(<span class="sc">~</span><span class="fu">lm</span>(millas <span class="sc">~</span> peso, <span class="at">data =</span> .x)) <span class="sc">%&gt;%</span></span>
+<span id="cb177-4"><a href="iteraciones-en-r.html#cb177-4" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(summary) <span class="sc">%&gt;%</span></span>
+<span id="cb177-5"><a href="iteraciones-en-r.html#cb177-5" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map_dbl</span>(<span class="st">&quot;r.squared&quot;</span>)</span></code></pre></div>
+<pre><code>##         4         6         8 
+## 0.5086326 0.4645102 0.4229655</code></pre>
+</div>
+<div id="ejemplo-n" class="section level5 unnumbered hasAnchor">
+<h5>Ejemplo N<a href="iteraciones-en-r.html#ejemplo-n" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Imaginen que necesitamos ejecutar varios análisis de varianza (ANOVA) unidireccionales, típicamente usaríamos el siguiente código:</p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="iteraciones-en-r.html#cb179-1" aria-hidden="true" tabindex="-1"></a>aov_millas <span class="ot">&lt;-</span> <span class="fu">aov</span>(millas <span class="sc">~</span> <span class="fu">factor</span>(cilindros), <span class="at">data =</span> mtautos)</span>
+<span id="cb179-2"><a href="iteraciones-en-r.html#cb179-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(aov_millas)</span></code></pre></div>
+<pre><code>##                   Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## factor(cilindros)  2  824.8   412.4    39.7 4.98e-09 ***
+## Residuals         29  301.3    10.4                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Este código tiene errores</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="iteraciones-en-r.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="co"># aov_cilindrada &lt;- aov(cilindrada ~ factor(cilindross), data = mtautos)</span></span>
+<span id="cb181-2"><a href="iteraciones-en-r.html#cb181-2" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(aov_cilindrada)</span></span>
+<span id="cb181-3"><a href="iteraciones-en-r.html#cb181-3" aria-hidden="true" tabindex="-1"></a><span class="co"># aov_caballos &lt;- aov(caballos ~ factor(cilindros), data = mrautos)</span></span>
+<span id="cb181-4"><a href="iteraciones-en-r.html#cb181-4" aria-hidden="true" tabindex="-1"></a><span class="co"># summry(aov_caballoss)</span></span>
+<span id="cb181-5"><a href="iteraciones-en-r.html#cb181-5" aria-hidden="true" tabindex="-1"></a><span class="co"># aov_peso &lt;- aov(peso ~ factor(cilindros), datas = mtautos)</span></span>
+<span id="cb181-6"><a href="iteraciones-en-r.html#cb181-6" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(aov_peso)</span></span></code></pre></div>
+<p><strong>Solución con <code>purrr</code></strong></p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="iteraciones-en-r.html#cb182-1" aria-hidden="true" tabindex="-1"></a>mtautos <span class="sc">%&gt;%</span></span>
+<span id="cb182-2"><a href="iteraciones-en-r.html#cb182-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">cilindros =</span> <span class="fu">factor</span>(cilindros),</span>
+<span id="cb182-3"><a href="iteraciones-en-r.html#cb182-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">transmision =</span> <span class="fu">factor</span>(transmision)) <span class="sc">%&gt;%</span></span>
+<span id="cb182-4"><a href="iteraciones-en-r.html#cb182-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(millas, cilindrada, caballos) <span class="sc">%&gt;%</span></span>
+<span id="cb182-5"><a href="iteraciones-en-r.html#cb182-5" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(<span class="sc">~</span><span class="fu">aov</span>(.x <span class="sc">~</span> cilindros <span class="sc">*</span> transmision, <span class="at">data =</span> mtautos)) <span class="sc">%&gt;%</span></span>
+<span id="cb182-6"><a href="iteraciones-en-r.html#cb182-6" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map_dfr</span>(<span class="sc">~</span>broom<span class="sc">::</span><span class="fu">tidy</span>(.), <span class="at">.id =</span> <span class="st">&#39;fuente&#39;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 7
+##    fuente     term                     df    sumsq    meansq statistic   p.value
+##    &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 millas     cilindros                 1    818.     818.      94.6    1.76e-10
+##  2 millas     transmision               1     37.0     37.0      4.28   4.79e- 2
+##  3 millas     cilindros:transmision     1     29.4     29.4      3.41   7.55e- 2
+##  4 millas     Residuals                28    242.       8.64    NA     NA       
+##  5 cilindrada cilindros                 1 387454.  387454.     138.     2.47e-12
+##  6 cilindrada transmision               1   9405.    9405.       3.35   7.79e- 2
+##  7 cilindrada cilindros:transmision     1    688.     688.       0.245  6.24e- 1
+##  8 cilindrada Residuals                28  78637.    2808.      NA     NA       
+##  9 caballos   cilindros                 1 100984.  100984.      91.3    2.60e-10
+## 10 caballos   transmision               1   7378.    7378.       6.67   1.53e- 2
+## 11 caballos   cilindros:transmision     1   6403.    6403.       5.79   2.30e- 2
+## 12 caballos   Residuals                28  30961.    1106.      NA     NA</code></pre>
+</div>
+</div>
+<div id="en-paralelo" class="section level3 unnumbered hasAnchor">
+<h3>En paralelo<a href="iteraciones-en-r.html#en-paralelo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Existe un paquete llamado <code>furrrr</code> (<a href="https://cran.r-project.org/package=furrr" class="uri">https://cran.r-project.org/package=furrr</a>) que
+tiene funciones de mapeo para computación en paralelo. Por ejemplo en lugar de
+usar <code>purrr:map</code> podemos usar <code>furrr::future_map</code> todo lo demás se queda igual.
+Para indicar el número de procesos que quieres ejecutar en paralelo, tienes que
+usar <code>future::plan(future::multisession, workers = CPUS)</code> donde CPUS es el
+número de procesos que quieres ejecutar en paralelo.</p>
+<p>Un pequeño ejemplo:</p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="iteraciones-en-r.html#cb184-1" aria-hidden="true" tabindex="-1"></a>future<span class="sc">::</span><span class="fu">plan</span>(future<span class="sc">::</span>multisession, <span class="at">workers =</span> <span class="dv">2</span>)</span>
+<span id="cb184-2"><a href="iteraciones-en-r.html#cb184-2" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="fl">1e9</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb184-3"><a href="iteraciones-en-r.html#cb184-3" aria-hidden="true" tabindex="-1"></a>    furrr<span class="sc">::</span><span class="fu">future_map</span>(<span class="sc">~</span>.x <span class="sc">+</span> <span class="dv">10</span>)</span></code></pre></div>
+<p>Una guía muy útil: <a href="https://www.r-bloggers.com/2021/09/tidy-parallel-processing-in-r-with-furrr/" class="uri">https://www.r-bloggers.com/2021/09/tidy-parallel-processing-in-r-with-furrr/</a></p>
+<p>Es incluso posible agregar una barrita de progreso con el paquete <code>progressr</code>
+(<a href="https://cran.r-project.org/package=progressr" class="uri">https://cran.r-project.org/package=progressr</a>)
+(<a href="https://furrr.futureverse.org/articles/articles/progress.html" class="uri">https://furrr.futureverse.org/articles/articles/progress.html</a>)</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="usando-pipes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referencias.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/r4ds/bookclub-tmwr_es/edit/main/03-extra-tidyverse-review.Rmd",
+"text": "Editar"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
