@@ -18,11 +18,11 @@ Si gustas presentar, por favor agrega tu nombre al lado del capítulo usando el 
 - 2022-02-08: Capítulo 1 - Software para modelado: [Roberto Villegas-Diaz](https://github.com/villegar)
 - 2022-02-15: Capítulo 2 - Una cartilla tidyverse: Armando Ocampo
 - 2022-02-22: Capítulo 3 - Una revisión de fundamentos de modelado en R: Esmeralda Cruz-Silva
+- 2022-03-01: Extra - Revisión de Tidyverse (`purrr`, `dplyr`, `magrittr`, etc.): [Roberto Villegas-Diaz](https://github.com/villegar)
 </details>
 
 **Reuniones futuras:**
 
-- 2022-03-01: Extra - Revisión de Tidyverse (`purrr`, `dplyr`, etc.): [Roberto Villegas-Diaz](https://github.com/villegar)
 - 2022-03-08: Capítulo 4 - Datos sobre casas Ames: Diana García
 - 2022-03-15: Capítulo 5 - Gastando/usando nuestros datos: Armando Guzman
 - 2022-03-22: Capítulo 6 - Ingeniería de características usando el paquete `recipes`: PENDIENTE
