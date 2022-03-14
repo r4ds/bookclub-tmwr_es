@@ -160,58 +160,15 @@ rankings %>%
 
 ![](images/17-model_ranks.png)
 
-## Meeting Videos
 
-### Cohort 1
+## Videos de las reuniones
 
-`r knitr::include_url("https://www.youtube.com/embed/ewNOYUwKwCM")`
-
-<details>
-  <summary> Meeting chat log </summary>
-  
-```
-00:24:23	Daniel Chen (he/him):	PCA maximizes the variance
-00:41:01	Daniel Chen (he/him):	I guess it depends on what you're using it for? like for a visualization or using PCA for feature engineering
-00:42:01	Daniel Chen (he/him):	how useful is tuning the number of PCs? I've always looked at elbow plots or something for that stuff?
-00:45:45	Daniel Chen (he/him):	run pca after LASSO! :p
-00:45:52	Daniel Chen (he/him):	wait. that doesn't make sense
-00:45:53	Daniel Chen (he/him):	nvm
-00:49:15	Daniel Chen (he/him):	kind of surprised they didn't show other MDS (multi dimensional scaling) examples since PCA is a special case of MDS
-00:50:14	Daniel Chen (he/him):	if you want to give names to "loadings" you'd use factor analysis
-00:52:44	Jim Gruman:	thank you Jon!!
-00:53:13	Daniel Chen (he/him):	bye everyone!
-```
-</details>
-
-### Cohort 3
-
-`r knitr::include_url("https://www.youtube.com/embed/pldNcyb4kMg")`
-
-<details>
-  <summary> Meeting chat log </summary>
-  
-```
-00:39:34	Ildiko Czeller:	do you know from where the function name plot_top_loadings comes? I have not heard the term loading in the context of PCA before. As far as I understand it plots top most contributing variables/features in each PCA component
-00:40:00	Jiwan Heo:	loading is the "weights" in PCA
-00:40:46	Jiwan Heo:	the coefficient of the linear combination of variables
-00:40:56	Ildiko Czeller:	ahh, makes sense, thanks!
-00:56:04	Ildiko Czeller:	I guess difference between PCA and PLS would be bigger if there were some rubbish features as well with high variance but without much predicting power
-00:56:21	Jiwan Heo:	PLS is supervised, PCA is unsupervised
-00:56:25	Ildiko Czeller:	the first 2 components seem to be basically mirror images of each other
-00:57:38	Jiwan Heo:	rubbish features would not get picked up, i'd imagine. If it doesn't impact the outcome
-00:58:30	Ildiko Czeller:	yeah, I think that they would not be picked in PLS at all, but might be picked up by PCA because it is unsupervised (?)
-00:59:15	Jiwan Heo:	I think so. PCA just picks up any large variance, but in PLS, it has to also move the outcome in some way
-01:04:16	Jiwan Heo:	sorry I have to jump off! Thank you for the presentation :)
-01:05:45	Ildiko Czeller:	To build an intuition about UMAP i found this interactive website very useful: https://pair-code.github.io/understanding-umap/
-```
-</details>
-
-### Cohort 4
+### Cohorte 1
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
 <details>
-  <summary> Meeting chat log </summary>
+  <summary> Chat de la reunión </summary>
   
 ```
 LOG

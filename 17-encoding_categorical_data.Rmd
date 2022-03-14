@@ -14,12 +14,15 @@ Put the content of your slide here.
 
 Put the content of your second slide here.
 
-### Cohort 4
+
+## Videos de las reuniones
+
+### Cohorte 1
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
 <details>
-  <summary> Meeting chat log </summary>
+  <summary> Chat de la reunión </summary>
   
 ```
 LOG
