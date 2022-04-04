@@ -1,38 +1,38 @@
-# Fitting models with parsnip
+# Ajustando modelos con `parsnip`
 
-**Learning objectives:**
+**Objetivos de Aprendizaje:**
 
-- Identify ways in which **model interfaces can differ.** x
-- **Specify a model** in `{parsnip}`. x
-- **Fit a model** with `parsnip::fit()` and `parsnip::fit_xy()`. x
-- Describe how `{parsnip}` **generalizes model arguments.** x
-- Use `broom::tidy()` to **convert model objects to a tidy structure.** x
-- Use `dplyr::bind_cols()` and the `predict()` methods from `{parsnip}` to **make tidy predictions. **
-- **Find interfaces to other models** in `{parsnip}`-adjacent packages. 
+- Identificar formas en que **interfaces de modelos pueden diferir.**
+- **Especificar un modelo** en `{parsnip}`.
+- **Ajustar un modelo** con `parsnip::fit()` y `parsnip::fit_xy()`.
+- Describir como `{parsnip}` **generaliza los argumentos de modelos.**
+- Usar `broom::tidy()` para **convertir objetos de modelos en estructuras _tidy_.**
+- Usar `dplyr::bind_cols()` y los métodos `predict()` de `{parsnip}` para **crear predicciones _tidy_.**
+- **Encontrar interfaces a otros modelos** en paquetes adyacentes a `{parsnip}` (paquetes del universo `tidymodels`).
 
 <details>
-  <summary> Modeling Map </summary>
+  <summary> Mapa de Modelado </summary>
   
-  ![modeling flow](images/modeling_map.png)
+  ![flujo de modelado](images/modeling_map.png)
 
-- __Chapter Setup Below__
+- __Configuración para el capítulo__
 
 ```{r set-up-07, warning=FALSE, message=FALSE}
-# load parsnip, recipes, rsample, broom...
+# cargar parsnip, recipes, rsample, broom...
 library(tidymodels)
 library(AmesHousing)
 
-# attach data
+# cargar los datos
 data(ames)
 
-# log scale price
-ames <- mutate(ames, Sale_Price = log10(Sale_Price))
+# aplicar el logaritmo base 10 a price
+ames <- dplyr::mutate(ames, Sale_Price = log10(Sale_Price))
 
-# train/test
+# subconjuntos de entrenamiento y prueba
 set.seed(123)
-ames_split <- initial_split(ames, prob = 0.80, strata = Sale_Price)
-ames_train <- training(ames_split)
-ames_test  <-  testing(ames_split)
+ames_split <- rsample::initial_split(ames, prob = 0.80, strata = Sale_Price)
+ames_train <- rsample::training(ames_split)
+ames_test  <- rsample::testing(ames_split)
 ```  
 
 </details>
@@ -42,30 +42,30 @@ ames_test  <-  testing(ames_split)
 
 <br>
 
-## Create a Model
+## Crear un modelo
 
 
-### Different Model Interfaces
+### Diferentes Interfaces de Modelado
 
   
-![Different-interfaces](images/interfaces-meme.jpg)
+![diferentes interfaces](images/interfaces-meme.jpg)
 
 
 
 <br>
 
-- Model Interfaces
-  - Different Implementations = Different Interfaces
-  - _Linear Regression_ can be implemented in many ways
-    - Ordinary Least Squares
-    - Regularized Linear Regression 
+- Interfaces de Modelos
+  - Diferentes Implementaciones = Diferentes Interfaces
+  - _Regresión Lineal_ puede ser implementada en varias maneras
+    - Mínimos Cuadrados Ordinarios (MCO) / _Ordinary Least Squares_
+    - Regresión Lineal Regularizada / _Regularized Linear Regression_
     - ...
 
 <br>
 
 - __{stats}__
-  - takes formula
-  - uses `data.frame`
+  - toma una fórmula
+  - usa un `data.frame`
 
 ```{r lm-interface, eval=FALSE}
 lm(formula, data, ...)
@@ -75,8 +75,8 @@ lm(formula, data, ...)
 
 
 - __{glmnet}__ 
-  - Has x/y interface
-  - Uses a matrix
+  - tiene una interfaz `x`/`y`
+  - usa una matriz
 
 ```{r glmnet-interface, eval=FALSE}
 glmnet(x = matrix, y = vector, family = "gaussian", ...)
@@ -85,30 +85,31 @@ glmnet(x = matrix, y = vector, family = "gaussian", ...)
 <br>
 <br>
 
-### Model Specification
+### Especificación del Modelo
 
-![model specification](images/model_specification_process.png)
+![especificación del modelo](images/model_specification_process.png)
 
-- __{tidymodels}/{parsnip}__ - Philosophy is to unify & make interfaces more predictable.
-  - Specify model type (e.g. linear regression, random forest ...)
-    - `linear_reg()`
-    - `rand_forest()`
-  - Specify engine (i.e. package implementation of algorithm)
-    - `set_engine("some package's implementation")`
-  - declare mode (e.g. classification vs linear regression)
-    - use this when model can do both classification & regression
-    - `set_mode("regression")`
-    - `set_mode("classification")`
+- __{tidymodels}/{parsnip}__ 
+  - La filosofía es unificar y crear interfases más predecibles.
+    - Especificar el tipo de modelo (e.g. regresión lineal, bosques aleatorios, ...)
+      - `linear_reg()`
+      - `rand_forest()`
+    - Especificar el "motor" (i.e. paquete con la implementación del algoritmo)
+      - `set_engine("paquete con la implementación")`
+    - Declarar el modo (e.g. clasificación vs regresión lineal)
+      - usa esto cuando el modelo puede ejecutar ambas clasificación y regresión lineal
+      - `set_mode("regression")`
+      - `set_mode("classification")`
     
   
 <br>
 
-- __Bringing it all together__
+- __Trayendo todo junto__
 
 ```{r model-spec}
 lm_model_spec <- 
-  linear_reg() %>% # specify model
-  set_engine("lm") # set engine
+  parsnip::linear_reg() %>% # especificar el modelo
+  parsnip::set_engine("lm") # especificar el motor
 
 
 lm_model_spec
@@ -119,48 +120,46 @@ lm_model_spec
 <br>
 
 
-### Model Fitting
+### Ajustando el Modelo
 
-From above we will use our existing model specification
+Usando la especificación de modelo previamente definida
 
 
 <br>
 
 - `fit()`
-  - any nominal or categorical variables will be split out into dummy columns
-  - _most_ formula methods also turn do the same thing
+  - cualquier variable nominal o categórica será separada en _variables ficticias_
+  - la _mayoría_ de métodos que usan una fórmula hacen esto mismo
+<!-- - _most_ formula methods also turn do the same thing -->
 - `fit_xy`
-  - delays creating dummy variable and has underlying model function
+  - retrasa la creación de _variables ficticias_ y tiene una función de modelo subyacente
+  
 
 ```{r model-fit}
-# create model fit using formula
+# crear un ajuste de modelo usando una fórmula
 lm_form_fit <- 
   lm_model_spec %>% 
-  fit(Sale_Price ~ Longitude + Latitude, data = ames_train)
+  parsnip::fit(Sale_Price ~ Longitude + Latitude, data = ames_train)
 
-
-# create model fit using x/y
+# crear un ajuste de modelo usando x/y
 lm_xy_fit <- 
   lm_model_spec %>% 
-  fit_xy(
-    x = ames_train %>% select(Longitude, Latitude),
-    y = ames_train %>% pull(Sale_Price)
-    )
-
+  parsnip::fit_xy(
+    x = ames_train %>% dplyr::select(Longitude, Latitude),
+    y = ames_train %>% dplyr::pull(Sale_Price)
+  )
 ```
 
 <br>
 <br>
 
 
-### Generalized Model Arguments
+### Argumentos de Modelo Generalizados
 
-
-
-- Like the varying interfaces, model parameters differ from implementation to implementation
-- two level of model arguments
-  - __main arguments__ - Parameters aligned with the mathematical vehicle
-  - __engine arguments__ - Parameters aligned with the package implementation of the mathematical algorithm
+- Como las interfases de modelo que varian, los parámetros de los modelos también varian de implementación a implementación
+- Dos niveles de argumentos de modelos
+  - __argumentos principales__ - Parámetros alineados con _vehículos matemáticos_
+  - __argumentos de motor__ - Parámetros alineados con el paquete de implementación del algoritmo matemático
 
 
 ```{r package-param-comparisions, echo=FALSE}
@@ -192,24 +191,25 @@ tribble(
 <br>
 
 
-![Parsnip in Action](images/parsnip_meme.jpg)
+![`{parsnip}` en action](images/parsnip_meme.jpg)
 
 <br>
 
 
-+ The `translate()` provides the mapping from the parsnips interface to the each individual package's implementation of the algorithm.
++ La función `translate()` provee el mapeo desde la interfaz de `{parsnip}` a cada uno de los paquetes de implementación de los algoritmos. 
+<!-- the mapping from the parsnips interface to the each individual package's implementation of the algorithm. -->
 
 ```{r model-package-differences}
 # stats implementation
-linear_reg() %>% 
-  set_engine("lm") %>% 
-  translate()
+parsnip::linear_reg() %>% 
+  parsnip::set_engine("lm") %>% 
+  parsnip::translate()
 
 
 # glmnet implementation
-linear_reg(penalty = 1) %>% 
-  set_engine("glmnet") %>% 
-  translate()
+parsnip::linear_reg(penalty = 1) %>% 
+  parsnip::set_engine("glmnet") %>% 
+  parsnip::translate()
 ```
 
 
@@ -313,120 +313,30 @@ ggplot(parabolic, aes(x = X1, y = X2)) +
 ```
 
 
-## Summary
+## Resumen
 
-- __Create a Common Interface__ - All models are comprised of some core components
-  - mathematical model
-  - engine implementation
-  - mode if needed
-  - Arguments
-    - Main - algorithm specific (trees, mtry, penalty)
-    - Engine - Package/Engine specific  (e.g. verbose, num.threads, ...)
-- __Predictable Behavior__
-  - tibble in, tibble out
-  - same number of observations returned for `predict()`
+- __Crear una Interfaz Común__ 
+  - Todos los modelos están compuestos por algunos componentes principales
+    - modelos matemáticos
+    - implementación de "motores"
+    - modo si es requerido
+    - Argumentos
+      - Principal - especificación del algoritmo (árboles, número de atributos, penalidad)
+      - Motor - Especificación del paquete/motor (e.g. verbose, num.threads, ...)
+  - __Comportamiento Predictivo__
+    - `tibble` como entrada, `tibble` como salida
+    - igual número de observaciones regresadas por `predict()`
 
-## Meeting Videos
+## Videos de las Reuniones
 
-### Cohort 1
+### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/97VLayRdu-A")`
-
-<details>
-  <summary> Meeting chat log </summary>
-  
-```
-00:15:40	Tan Ho:	YESSS
-00:15:58	Tan Ho:	(@ the drake meme)
-00:21:51	Tyler Grant Smith:	space advantage
-00:23:32	Asmae :	what's that
-00:24:28	Jim Gruman:	http://www.feat.engineering/categorical-trees.html on dummies or no-dummies with trees
-00:24:37	Tony ElHabr:	amazing meme
-00:24:48	Tony ElHabr:	I am physically applauding
-00:25:03	Scott Nestler:	Some additional discussion regarding fit_xy() at tidyverse.org/blog/2019/04/parsnip-internals, related to possible range of mtry variables when you don't know number of predictors before recipe is prepped.
-00:25:56	Scott Nestler:	Is there a typo in the book after tables toward end of 7.1 where it talks about common argument names?  It mentions num_n but I think they meant min_n.  What do others think?  Or is num_n actually used?
-00:26:30	Conor Tompkins:	Scott I think Jon made a PR to fix that typo
-00:26:53	Scott Nestler:	Thx.  I hadn't checked yet.  Just caught it in a quick read right before we started.
-00:31:15	Scott Nestler:	There are actually 30 different model types and engines at https://www.tidymodels.org/find/parsnip/ that work with parsnip.
-00:43:55	Tony ElHabr:	yay volunteers
-00:44:48	Andy Farina:	Thanks Jordan, excellent presentation
-```
-</details>
-
-### Cohort 2
-
-`r knitr::include_url("https://www.youtube.com/embed/gjBKHu4yJlY")`
+`r knitr::include_url("https://www.youtube.com/embed/")`
 
 <details>
   <summary> Meeting chat log </summary>
   
 ```
-00:12:53	shamsuddeen:	https://torch.mlverse.org
-00:13:21	shamsuddeen:	Book: https://mlverse.github.io/torchbook_materials/
-00:16:18	Janita Botha:	I'm in the meeting twice because my sound is not working this morning
-00:26:10	August:	fit_xy doesn't do the contrast coding automatically, fit does. 
-00:28:04	Luke Shaw:	Is fit_xy a 'safer' option?
-00:28:33	rahul bahadur:	@August. If you were to have categorical predictors in `lm()` would fit_xy() be able to model it? `lm()` automatically does contrast coding internally
-00:30:55	Luke Shaw:	https://xkcd.com/927/
-00:33:10	Amélie Gourdon-Kanhukamwe (she/they):	Nice one Luke!
-00:34:44	rahul bahadur:	I hope tidymodels doesn't end up becoming just another standard :P
-00:34:50	August:	I'm not sure about safer, it depends I suppose if you have done a recipe with the coding before hand. 
-00:35:39	Kevin Kent:	I wonder if future packages that tidy models references will be built with a tidy models integration in mind. Instead of tidy models having to do so much translation
-00:36:34	Luke Shaw:	Thanks August. Think I need to get my hands dirty using it to really help me understand!
-00:37:34	Luke Shaw:	Yeah I'm only joking with the xkcd but does feel relevant. Kinda hoping tidymodels can be the one standard I get v. familiar with and has a long life
-00:40:30	Kevin Kent:	I think modeltime is an example of a modeling package done with tidymodels in mind. Kind of designed first for tidy models instead of having to do a bunch of translation to fit into the framework. Hopefully more do development like this
-00:41:21	Kevin Kent:	But I guess that one is doing a similar job to tidymodels in the sense of pulling in functionality from other packages as engines
-00:41:45	August:	Absolutely.
-00:42:44	August:	btw I have mostly used fit() rather than fit_xy() although the latter by be preferable
-00:42:54	Kevin Kent:	I love these templating packages..excited to use them
-00:43:18	Kevin Kent:	rstudio add in looks fantastic
-00:44:23	rahul bahadur:	Yes, fit_xy(), though requires more code, would not lead to unknown behaviour. I believe.
-00:44:41	Kevin Kent:	Yeah less “magic” happening
-00:46:19	Luke Shaw:	This feels very scary about using "fit": "If the data were preprocessed in any way, incorrect predictions will be generated (sometimes, without errors)."
-00:47:56	Luke Shaw:	^^^ that's  not about the function fit() - my bad
-00:48:09	Kevin Kent:	Or if you accidentally read in a numeric column as categorical and then run fit it won’t throw an error even though its not meaningful as a categorical variable
-```
-</details>
 
-### Cohort 3
-
-`r knitr::include_url("https://www.youtube.com/embed/-wG0XrZe00U")`
-
-<details>
-  <summary> Meeting chat log </summary>
-  
-```
-00:15:22	Ildiko Czeller:	> linear_reg()
-Linear Regression Model Specification (regression)
-
-> linear_reg() %>% set_mode("classification")
-Linear Regression Model Specification (classification)
-00:17:00	Edgar Zamora:	https://www.tidymodels.org/find/parsnip/
-00:22:51	Toryn Schafer (she/her):	model.matrix
-00:26:52	Ildiko Czeller:	Hi Daniel! good to see you
-00:27:14	Daniel Chen:	hello hello!
-00:29:02	Daniel Chen:	I forgot there was an article/help page of all the supported engines
-00:30:04	Daniel Chen:	ooh they moved the things around: this is the page to help you find arguments: https://www.tidymodels.org/find/parsnip/
-00:30:40	Daniel Chen:	that page has the model/engine parsnip param name and original param name
-00:31:03	Ildiko Czeller:	thanks!
-00:34:36	Daniel Chen:	you just need to be careful with the column names after `tidy` since they don't always mean the same thing for each model output.
-
-but it makes the column names consistent so you can combine tables
-00:45:18	jiwan:	Error in parsnip::rand_forest(verbose = TRUE) : 
-  unused argument (verbose = TRUE)
-00:45:48	Daniel Chen:	unused arguments usually get ignored. maybe you get a warning?
-00:54:29	Daniel Chen:	bye all!
-```
-</details>
-
-### Cohort 4
-
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
-
-<details>
-  <summary> Meeting chat log </summary>
-  
-```
-LOG
 ```
 </details>
