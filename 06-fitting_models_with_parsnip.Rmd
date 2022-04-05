@@ -13,7 +13,7 @@
 <details>
   <summary> Mapa de Modelado </summary>
   
-  ![flujo de modelado](images/modeling_map.png)
+  ![flujo de modelado](images/modeling_map_es.png)
 
 - __Configuración para el capítulo__
 
@@ -25,7 +25,7 @@ library(AmesHousing)
 # cargar los datos
 data(ames)
 
-# aplicar el logaritmo base 10 a price
+# aplicar el logaritmo base 10 a precio/price
 ames <- dplyr::mutate(ames, Sale_Price = log10(Sale_Price))
 
 # subconjuntos de entrenamiento y prueba
@@ -54,7 +54,7 @@ ames_test  <- rsample::testing(ames_split)
 
 <br>
 
-- Interfaces de Modelos
+- Interfaces de Modelado
   - Diferentes Implementaciones = Diferentes Interfaces
   - _Regresión Lineal_ puede ser implementada en varias maneras
     - Mínimos Cuadrados Ordinarios (MCO) / _Ordinary Least Squares_
@@ -90,13 +90,13 @@ glmnet(x = matrix, y = vector, family = "gaussian", ...)
 ![especificación del modelo](images/model_specification_process.png)
 
 - __{tidymodels}/{parsnip}__ 
-  - La filosofía es unificar y crear interfases más predecibles.
+  - La idea es unificar y crear interfases más predecibles.
     - Especificar el tipo de modelo (e.g. regresión lineal, bosques aleatorios, ...)
       - `linear_reg()`
       - `rand_forest()`
     - Especificar el "motor" (i.e. paquete con la implementación del algoritmo)
       - `set_engine("paquete con la implementación")`
-    - Declarar el modo (e.g. clasificación vs regresión lineal)
+    - Especificar el modo (e.g. clasificación vs regresión lineal)
       - usa esto cuando el modelo puede ejecutar ambas clasificación y regresión lineal
       - `set_mode("regression")`
       - `set_mode("classification")`
@@ -124,15 +124,14 @@ lm_model_spec
 
 Usando la especificación de modelo previamente definida
 
-
 <br>
 
 - `fit()`
-  - cualquier variable nominal o categórica será separada en _variables ficticias_
+  - cualquier variable nominal o categórica será separada en _variables artificiales_
   - la _mayoría_ de métodos que usan una fórmula hacen esto mismo
 <!-- - _most_ formula methods also turn do the same thing -->
 - `fit_xy`
-  - retrasa la creación de _variables ficticias_ y tiene una función de modelo subyacente
+  - retrasa la creación de _variables artificiales_ y tiene una función de modelo subyacente
   
 
 ```{r model-fit}
@@ -164,24 +163,24 @@ lm_xy_fit <-
 
 ```{r package-param-comparisions, echo=FALSE}
 tribble(
- ~argument,     ~ranger,  ~randomForest, ~sparklyr,
-  "sampled predictors",    "mtry", "mtry", "feature_subset_strategy",
-  "trees",    "num.tress", "ntree", "num_trees",
-  "data points to split",    "min.node.size", "nodesize", "min_instances_per_node"
+ ~argumento,     ~ranger,  ~randomForest, ~sparklyr,
+  "predictores muestreados", "mtry",          "mtry",     "feature_subset_strategy",
+  "árboles",                 "num.trees",     "ntree",    "num_trees",
+  "observaciones a separar", "min.node.size", "nodesize", "min_instances_per_node"
 ) %>% 
   knitr::kable()
 ```
 
 <br>
 
-  
+
 
 ```{r parsnip-param-comparisions, echo=FALSE}
 tribble(
- ~argument,              ~parsnip,
-  "sampled predictors",  "mtry",  
-  "trees",               "trees",
-  "data points to split","min_n"  
+ ~argumento,              ~parsnip,
+  "predictores muestreados",  "mtry",  
+  "árboles",                  "trees",
+  "observaciones a separar",  "min_n"  
 ) %>% 
   knitr::kable()
 ```
@@ -191,7 +190,7 @@ tribble(
 <br>
 
 
-![`{parsnip}` en action](images/parsnip_meme.jpg)
+![`{parsnip}` en acción](images/parsnip_meme.jpg)
 
 <br>
 
@@ -200,27 +199,24 @@ tribble(
 <!-- the mapping from the parsnips interface to the each individual package's implementation of the algorithm. -->
 
 ```{r model-package-differences}
-# stats implementation
+# implementación de stats
 parsnip::linear_reg() %>% 
   parsnip::set_engine("lm") %>% 
   parsnip::translate()
 
 
-# glmnet implementation
+# implementación de glmnet
 parsnip::linear_reg(penalty = 1) %>% 
   parsnip::set_engine("glmnet") %>% 
   parsnip::translate()
 ```
 
 
-## Use Model results
+## Usar los resultados del Modelo
 
+Ahora que ya hemos ajustado un modelo, vamos a necesitar extraer alguna información de resumen (i.e. métricas) de este, usaremos dos funciones extremadamente _divertidas_ del paquete `{broom}`: `tidy()` y `glance()`.
 
-
-Now that we have a fitted model we will need to pull some summary information from it we will use two extremely _fun_ functions from the `{broom}` package to help us out (`tidy()` & `glance()`). 
-
-
-+ `tidy()` - Has a bunch of versatility, but for our context it can take our model object and return our model coefficients into a nice tibble.
++ `tidy()` - Es muy versátil, aunque en nuestro contexto, solo va tomar nuestro objeto con el modelo y retornar los coeficientes de este en una `tibble`.
 
 ```{r broom-tidy}
 broom::tidy(lm_form_fit) %>% 
@@ -229,7 +225,7 @@ broom::tidy(lm_form_fit) %>%
 
 <br>
 
-+ `glance()` - allows us in this context to convert our model's summary statistics into a `tibble`
++ `glance()` - nos permite convertir el resumen de nuestro modelo en una `tibble`
 
 ```{r broom-glance}
 broom::glance(lm_form_fit) %>% 
@@ -239,77 +235,75 @@ broom::glance(lm_form_fit) %>%
 
 
 
-## Make Predictions
+## Haciendo Predicciones
 
 
 ![](images/crystal_ball.png)
 
-
-- __Rules to Live by__: 
-  - Returns a tibble
-  - Column names are ... erh Predictable
-  - Return the same number of rows as are in the data set
-    - some predict functions omit observations with `NA` values.  Which is great if that's what you intend, but if you aren't expecting that behavior you would have to find out the hard way.
-
+- __Reglas para Vivir__:
+  - Regresa una `tibble`
+  - Los nombres de las columnas deben ser ... Predecibles
+  - Regresa el mismo número de filas que las que hay en el set de datos de entrada
+    - algunos métodos `predict()` omiten observaciones con valores faltantes, `NA`. Esto es genial si es el comportamiento deseado, en caso contrario, puede ser una pesadilla.
 
 
 ```{r predict-new-data}
-# create example test set
+# crear un ejemplo de set de prueba
 ames_test_small <- ames_test %>% slice(1:5)
 
-# predict on test set
+# predecir con este set
 predict(lm_form_fit, new_data = ames_test_small) %>% 
   knitr::kable()
 ```
 
 <br>
 
-- Combining `bind_cols` with our predict function we can merge our predictions back to the test set.
+- Usando `dplyr::bind_cols` podemos combinar los resultados del método `predict()` con el set de prueba.
 
 ```{r combine-07}
-# add predictions together with actuals
+# agregar predicciones con valores observados
 ames_test_small %>%
-  select(Sale_Price) %>%
-  bind_cols(predict(lm_form_fit, ames_test_small)) %>%
-  # Add 95% prediction intervals to the results:
-  bind_cols(predict(lm_form_fit, ames_test_small, type = "pred_int")) %>% 
+  dplyr::select(Sale_Price) %>%
+  dplyr::bind_cols(predict(lm_form_fit, ames_test_small)) %>%
+  # Agregar el intervalo de confidencia para el 95%:
+  dplyr::bind_cols(predict(lm_form_fit, ames_test_small, type = "pred_int")) %>% 
   knitr::kable()
 ```
 
-## {tidymodels}-Adjacent Packages
+## Paquetes Adjacentes a `{tidymodels}`
 
-- Opinions can be shared, other modeling packages can use the same opinion to replicate a workflow. The `{discrim}`^[Discrim Package [Link](https://github.com/tidymodels/discrim)] package adds a new set of mathematical models to our arsenal of tools.
-  - `discrim_flexible()` `%>%` - Mathematical Model or if we are using my terrible analogy the car body
-    - `set_engine("earth")` - The package we want to approximate our discriminat analysis
+- Algunas opiniones pueden ser compartidas, otros paquetes de modelado pueden usar el mismo enfoque para replicar un flujo de trabajo. El paquete `{discrim}`^[Paquete Discrim [Enlace](https://github.com/tidymodels/discrim)] añade un nuevo arsenal de modelos matemáticos a nuestras herramientas/portafolio.
+ - `discrim_flexible()` `%>%` - Modelo matemático (o el cuerpo del carro).
+  - `set_engine("earth")` - El paquete que queremos usar para aproximar nuestro análisis.
 
 ```{r adjacent-packages, warning=FALSE, message=FALSE}
-# devtools::install_github("tidymodels/discrim") # to install
-# load package
-library(discrim)
+# devtools::install_github("tidymodels/discrim") # para instalar
+# cargar el paquete
+# library(discrim)
 
-# create dummy data
+# crear datos artificiales
 parabolic_grid <-
   expand.grid(X1 = seq(-5, 5, length = 100),
               X2 = seq(-5, 5, length = 100))
 
-# fit model from discrim
+# ajustar el modelo usando discrim
 fda_mod <-
-  discrim_flexible(num_terms = 3) %>% 
-  set_engine("earth") %>%
-  fit(class ~ ., data = parabolic)
+  discrim::discrim_flexible(num_terms = 3) %>% 
+  parsnip::set_engine("earth") %>%
+  parsnip::fit(class ~ ., data = discrim::parabolic)
 
-# assigning predictions to data frame
+# asignar las predicciones al data frame
 parabolic_grid$fda <-
   predict(fda_mod, parabolic_grid, type = "prob")$.pred_Class1
 
-# plotting prediction
-library(ggplot2)
-ggplot(parabolic, aes(x = X1, y = X2)) +
-  geom_point(aes(col = class), alpha = .5) +
-  geom_contour(data = parabolic_grid, aes(z = fda), col = "black", breaks = .5) +
-  theme_bw() +
-  theme(legend.position = "top") +
-  coord_equal()
+# graficar las predicciones
+ggplot2::ggplot(discrim::parabolic, ggplot2::aes(x = X1, y = X2)) +
+  ggplot2::geom_point(ggplot2::aes(col = class), alpha = .5) +
+  ggplot2::geom_contour(data = parabolic_grid, aes(z = fda), 
+                        col = "black", breaks = .5) +
+  ggplot2::theme_bw() +
+  ggplot2::theme(legend.position = "top") +
+  ggplot2::coord_equal()
 ```
 
 
@@ -321,7 +315,7 @@ ggplot(parabolic, aes(x = X1, y = X2)) +
     - implementación de "motores"
     - modo si es requerido
     - Argumentos
-      - Principal - especificación del algoritmo (árboles, número de atributos, penalidad)
+      - Principal - especificación del algoritmo (árboles, número de atributos, penalización)
       - Motor - Especificación del paquete/motor (e.g. verbose, num.threads, ...)
   - __Comportamiento Predictivo__
     - `tibble` como entrada, `tibble` como salida
@@ -334,7 +328,7 @@ ggplot(parabolic, aes(x = X1, y = X2)) +
 `r knitr::include_url("https://www.youtube.com/embed/")`
 
 <details>
-  <summary> Meeting chat log </summary>
+  <summary> Chat de la Reunión </summary>
   
 ```
 
