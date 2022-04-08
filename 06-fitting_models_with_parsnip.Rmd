@@ -87,7 +87,7 @@ glmnet(x = matrix, y = vector, family = "gaussian", ...)
 
 ### Especificación del Modelo
 
-![especificación del modelo](images/model_specification_process.png)
+![especificación del modelo](images/model_specification_process_es.png)
 
 - __{tidymodels}/{parsnip}__ 
   - La idea es unificar y crear interfases más predecibles.
@@ -316,7 +316,7 @@ ggplot2::ggplot(discrim::parabolic, ggplot2::aes(x = X1, y = X2)) +
     - modo si es requerido
     - Argumentos
       - Principal - especificación del algoritmo (árboles, número de atributos, penalización)
-      - Motor - Especificación del paquete/motor (e.g. verbose, num.threads, ...)
+      - Motor - especificación del paquete/motor (e.g. verbose, num.threads, ...)
   - __Comportamiento Predictivo__
     - `tibble` como entrada, `tibble` como salida
     - igual número de observaciones regresadas por `predict()`
@@ -325,12 +325,13 @@ ggplot2::ggplot(discrim::parabolic, ggplot2::aes(x = X1, y = X2)) +
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/")`
+`r knitr::include_url("https://www.youtube.com/embed/Yz5I0UqlqbE")`
 
 <details>
   <summary> Chat de la Reunión </summary>
   
 ```
-
+00:59:22	Esme:	https://www.statlearning.com/
+01:06:43	Roberto Villegas-Diaz:	https://docs.google.com/spreadsheets/d/1apDY5yyimVUwebhZvTwM3P7Pysa9ztZvj4EUF_KFVdw/edit#gid=0
 ```
 </details>
