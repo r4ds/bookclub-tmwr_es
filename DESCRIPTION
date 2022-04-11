@@ -58,6 +58,7 @@ Imports:
 Remotes: 
     hadley/emo,
     gadenbuie/tweetrmd,
+    tidymodels/discrim,
     tidymodels/embed,
     tidymodels/finetune,
     tidymodels/learntidymodels
