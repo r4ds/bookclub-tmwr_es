@@ -279,7 +279,7 @@ ames_test_small %>%
 ```{r adjacent-packages, warning=FALSE, message=FALSE}
 # devtools::install_github("tidymodels/discrim") # para instalar
 # cargar el paquete
-# library(discrim)
+library(discrim)
 
 # crear datos artificiales
 parabolic_grid <-
@@ -288,7 +288,7 @@ parabolic_grid <-
 
 # ajustar el modelo usando discrim
 fda_mod <-
-  discrim::discrim_flexible(num_terms = 3) %>% 
+  parsnip::discrim_flexible(num_terms = 3) %>% 
   parsnip::set_engine("earth") %>%
   parsnip::fit(class ~ ., data = discrim::parabolic)
 

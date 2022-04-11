@@ -228,7 +228,14 @@ tibble(col = 1:5, list_col = template_list)
 
 The following example shows how to use the `tidyverse` to read in data (with the `readr` package) and easily manipulate it (using the `dplyr` and `lubridate` packages). We will walk through these steps during our meeting.
 
-```{r read wrangle data, message = FALSE}
+```{r load_data, include = FALSE}
+library(tidyverse)
+library(lubridate)
+# saveRDS(all_stations, here::here("data", "02_all_stations.rds"))
+all_stations <- readRDS(here::here("data", "02_all_stations.rds"))
+```
+
+```{r read wrangle data, message = FALSE, eval = FALSE}
 library(tidyverse)
 library(lubridate)
 
