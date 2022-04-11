@@ -41,6 +41,7 @@ Imports:
     nycflights13,
     palmerpenguins,
     patchwork,
+    probably,
     ranger,
     remotes,
     rmarkdown,
@@ -53,13 +54,9 @@ Imports:
     tidytuesdayR,
     tufte,
     tweetrmd,
-    workflowsets,
-    probably
+    workflowsets
 Remotes: 
     hadley/emo,
     gadenbuie/tweetrmd,
-    tidymodels/discrim,
-    tidymodels/embed,
-    tidymodels/finetune,
     tidymodels/learntidymodels
 biocViews: mixOmics
