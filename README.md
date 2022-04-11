@@ -19,14 +19,18 @@ Si gustas presentar, por favor agrega tu nombre al lado del capítulo usando el 
 - 2022-02-15: Capítulo 2 - Una cartilla tidyverse: Armando Ocampo
 - 2022-02-22: Capítulo 3 - Una revisión de fundamentos de modelado en R: Esmeralda Cruz-Silva
 - 2022-03-01: Extra - Revisión de Tidyverse (`purrr`, `dplyr`, `magrittr`, etc.): [Roberto Villegas-Diaz](https://github.com/villegar)
+- 2022-03-08: Capítulo 4 - Datos sobre casas Ames: Diana García
+- 2022-03-15: Capítulo 5 - Gastando/usando nuestros datos: Armando Guzman
+- 2022-03-22: Extra - Fundamentos de Modelado en R4DS: Diana García
+- 2022-03-29: Extra - Construcción de Modelos en R4DS: Esmeralda Cruz-Silva
+- 2022-04-05: Capítulo 6 - Ajustando modelos con el paquete `parsnip`: [Roberto Villegas-Diaz](https://github.com/villegar)
 </details>
 
 **Reuniones futuras:**
 
-- 2022-03-08: Capítulo 4 - Datos sobre casas Ames: Diana García
-- 2022-03-15: Capítulo 5 - Gastando/usando nuestros datos: Armando Guzman
-- 2022-03-22: Capítulo 6 - Ingeniería de características usando el paquete `recipes`: PENDIENTE
-- 2022-04-05: Capítulo 7 - Ajustando models con el paquete `parsnip`: PENDIENTE
+- 2022-04-12: Un flujo de trabajo para modelos: Diana García
+- 2022-04-19: Capítulo 6 - Ingeniería de características usando el paquete `recipes`: PENDIENTE
+
 <hr>  
 
 ## Instrucciones sobre como presentar
@@ -46,4 +50,3 @@ Para presentar, sigue estas instrucciones:
 10. Abre un *pull request (PR)* para hacernos saber que hay cambios listos, para ser incorporados en el repositorio principal.
 
 Cuando tu *PR* sea incorporado en el repositorio principal, el sitio con las notas será automáticamente renderizado para incluir tus cambios en [el sitio](https://r4ds.github.io/bookclub-tmwr_es/).
-

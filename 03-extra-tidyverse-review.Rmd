@@ -566,3 +566,8 @@ Es incluso posible agregar una barrita de progreso con el paquete `progressr`
 ### Cohorte 1 {-}
 
 `r knitr::include_url("https://www.youtube.com/embed/UqQ_N6EkTbo")`
+
+<details>
+  <summary> Chat de la reunión </summary>
+
+</details>
