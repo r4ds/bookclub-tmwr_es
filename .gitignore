@@ -6,3 +6,8 @@
 _book
 _bookdown_files
 bookclub-tmwr_es.Rmd
+bookclub-tmwr.Rmd
+bookclub-tmwr_files
+bookclub-tmwr.html
+bookclub-tmwr.knit.md
+libs
