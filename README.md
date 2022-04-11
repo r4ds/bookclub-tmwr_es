@@ -30,6 +30,7 @@ Si gustas presentar, por favor agrega tu nombre al lado del capítulo usando el 
 
 - 2022-04-12: Un flujo de trabajo para modelos: Diana García
 - 2022-04-19: Capítulo 6 - Ingeniería de características usando el paquete `recipes`: PENDIENTE
+
 <hr>  
 
 ## Instrucciones sobre como presentar
@@ -49,4 +50,3 @@ Para presentar, sigue estas instrucciones:
 10. Abre un *pull request (PR)* para hacernos saber que hay cambios listos, para ser incorporados en el repositorio principal.
 
 Cuando tu *PR* sea incorporado en el repositorio principal, el sitio con las notas será automáticamente renderizado para incluir tus cambios en [el sitio](https://r4ds.github.io/bookclub-tmwr_es/).
-

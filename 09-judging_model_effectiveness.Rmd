@@ -228,79 +228,15 @@ best_models_binary %>%
 
 [Custom Metrics](https://yardstick.tidymodels.org/articles/custom-metrics.html)
 
-## Meeting Videos
 
-### Cohort 1
+## Videos de las reuniones
 
-`r knitr::include_url("https://www.youtube.com/embed/xvJRRmEG1yc")`
-
-<details>
-  <summary> Meeting chat log </summary>
-  
-```
-00:14:27	Jonathan Trattner:	Is there supposed to be sound?
-00:16:42	Jonathan Trattner:	I love how R’s parent S is up next
-00:24:03	Asmae Toumi:	Amazing
-00:24:49	Scott Nestler:	This whole chapter reminds me of a classic 2010 paper from my professor and friend Galit Shmueili, "To Explain or to Predict?"  https://projecteuclid.org/journals/statistical-science/volume-25/issue-3/To-Explain-or-to-Predict/10.1214/10-STS330.full
-00:25:48	Scott Nestler:	Correction … her last name is Shmueli (had an extra 'i' in there).
-00:26:08	Andy Farina:	This chapter reminded me of a quote I have heard numerous times from my advisor over the past few years…”All models are wrong, some are useful”
-00:26:24	Jon Harmon (jonthegeek):	Hehe, yup!
-00:28:11	Ben Gramza:	I seem to hear that George Box quote 10000000 times a year
-00:28:42	Conor Tompkins:	map() go brrrrr
-00:30:25	Conor Tompkins:	Would be cool to create a raster of the density of the points, and find the differences between models
-00:30:45	Jon Harmon (jonthegeek):	I'm a little skeptical, we'll have to dig into that code!
-00:31:30	Scott Nestler:	Something doesn't seem right.  Some of these metrics should *not* come up with the same results.
-00:35:49	Conor Tompkins:	Can you expect higher RMSE in general for higher priced homes? Ie $3 million. Is it better to use a percentage error term if that is the case?
-00:54:24	Jonathan Trattner:	Gotta head out now. Thanks Joe! Great job!
-00:58:20	Asmae Toumi:	Cool thanks
-00:59:54	Tyler Grant Smith:	like rock is correct pronunciation
-01:02:10	Scott Nestler:	A macro-average will compute the metric independently for each class and then take the average (hence treating all classes equally), whereas a micro-average will aggregate the contributions of all classes to compute the average metric.
-01:02:21	Scott Nestler:	The weighted macro computes them independently, but weights them by number of observations, rather than equally.  Usually better than regular macro when there are class imbalances.
-01:06:47	Andy Farina:	Excellent Joe, thank you!
-```
-</details>
-
-### Cohort 2
-
-`r knitr::include_url("https://www.youtube.com/embed/wVYp6PVJhqI")`
-
-<details>
-  <summary> Meeting chat log </summary>
-  
-```
-00:10:24	Amélie Gourdon-Kanhukamwe (she/they):	https://www.meetup.com/tech-ethics-bristol/
-00:11:52	Janita Botha:	it's a little small but ok
-00:12:34	Janita Botha:	that is perfect!
-00:27:39	Janita Botha:	sidewarren - but I really like the idea of a "stupid" model. What would be the equivalent in a classification model?
-00:28:45	rahul bahadur:	I think that would be simply assigning all predictions to one value out of the 2
-00:55:51	Janita Botha:	bye folks!
-```
-</details>
-
-
-### Cohort 3
-
-`r knitr::include_url("https://www.youtube.com/embed/jvN0YP37Xlg")`
-
-<details>
-  <summary> Meeting chat log </summary>
-  
-```
-00:13:11	Ildiko Czeller:	my connection is unstable, i am here but without video for now
-00:57:20	jiwan:	https://community.rstudio.com/t/predict-a-class-using-a-threshold-different-than-the-0-5-default-with-tidymodels/56273
-00:58:29	Toryn Schafer (she/her):	https://www.rdocumentation.org/packages/probably/versions/0.0.6/topics/make_class_pred
-00:59:06	Toryn Schafer (she/her):	https://cran.r-project.org/web/packages/probably/vignettes/where-to-use.html
-00:59:42	Ildiko Czeller:	https://probably.tidymodels.org/reference/append_class_pred.html
-01:01:41	Toryn Schafer (she/her):	https://adv-r.hadley.nz/fp.html
-```
-</details>
-
-### Cohort 4
+### Cohorte 1
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
 <details>
-  <summary> Meeting chat log </summary>
+  <summary> Chat de la reunión </summary>
   
 ```
 LOG

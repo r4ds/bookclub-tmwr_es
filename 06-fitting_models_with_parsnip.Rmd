@@ -321,15 +321,15 @@ ggplot2::ggplot(discrim::parabolic, ggplot2::aes(x = X1, y = X2)) +
     - `tibble` como entrada, `tibble` como salida
     - igual número de observaciones regresadas por `predict()`
 
-## Videos de las Reuniones
+## Videos de las reuniones
 
 ### Cohorte 1
 
 `r knitr::include_url("https://www.youtube.com/embed/Yz5I0UqlqbE")`
 
 <details>
-  <summary> Chat de la Reunión </summary>
-  
+  <summary> Chat de la reunión </summary>
+
 ```
 00:59:22	Esme:	https://www.statlearning.com/
 01:06:43	Roberto Villegas-Diaz:	https://docs.google.com/spreadsheets/d/1apDY5yyimVUwebhZvTwM3P7Pysa9ztZvj4EUF_KFVdw/edit#gid=0
