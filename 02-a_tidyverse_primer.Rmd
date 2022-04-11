@@ -231,7 +231,7 @@ The following example shows how to use the `tidyverse` to read in data (with the
 ```{r load_data, include = FALSE}
 library(tidyverse)
 library(lubridate)
-# saveRDS(all_stations, here::here("data", "02_all_stations.rds"))
+# saveRDS(head(all_stations, 10), here::here("data", "02_all_stations.rds"))
 all_stations <- readRDS(here::here("data", "02_all_stations.rds"))
 ```
 
