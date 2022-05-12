@@ -537,7 +537,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>usa un <code>data.frame</code></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="crear-un-modelo.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(formula, data, ...)</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="crear-un-modelo.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(formula, data, ...)</span></code></pre></div>
 <p><br></p>
 <ul>
 <li><strong>{glmnet}</strong>
@@ -546,7 +546,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>usa una matriz</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="crear-un-modelo.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glmnet</span>(<span class="at">x =</span> matrix, <span class="at">y =</span> vector, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, ...)</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="crear-un-modelo.html#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glmnet</span>(<span class="at">x =</span> matrix, <span class="at">y =</span> vector, <span class="at">family =</span> <span class="st">&quot;gaussian&quot;</span>, ...)</span></code></pre></div>
 <p><br>
 <br></p>
 </div>
@@ -583,12 +583,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li><strong>Trayendo todo junto</strong></li>
 </ul>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="crear-un-modelo.html#cb203-1" aria-hidden="true" tabindex="-1"></a>lm_model_spec <span class="ot">&lt;-</span> </span>
-<span id="cb203-2"><a href="crear-un-modelo.html#cb203-2" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> <span class="co"># especificar el modelo</span></span>
-<span id="cb203-3"><a href="crear-un-modelo.html#cb203-3" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">set_engine</span>(<span class="st">&quot;lm&quot;</span>) <span class="co"># especificar el motor</span></span>
-<span id="cb203-4"><a href="crear-un-modelo.html#cb203-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb203-5"><a href="crear-un-modelo.html#cb203-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb203-6"><a href="crear-un-modelo.html#cb203-6" aria-hidden="true" tabindex="-1"></a>lm_model_spec</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="crear-un-modelo.html#cb204-1" aria-hidden="true" tabindex="-1"></a>lm_model_spec <span class="ot">&lt;-</span> </span>
+<span id="cb204-2"><a href="crear-un-modelo.html#cb204-2" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> <span class="co"># especificar el modelo</span></span>
+<span id="cb204-3"><a href="crear-un-modelo.html#cb204-3" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">set_engine</span>(<span class="st">&quot;lm&quot;</span>) <span class="co"># especificar el motor</span></span>
+<span id="cb204-4"><a href="crear-un-modelo.html#cb204-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb204-5"><a href="crear-un-modelo.html#cb204-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb204-6"><a href="crear-un-modelo.html#cb204-6" aria-hidden="true" tabindex="-1"></a>lm_model_spec</span></code></pre></div>
 <pre><code>## Linear Regression Model Specification (regression)
 ## 
 ## Computational engine: lm</code></pre>
@@ -611,18 +611,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>retrasa la creación de <em>variables artificiales</em> y tiene una función de modelo subyacente</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="crear-un-modelo.html#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="co"># crear un ajuste de modelo usando una fórmula</span></span>
-<span id="cb205-2"><a href="crear-un-modelo.html#cb205-2" aria-hidden="true" tabindex="-1"></a>lm_form_fit <span class="ot">&lt;-</span> </span>
-<span id="cb205-3"><a href="crear-un-modelo.html#cb205-3" aria-hidden="true" tabindex="-1"></a>  lm_model_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb205-4"><a href="crear-un-modelo.html#cb205-4" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">fit</span>(Sale_Price <span class="sc">~</span> Longitude <span class="sc">+</span> Latitude, <span class="at">data =</span> ames_train)</span>
-<span id="cb205-5"><a href="crear-un-modelo.html#cb205-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb205-6"><a href="crear-un-modelo.html#cb205-6" aria-hidden="true" tabindex="-1"></a><span class="co"># crear un ajuste de modelo usando x/y</span></span>
-<span id="cb205-7"><a href="crear-un-modelo.html#cb205-7" aria-hidden="true" tabindex="-1"></a>lm_xy_fit <span class="ot">&lt;-</span> </span>
-<span id="cb205-8"><a href="crear-un-modelo.html#cb205-8" aria-hidden="true" tabindex="-1"></a>  lm_model_spec <span class="sc">%&gt;%</span> </span>
-<span id="cb205-9"><a href="crear-un-modelo.html#cb205-9" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">fit_xy</span>(</span>
-<span id="cb205-10"><a href="crear-un-modelo.html#cb205-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> ames_train <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Longitude, Latitude),</span>
-<span id="cb205-11"><a href="crear-un-modelo.html#cb205-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> ames_train <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">pull</span>(Sale_Price)</span>
-<span id="cb205-12"><a href="crear-un-modelo.html#cb205-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="crear-un-modelo.html#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="co"># crear un ajuste de modelo usando una fórmula</span></span>
+<span id="cb206-2"><a href="crear-un-modelo.html#cb206-2" aria-hidden="true" tabindex="-1"></a>lm_form_fit <span class="ot">&lt;-</span> </span>
+<span id="cb206-3"><a href="crear-un-modelo.html#cb206-3" aria-hidden="true" tabindex="-1"></a>  lm_model_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb206-4"><a href="crear-un-modelo.html#cb206-4" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">fit</span>(Sale_Price <span class="sc">~</span> Longitude <span class="sc">+</span> Latitude, <span class="at">data =</span> ames_train)</span>
+<span id="cb206-5"><a href="crear-un-modelo.html#cb206-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb206-6"><a href="crear-un-modelo.html#cb206-6" aria-hidden="true" tabindex="-1"></a><span class="co"># crear un ajuste de modelo usando x/y</span></span>
+<span id="cb206-7"><a href="crear-un-modelo.html#cb206-7" aria-hidden="true" tabindex="-1"></a>lm_xy_fit <span class="ot">&lt;-</span> </span>
+<span id="cb206-8"><a href="crear-un-modelo.html#cb206-8" aria-hidden="true" tabindex="-1"></a>  lm_model_spec <span class="sc">%&gt;%</span> </span>
+<span id="cb206-9"><a href="crear-un-modelo.html#cb206-9" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">fit_xy</span>(</span>
+<span id="cb206-10"><a href="crear-un-modelo.html#cb206-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> ames_train <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Longitude, Latitude),</span>
+<span id="cb206-11"><a href="crear-un-modelo.html#cb206-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> ames_train <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">pull</span>(Sale_Price)</span>
+<span id="cb206-12"><a href="crear-un-modelo.html#cb206-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <p><br>
 <br></p>
 </div>
@@ -699,20 +699,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>La función <code>translate()</code> provee el mapeo desde la interfaz de <code>{parsnip}</code> a cada uno de los paquetes de implementación de los algoritmos.
 <!-- the mapping from the parsnips interface to the each individual package's implementation of the algorithm. --></li>
 </ul>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="crear-un-modelo.html#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implementación de stats</span></span>
-<span id="cb206-2"><a href="crear-un-modelo.html#cb206-2" aria-hidden="true" tabindex="-1"></a>parsnip<span class="sc">::</span><span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb206-3"><a href="crear-un-modelo.html#cb206-3" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">set_engine</span>(<span class="st">&quot;lm&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb206-4"><a href="crear-un-modelo.html#cb206-4" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">translate</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="crear-un-modelo.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implementación de stats</span></span>
+<span id="cb207-2"><a href="crear-un-modelo.html#cb207-2" aria-hidden="true" tabindex="-1"></a>parsnip<span class="sc">::</span><span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb207-3"><a href="crear-un-modelo.html#cb207-3" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">set_engine</span>(<span class="st">&quot;lm&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb207-4"><a href="crear-un-modelo.html#cb207-4" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">translate</span>()</span></code></pre></div>
 <pre><code>## Linear Regression Model Specification (regression)
 ## 
 ## Computational engine: lm 
 ## 
 ## Model fit template:
 ## stats::lm(formula = missing_arg(), data = missing_arg(), weights = missing_arg())</code></pre>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="crear-un-modelo.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implementación de glmnet</span></span>
-<span id="cb208-2"><a href="crear-un-modelo.html#cb208-2" aria-hidden="true" tabindex="-1"></a>parsnip<span class="sc">::</span><span class="fu">linear_reg</span>(<span class="at">penalty =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb208-3"><a href="crear-un-modelo.html#cb208-3" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">set_engine</span>(<span class="st">&quot;glmnet&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb208-4"><a href="crear-un-modelo.html#cb208-4" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">translate</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="crear-un-modelo.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="co"># implementación de glmnet</span></span>
+<span id="cb209-2"><a href="crear-un-modelo.html#cb209-2" aria-hidden="true" tabindex="-1"></a>parsnip<span class="sc">::</span><span class="fu">linear_reg</span>(<span class="at">penalty =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb209-3"><a href="crear-un-modelo.html#cb209-3" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">set_engine</span>(<span class="st">&quot;glmnet&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb209-4"><a href="crear-un-modelo.html#cb209-4" aria-hidden="true" tabindex="-1"></a>  parsnip<span class="sc">::</span><span class="fu">translate</span>()</span></code></pre></div>
 <pre><code>## Linear Regression Model Specification (regression)
 ## 
 ## Main Arguments:

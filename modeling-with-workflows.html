@@ -510,25 +510,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="modeling-with-workflows" class="section level2 hasAnchor" number="7.3">
 <h2><span class="header-section-number">7.3</span> Modeling with workflows<a href="modeling-with-workflows.html#modeling-with-workflows" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="modeling-with-workflows.html#cb224-1" aria-hidden="true" tabindex="-1"></a>trees_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(trees_cleaned <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">diam =</span> <span class="fu">log10</span>(diam)), <span class="at">prop =</span> <span class="fl">0.8</span>)</span>
-<span id="cb224-2"><a href="modeling-with-workflows.html#cb224-2" aria-hidden="true" tabindex="-1"></a>trees_training <span class="ot">&lt;-</span> <span class="fu">training</span>(trees_split)</span>
-<span id="cb224-3"><a href="modeling-with-workflows.html#cb224-3" aria-hidden="true" tabindex="-1"></a>trees_testing <span class="ot">&lt;-</span> <span class="fu">testing</span>(trees_split)</span></code></pre></div>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="modeling-with-workflows.html#cb225-1" aria-hidden="true" tabindex="-1"></a>trees_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(trees_training, diam <span class="sc">~</span> .) <span class="sc">%&gt;%</span></span>
-<span id="cb225-2"><a href="modeling-with-workflows.html#cb225-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_role</span>(tree_id, address, <span class="at">new_role =</span> <span class="st">&quot;id&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb225-3"><a href="modeling-with-workflows.html#cb225-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_indicate_na</span>(date_planted) <span class="sc">%&gt;%</span></span>
-<span id="cb225-4"><a href="modeling-with-workflows.html#cb225-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># really dummy imputation</span></span>
-<span id="cb225-5"><a href="modeling-with-workflows.html#cb225-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_mutate</span>(<span class="at">date_planted =</span> <span class="fu">if_else</span>(<span class="sc">!</span><span class="fu">is.na</span>(date_planted), date_planted, <span class="fu">as.Date</span>(<span class="st">&#39;1950-01-01&#39;</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb225-6"><a href="modeling-with-workflows.html#cb225-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_other</span>(<span class="fu">all_nominal_predictors</span>(), <span class="at">threshold =</span> <span class="fl">0.01</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb225-7"><a href="modeling-with-workflows.html#cb225-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>())</span>
-<span id="cb225-8"><a href="modeling-with-workflows.html#cb225-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb225-9"><a href="modeling-with-workflows.html#cb225-9" aria-hidden="true" tabindex="-1"></a>linear_model_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> <span class="fu">set_engine</span>(<span class="st">&quot;lm&quot;</span>)</span>
-<span id="cb225-10"><a href="modeling-with-workflows.html#cb225-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb225-11"><a href="modeling-with-workflows.html#cb225-11" aria-hidden="true" tabindex="-1"></a>tree_workflow_lm <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb225-12"><a href="modeling-with-workflows.html#cb225-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(linear_model_spec) <span class="sc">%&gt;%</span></span>
-<span id="cb225-13"><a href="modeling-with-workflows.html#cb225-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(trees_recipe)</span></code></pre></div>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="modeling-with-workflows.html#cb226-1" aria-hidden="true" tabindex="-1"></a>fitted_workflow_lm <span class="ot">&lt;-</span> tree_workflow_lm <span class="sc">%&gt;%</span> <span class="fu">fit</span>(trees_training)</span>
-<span id="cb226-2"><a href="modeling-with-workflows.html#cb226-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb226-3"><a href="modeling-with-workflows.html#cb226-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(<span class="fu">extract_recipe</span>(fitted_workflow_lm), <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="modeling-with-workflows.html#cb225-1" aria-hidden="true" tabindex="-1"></a>trees_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(trees_cleaned <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">diam =</span> <span class="fu">log10</span>(diam)), <span class="at">prop =</span> <span class="fl">0.8</span>)</span>
+<span id="cb225-2"><a href="modeling-with-workflows.html#cb225-2" aria-hidden="true" tabindex="-1"></a>trees_training <span class="ot">&lt;-</span> <span class="fu">training</span>(trees_split)</span>
+<span id="cb225-3"><a href="modeling-with-workflows.html#cb225-3" aria-hidden="true" tabindex="-1"></a>trees_testing <span class="ot">&lt;-</span> <span class="fu">testing</span>(trees_split)</span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="modeling-with-workflows.html#cb226-1" aria-hidden="true" tabindex="-1"></a>trees_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(trees_training, diam <span class="sc">~</span> .) <span class="sc">%&gt;%</span></span>
+<span id="cb226-2"><a href="modeling-with-workflows.html#cb226-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_role</span>(tree_id, address, <span class="at">new_role =</span> <span class="st">&quot;id&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb226-3"><a href="modeling-with-workflows.html#cb226-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_indicate_na</span>(date_planted) <span class="sc">%&gt;%</span></span>
+<span id="cb226-4"><a href="modeling-with-workflows.html#cb226-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># really dummy imputation</span></span>
+<span id="cb226-5"><a href="modeling-with-workflows.html#cb226-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_mutate</span>(<span class="at">date_planted =</span> <span class="fu">if_else</span>(<span class="sc">!</span><span class="fu">is.na</span>(date_planted), date_planted, <span class="fu">as.Date</span>(<span class="st">&#39;1950-01-01&#39;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb226-6"><a href="modeling-with-workflows.html#cb226-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_other</span>(<span class="fu">all_nominal_predictors</span>(), <span class="at">threshold =</span> <span class="fl">0.01</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb226-7"><a href="modeling-with-workflows.html#cb226-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>())</span>
+<span id="cb226-8"><a href="modeling-with-workflows.html#cb226-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb226-9"><a href="modeling-with-workflows.html#cb226-9" aria-hidden="true" tabindex="-1"></a>linear_model_spec <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span> <span class="fu">set_engine</span>(<span class="st">&quot;lm&quot;</span>)</span>
+<span id="cb226-10"><a href="modeling-with-workflows.html#cb226-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb226-11"><a href="modeling-with-workflows.html#cb226-11" aria-hidden="true" tabindex="-1"></a>tree_workflow_lm <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb226-12"><a href="modeling-with-workflows.html#cb226-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(linear_model_spec) <span class="sc">%&gt;%</span></span>
+<span id="cb226-13"><a href="modeling-with-workflows.html#cb226-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(trees_recipe)</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="modeling-with-workflows.html#cb227-1" aria-hidden="true" tabindex="-1"></a>fitted_workflow_lm <span class="ot">&lt;-</span> tree_workflow_lm <span class="sc">%&gt;%</span> <span class="fu">fit</span>(trees_training)</span>
+<span id="cb227-2"><a href="modeling-with-workflows.html#cb227-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-3"><a href="modeling-with-workflows.html#cb227-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(<span class="fu">extract_recipe</span>(fitted_workflow_lm), <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 35 × 3
 ##    terms        retained                                                   id   
 ##    &lt;chr&gt;        &lt;chr&gt;                                                      &lt;chr&gt;
@@ -543,7 +543,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 species      Eriobotrya deflexa :: Bronze Loquat                        othe…
 ## 10 species      Ficus microcarpa nitida &#39;Green Gem&#39; :: Indian Laurel Fig … othe…
 ## # … with 25 more rows</code></pre>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="modeling-with-workflows.html#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(<span class="fu">extract_fit_parsnip</span>(fitted_workflow_lm))</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="modeling-with-workflows.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(<span class="fu">extract_fit_parsnip</span>(fitted_workflow_lm))</span></code></pre></div>
 <pre><code>## # A tibble: 41 × 5
 ##    term                                   estimate std.error statistic   p.value
 ##    &lt;chr&gt;                                     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
@@ -558,36 +558,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 legal_status_other                      6.61e-2   9.22e-3      7.16 7.88e- 13
 ## 10 species_Arbutus..Marina.....Hybrid.St… -3.67e-1   8.20e-3    -44.8  0        
 ## # … with 31 more rows</code></pre>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="modeling-with-workflows.html#cb230-1" aria-hidden="true" tabindex="-1"></a>trees_testing<span class="sc">$</span>pred_lm <span class="ot">&lt;-</span> <span class="fu">predict</span>(fitted_workflow_lm, trees_testing)<span class="sc">$</span>.pred</span>
-<span id="cb230-2"><a href="modeling-with-workflows.html#cb230-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb230-3"><a href="modeling-with-workflows.html#cb230-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(trees_testing, diam, pred_lm)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="modeling-with-workflows.html#cb231-1" aria-hidden="true" tabindex="-1"></a>trees_testing<span class="sc">$</span>pred_lm <span class="ot">&lt;-</span> <span class="fu">predict</span>(fitted_workflow_lm, trees_testing)<span class="sc">$</span>.pred</span>
+<span id="cb231-2"><a href="modeling-with-workflows.html#cb231-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb231-3"><a href="modeling-with-workflows.html#cb231-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(trees_testing, diam, pred_lm)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
 ## 1 rmse    standard       0.316</code></pre>
 <div id="different-model-same-recipe" class="section level3 hasAnchor" number="7.3.1">
 <h3><span class="header-section-number">7.3.1</span> Different model, same recipe<a href="modeling-with-workflows.html#different-model-same-recipe" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="modeling-with-workflows.html#cb232-1" aria-hidden="true" tabindex="-1"></a>rand_forest_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(</span>
-<span id="cb232-2"><a href="modeling-with-workflows.html#cb232-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">&#39;regression&#39;</span>,</span>
-<span id="cb232-3"><a href="modeling-with-workflows.html#cb232-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mtry =</span> <span class="dv">3</span>,</span>
-<span id="cb232-4"><a href="modeling-with-workflows.html#cb232-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">trees =</span> <span class="dv">50</span>,</span>
-<span id="cb232-5"><a href="modeling-with-workflows.html#cb232-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n =</span> <span class="dv">10</span></span>
-<span id="cb232-6"><a href="modeling-with-workflows.html#cb232-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb232-7"><a href="modeling-with-workflows.html#cb232-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">&#39;ranger&#39;</span>)</span>
-<span id="cb232-8"><a href="modeling-with-workflows.html#cb232-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb232-9"><a href="modeling-with-workflows.html#cb232-9" aria-hidden="true" tabindex="-1"></a>tree_workflow_rf <span class="ot">&lt;-</span> tree_workflow_lm <span class="sc">%&gt;%</span></span>
-<span id="cb232-10"><a href="modeling-with-workflows.html#cb232-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(rand_forest_spec)</span>
-<span id="cb232-11"><a href="modeling-with-workflows.html#cb232-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb232-12"><a href="modeling-with-workflows.html#cb232-12" aria-hidden="true" tabindex="-1"></a>fitted_workflow_rf <span class="ot">&lt;-</span> tree_workflow_rf <span class="sc">%&gt;%</span> <span class="fu">fit</span>(trees_training)</span>
-<span id="cb232-13"><a href="modeling-with-workflows.html#cb232-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb232-14"><a href="modeling-with-workflows.html#cb232-14" aria-hidden="true" tabindex="-1"></a>trees_testing<span class="sc">$</span>pred_rf <span class="ot">&lt;-</span> <span class="fu">predict</span>(fitted_workflow_rf, trees_testing)<span class="sc">$</span>.pred</span>
-<span id="cb232-15"><a href="modeling-with-workflows.html#cb232-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb232-16"><a href="modeling-with-workflows.html#cb232-16" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(trees_testing, diam, pred_lm)</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="modeling-with-workflows.html#cb233-1" aria-hidden="true" tabindex="-1"></a>rand_forest_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(</span>
+<span id="cb233-2"><a href="modeling-with-workflows.html#cb233-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">&#39;regression&#39;</span>,</span>
+<span id="cb233-3"><a href="modeling-with-workflows.html#cb233-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mtry =</span> <span class="dv">3</span>,</span>
+<span id="cb233-4"><a href="modeling-with-workflows.html#cb233-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">trees =</span> <span class="dv">50</span>,</span>
+<span id="cb233-5"><a href="modeling-with-workflows.html#cb233-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_n =</span> <span class="dv">10</span></span>
+<span id="cb233-6"><a href="modeling-with-workflows.html#cb233-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb233-7"><a href="modeling-with-workflows.html#cb233-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">&#39;ranger&#39;</span>)</span>
+<span id="cb233-8"><a href="modeling-with-workflows.html#cb233-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb233-9"><a href="modeling-with-workflows.html#cb233-9" aria-hidden="true" tabindex="-1"></a>tree_workflow_rf <span class="ot">&lt;-</span> tree_workflow_lm <span class="sc">%&gt;%</span></span>
+<span id="cb233-10"><a href="modeling-with-workflows.html#cb233-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update_model</span>(rand_forest_spec)</span>
+<span id="cb233-11"><a href="modeling-with-workflows.html#cb233-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb233-12"><a href="modeling-with-workflows.html#cb233-12" aria-hidden="true" tabindex="-1"></a>fitted_workflow_rf <span class="ot">&lt;-</span> tree_workflow_rf <span class="sc">%&gt;%</span> <span class="fu">fit</span>(trees_training)</span>
+<span id="cb233-13"><a href="modeling-with-workflows.html#cb233-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb233-14"><a href="modeling-with-workflows.html#cb233-14" aria-hidden="true" tabindex="-1"></a>trees_testing<span class="sc">$</span>pred_rf <span class="ot">&lt;-</span> <span class="fu">predict</span>(fitted_workflow_rf, trees_testing)<span class="sc">$</span>.pred</span>
+<span id="cb233-15"><a href="modeling-with-workflows.html#cb233-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb233-16"><a href="modeling-with-workflows.html#cb233-16" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(trees_testing, diam, pred_lm)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
 ## 1 rmse    standard       0.316</code></pre>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="modeling-with-workflows.html#cb234-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(trees_testing, diam, pred_rf)</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="modeling-with-workflows.html#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse</span>(trees_testing, diam, pred_rf)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   .metric .estimator .estimate
 ##   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
@@ -595,13 +595,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="same-model-different-preprocessing" class="section level3 hasAnchor" number="7.3.2">
 <h3><span class="header-section-number">7.3.2</span> Same model, different preprocessing<a href="modeling-with-workflows.html#same-model-different-preprocessing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="modeling-with-workflows.html#cb236-1" aria-hidden="true" tabindex="-1"></a>formula_predictions <span class="ot">&lt;-</span> tree_workflow_lm <span class="sc">%&gt;%</span></span>
-<span id="cb236-2"><a href="modeling-with-workflows.html#cb236-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">remove_recipe</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb236-3"><a href="modeling-with-workflows.html#cb236-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_formula</span>(diam <span class="sc">~</span> <span class="fu">is.na</span>(date_planted) <span class="sc">+</span> longitude) <span class="sc">%&gt;%</span></span>
-<span id="cb236-4"><a href="modeling-with-workflows.html#cb236-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(trees_training) <span class="sc">%&gt;%</span></span>
-<span id="cb236-5"><a href="modeling-with-workflows.html#cb236-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(trees_testing)</span>
-<span id="cb236-6"><a href="modeling-with-workflows.html#cb236-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb236-7"><a href="modeling-with-workflows.html#cb236-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse_vec</span>(trees_testing<span class="sc">$</span>diam, formula_predictions<span class="sc">$</span>.pred)</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="modeling-with-workflows.html#cb237-1" aria-hidden="true" tabindex="-1"></a>formula_predictions <span class="ot">&lt;-</span> tree_workflow_lm <span class="sc">%&gt;%</span></span>
+<span id="cb237-2"><a href="modeling-with-workflows.html#cb237-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">remove_recipe</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb237-3"><a href="modeling-with-workflows.html#cb237-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_formula</span>(diam <span class="sc">~</span> <span class="fu">is.na</span>(date_planted) <span class="sc">+</span> longitude) <span class="sc">%&gt;%</span></span>
+<span id="cb237-4"><a href="modeling-with-workflows.html#cb237-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(trees_training) <span class="sc">%&gt;%</span></span>
+<span id="cb237-5"><a href="modeling-with-workflows.html#cb237-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(trees_testing)</span>
+<span id="cb237-6"><a href="modeling-with-workflows.html#cb237-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb237-7"><a href="modeling-with-workflows.html#cb237-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rmse_vec</span>(trees_testing<span class="sc">$</span>diam, formula_predictions<span class="sc">$</span>.pred)</span></code></pre></div>
 <pre><code>## [1] 0.3574375</code></pre>
 </div>
 </div>

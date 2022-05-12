@@ -522,12 +522,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="haciendo-predicciones.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="co"># crear un ejemplo de set de prueba</span></span>
-<span id="cb212-2"><a href="haciendo-predicciones.html#cb212-2" aria-hidden="true" tabindex="-1"></a>ames_test_small <span class="ot">&lt;-</span> ames_test <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
-<span id="cb212-3"><a href="haciendo-predicciones.html#cb212-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb212-4"><a href="haciendo-predicciones.html#cb212-4" aria-hidden="true" tabindex="-1"></a><span class="co"># predecir con este set</span></span>
-<span id="cb212-5"><a href="haciendo-predicciones.html#cb212-5" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(lm_form_fit, <span class="at">new_data =</span> ames_test_small) <span class="sc">%&gt;%</span> </span>
-<span id="cb212-6"><a href="haciendo-predicciones.html#cb212-6" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="haciendo-predicciones.html#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="co"># crear un ejemplo de set de prueba</span></span>
+<span id="cb213-2"><a href="haciendo-predicciones.html#cb213-2" aria-hidden="true" tabindex="-1"></a>ames_test_small <span class="ot">&lt;-</span> ames_test <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb213-3"><a href="haciendo-predicciones.html#cb213-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb213-4"><a href="haciendo-predicciones.html#cb213-4" aria-hidden="true" tabindex="-1"></a><span class="co"># predecir con este set</span></span>
+<span id="cb213-5"><a href="haciendo-predicciones.html#cb213-5" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(lm_form_fit, <span class="at">new_data =</span> ames_test_small) <span class="sc">%&gt;%</span> </span>
+<span id="cb213-6"><a href="haciendo-predicciones.html#cb213-6" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -556,13 +556,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>Usando <code>dplyr::bind_cols</code> podemos combinar los resultados del método <code>predict()</code> con el set de prueba.</li>
 </ul>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="haciendo-predicciones.html#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="co"># agregar predicciones con valores observados</span></span>
-<span id="cb213-2"><a href="haciendo-predicciones.html#cb213-2" aria-hidden="true" tabindex="-1"></a>ames_test_small <span class="sc">%&gt;%</span></span>
-<span id="cb213-3"><a href="haciendo-predicciones.html#cb213-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Sale_Price) <span class="sc">%&gt;%</span></span>
-<span id="cb213-4"><a href="haciendo-predicciones.html#cb213-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_cols</span>(<span class="fu">predict</span>(lm_form_fit, ames_test_small)) <span class="sc">%&gt;%</span></span>
-<span id="cb213-5"><a href="haciendo-predicciones.html#cb213-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Agregar el intervalo de confidencia para el 95%:</span></span>
-<span id="cb213-6"><a href="haciendo-predicciones.html#cb213-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_cols</span>(<span class="fu">predict</span>(lm_form_fit, ames_test_small, <span class="at">type =</span> <span class="st">&quot;pred_int&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb213-7"><a href="haciendo-predicciones.html#cb213-7" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="haciendo-predicciones.html#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="co"># agregar predicciones con valores observados</span></span>
+<span id="cb214-2"><a href="haciendo-predicciones.html#cb214-2" aria-hidden="true" tabindex="-1"></a>ames_test_small <span class="sc">%&gt;%</span></span>
+<span id="cb214-3"><a href="haciendo-predicciones.html#cb214-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Sale_Price) <span class="sc">%&gt;%</span></span>
+<span id="cb214-4"><a href="haciendo-predicciones.html#cb214-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_cols</span>(<span class="fu">predict</span>(lm_form_fit, ames_test_small)) <span class="sc">%&gt;%</span></span>
+<span id="cb214-5"><a href="haciendo-predicciones.html#cb214-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Agregar el intervalo de confidencia para el 95%:</span></span>
+<span id="cb214-6"><a href="haciendo-predicciones.html#cb214-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">bind_cols</span>(<span class="fu">predict</span>(lm_form_fit, ames_test_small, <span class="at">type =</span> <span class="st">&quot;pred_int&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb214-7"><a href="haciendo-predicciones.html#cb214-7" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">

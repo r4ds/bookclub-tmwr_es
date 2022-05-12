@@ -514,8 +514,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li><code>tidy()</code> - Es muy versátil, aunque en nuestro contexto, solo va tomar nuestro objeto con el modelo y retornar los coeficientes de este en una <code>tibble</code>.</li>
 </ul>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="usar-los-resultados-del-modelo.html#cb210-1" aria-hidden="true" tabindex="-1"></a>broom<span class="sc">::</span><span class="fu">tidy</span>(lm_form_fit) <span class="sc">%&gt;%</span> </span>
-<span id="cb210-2"><a href="usar-los-resultados-del-modelo.html#cb210-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="usar-los-resultados-del-modelo.html#cb211-1" aria-hidden="true" tabindex="-1"></a>broom<span class="sc">::</span><span class="fu">tidy</span>(lm_form_fit) <span class="sc">%&gt;%</span> </span>
+<span id="cb211-2"><a href="usar-los-resultados-del-modelo.html#cb211-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -554,8 +554,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li><code>glance()</code> - nos permite convertir el resumen de nuestro modelo en una <code>tibble</code></li>
 </ul>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="usar-los-resultados-del-modelo.html#cb211-1" aria-hidden="true" tabindex="-1"></a>broom<span class="sc">::</span><span class="fu">glance</span>(lm_form_fit) <span class="sc">%&gt;%</span> </span>
-<span id="cb211-2"><a href="usar-los-resultados-del-modelo.html#cb211-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="usar-los-resultados-del-modelo.html#cb212-1" aria-hidden="true" tabindex="-1"></a>broom<span class="sc">::</span><span class="fu">glance</span>(lm_form_fit) <span class="sc">%&gt;%</span> </span>
+<span id="cb212-2"><a href="usar-los-resultados-del-modelo.html#cb212-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <colgroup>
 <col width="9%" />
