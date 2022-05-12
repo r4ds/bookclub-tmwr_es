@@ -202,12 +202,12 @@ tree_predictions %>%
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/SjkEViXZIh8")`
 
 <details>
   <summary> Chat de la reunión </summary>
   
 ```
-LOG
+00:51:36	Esme:	https://github.com/tidymodels/recipes/issues/543
 ```
 </details>

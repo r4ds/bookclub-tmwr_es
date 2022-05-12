@@ -228,12 +228,25 @@ We will learn more about how to remedy certain issues such as class imbalance, b
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/_E_5pBFtSJk")`
 
 <details>
   <summary> Chat de la reunión </summary>
   
 ```
-LOG
+00:46:44	Esmeralda:	Libro: https://www.tmwr.org
+00:46:58	Esmeralda:	Website (notas sobre el libro): https://r4ds.github.io/bookclub-tmwr_es/
+```
+</details>
+
+`r knitr::include_url("https://www.youtube.com/embed/0FFbfC1t0RE")`
+
+`r knitr::include_url("https://www.youtube.com/embed/bwx4AILEEaM")`
+
+<details>
+  <summary> Chat de la reunión </summary>
+  
+```
+00:05:00	Esme:	I had forgotten that this week we in UK are an hour ahead Mexico time due to the time change.
 ```
 </details>
