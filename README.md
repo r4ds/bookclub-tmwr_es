@@ -3,33 +3,15 @@
 ¡Bienvenidxs al Club de Lectura de R4DS Modelado Tidy con R!
 
 Estamos leyendo juntos el libro [Modelado Tidy con R](https://www.tmwr.org/) por Max Kuhn y Julia Silge.
-Únete al canal `#book_club-tidy_modeling_with_r` en el [Slack de R4DS](https://r4ds.io/join) para participar.
+Únete al canal [#book_club-tmwr](https://rfordatascience.slack.com/archives/C01H9SLA48M) en el [Slack de R4DS](https://r4ds.io/join) para participar.
 En paralelo a la lectura del libro, estamos produciendo [notas sobre el libro](https://r4ds.github.io/bookclub-tmwr_es/).
 
 ## Horario de reuniones
 
-Si gustas presentar, por favor agrega tu nombre al lado del capítulo usando el [Editor Web de GitHub](https://youtu.be/d41oc2OMAuI) (guía en inglés).
+Si gustas presentar, por favor revisa la hoja electrónica correspondiente a tu cohorte (enlaces en la siguiente sección, y en el canal de Slack [#book_club-tmwr](https://rfordatascience.slack.com/archives/C01H9SLA48M))!
 
-*Cohorte 1: Martes, 4:00pm CST/CDT (GMT-6)*
+- [Cohorte 1](https://docs.google.com/spreadsheets/d/1apDY5yyimVUwebhZvTwM3P7Pysa9ztZvj4EUF_KFVdw/edit#gid=0) (empezó el 2022-02-08): [Martes, 4:00pm CST/CDT (GMT-6/5)](https://www.timeanddate.com/worldclock/converter.html?iso=20220531T210000&p1=24) | [Grabaciones de reuniones previas](https://www.youtube.com/playlist?list=PL3x6DOfs2NGhd1Gli-IANpVZ9z6Zz5AAu)
 
-<details>
-  <summary> Reuniones pasadas </summary>
-- 2022-02-01: Bienvenida - Esmeralda Cruz-Silva y [Roberto Villegas-Diaz](https://github.com/villegar)
-- 2022-02-08: Capítulo 1 - Software para modelado: [Roberto Villegas-Diaz](https://github.com/villegar)
-- 2022-02-15: Capítulo 2 - Una cartilla tidyverse: Armando Ocampo
-- 2022-02-22: Capítulo 3 - Una revisión de fundamentos de modelado en R: Esmeralda Cruz-Silva
-- 2022-03-01: Extra - Revisión de Tidyverse (`purrr`, `dplyr`, `magrittr`, etc.): [Roberto Villegas-Diaz](https://github.com/villegar)
-- 2022-03-08: Capítulo 4 - Datos sobre casas Ames: Diana García
-- 2022-03-15: Capítulo 5 - Gastando/usando nuestros datos: Armando Guzman
-- 2022-03-22: Extra - Fundamentos de Modelado en R4DS: Diana García
-- 2022-03-29: Extra - Construcción de Modelos en R4DS: Esmeralda Cruz-Silva
-- 2022-04-05: Capítulo 6 - Ajustando modelos con el paquete `parsnip`: [Roberto Villegas-Diaz](https://github.com/villegar)
-</details>
-
-**Reuniones futuras:**
-
-- 2022-04-12: Un flujo de trabajo para modelos: Diana García
-- 2022-04-19: Capítulo 6 - Ingeniería de características usando el paquete `recipes`: PENDIENTE
 
 <hr>  
 

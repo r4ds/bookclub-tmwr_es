@@ -233,12 +233,13 @@ best_models_binary %>%
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/G70IA1Ah42w")`
 
 <details>
   <summary> Chat de la reunión </summary>
   
 ```
-LOG
+00:26:11	Esme:	https://datasciencebook.ca/regression1.html#multivariable-knn-regression
+00:27:46	Diana García:	https://inria.github.io/scikit-learn-mooc/python_scripts/metrics_classification.html
 ```
 </details>
