@@ -20,28 +20,28 @@ Si gustas presentar, por favor revisa la hoja electrónica correspondiente a tu 
 Este repositorio está estructurado como un sitio [{bookdown}](https://CRAN.R-project.org/package=bookdown).
 Para presentar, sigue estas instrucciones:
 
-Do these steps once:
+**Configuración inicial (solo debe hacerse una vez):**
 
-1. [Setup Github Locally](https://www.youtube.com/watch?v=hNUNPkoledI) (also see [_Happy Git and GitHub for the useR_](https://happygitwithr.com/github-acct.html))
-2. Install {usethis} and {devtools} `install.packages(c("usethis", "devtools"))`
-3. Set up a default {usethis} directory:
-  - `usethis::edit_r_profile()` to open your profile for editing.
-  - Add this line: `options(usethis.destdir = "YOURDIR")` (replace `YOURDIR` with the root directory under which you want your R projects to appear; or you can skip these steps, and the project will be saved to your Desktop).
-  - Restart your R session (Session/Restart R in Rstudio).
-4. `usethis::create_from_github("r4ds/bookclub-tmwr_es")` (cleanly creates your own copy of this repository).
+1. [Configura Github localmente (en inglés)](https://www.youtube.com/watch?v=hNUNPkoledI) (también revisa el libro [Happy Git and GitHub for the useR](https://happygitwithr.com/github-acct.html))
+2. Instala `{usethis}` y `{devtools}`, puedes hacer esto con el comando `install.packages(c("usethis", "devtools"))`
+3. Configura un directorio por defecto para `{usethis}`:
+  - Ejecuta `usethis::edit_r_profile()` para editar el archivo de configuración de tu perfil en RStudio.
+  - Agrega la siguiente línea: `options(usethis.destdir = "TU_DIRECTORIO")` (reemplaza `TU_DIRECTORIO` con el directorio en el que quieres que tus proyectos de R sean guardados; alternativamente, puedes ignorar estos pasos y tus proyectos de R serán guardados en el Escritorio).
+  - Reinicia tu sesión de R (`Session > Restart R` en Rstudio).
+4. Ejecuta `usethis::create_from_github("r4ds/bookclub-tmwr_es")` (crea una nueva copia de este repositorio).
 
-Do these steps each time you present another chapter:
+**Agregar un nuevo capítulo (sigue estos pasas cada vez):**
 
-1. Open your project for this book.
-2. `usethis::pr_init("my-chapter")` (creates a branch for your work, to avoid confusion, making sure that you have the latest changes from other contributors; replace `my-chapter` with a descriptive name, ideally).
-3. `devtools::install_dev_deps()` (installs any packages used by the book that you don't already have installed).
-4. Edit the appropriate chapter file, if necessary. Use `##` to indicate new slides (new sections).
-5. If you use any packages that are not already in the `DESCRIPTION`, add them. You can use `usethis::use_package("myCoolPackage")` to add them quickly!
-6. Build the book! ctrl-shift-b (or command-shift-b) will render the full book, or ctrl-shift-k (command-shift-k) to render just your slide. Please do this to make sure it works before you push your changes up to the main repo!
-7. Commit your changes (either through the command line or using Rstudio's Git tab).
-8. `usethis::pr_push()` (pushes the changes up to github, and opens a "pull request" (PR) to let us know your work is ready).
-9. (If we request changes, make them)
-10. When your PR has been accepted ("merged"), `usethis::pr_finish()` to close out your branch and prepare your local repository for future work.
-11. Now that your local copy is up-to-date with the main repo, you need to update your remote fork. Run `gert::git_push()` or click the `Push` button on the `Git` tab of Rstudio.
+1. Abre tu proyecto de R para este libro (archivo `.Rproj`).
+2. Ejecuta `usethis::pr_init("mi-capítulo")` (crea una nueva "rama" para tu trabajo, para evitar conflictos, esto garantiza que tú tienes la última versión de los cambios hechos por otros autores/contribuyentes; reemplaza `mi-capítulo` por un nombre descriptivo, idealmente).
+3. Ejecuta `devtools::install_dev_deps()` (instala los paquetes usados por este libro que tú no tengas instalados localmente).
+4. Edita el archivo correspondiente al nuevo capítulo, de ser necesario. Use `##` para crear una nueva "filmina/transparencia/diapositiva" (*slide* en inglés), para separ los contenidos en secciones.
+5. Si utilizas algún paquete que no este listado en el archivo `DESCRIPTION`, agregalos. Por ejemplo, si usas un paquete llamado `mi-paquete-super-genial`, ejecuta el siguiente comando para agregarlo al archo `DESCRIPTION`, `usethis::use_package("mi-paquete-super-genial")`.
+6. Construye/renderiza el libro. Para esto puedes usar la combinación de teclas: `ctrl-shift-b` (o `command-shift-b`), estos renderizaran una nueva versión del libro en su totalida. Alternativamente, puedes usar `ctrl-shift-k` (o `command-shift-k`) para renderizar solo tus "filminas/transparencias/diapositivas". Por favor, asegurate de seguir estos pasos antes de enviar los cambios al repositorio principal, esto garantizará que tus cambios tienen el formato correcto.
+7. Envía tus cambios (puede ser unsando la línea de comandos o el menú de Git en RStudio).
+8. Ejecuta `usethis::pr_push()` (empuja los cambios a el repositorio de GitHub y abre un *pull request* (PR), para hacernos saber que tu trabajo está listo).
+9. (Si te solicitamos cambios, por favor hazlos)
+10. Cuando tu PR sea aceptado ("combinado"), ejecuta `usethis::pr_finish()` para "cerrar" la "rama" en la que trabajaste los cambios y preparar tu repositorio local para cambios futuros.
+11. Ahora que tu copia local está actualizada con el repositorio principal, tienes que actulizar to copia (*fork*) remota. Ejecuta `gert::git_push()` o da click en el botón `Push` del menú Git en RStudio.
 
 Cuando tu *PR* sea incorporado en el repositorio principal, el sitio con las notas será automáticamente renderizado para incluir tus cambios en [el sitio](https://r4ds.github.io/bookclub-tmwr_es/).
