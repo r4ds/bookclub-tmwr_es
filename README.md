@@ -42,6 +42,6 @@ Para presentar, sigue estas instrucciones:
 8. Ejecuta `usethis::pr_push()` (empuja los cambios a el repositorio de GitHub y abre un *pull request* (PR), para hacernos saber que tu trabajo está listo).
 9. (Si te solicitamos cambios, por favor hazlos)
 10. Cuando tu PR sea aceptado ("combinado"), ejecuta `usethis::pr_finish()` para "cerrar" la "rama" en la que trabajaste los cambios y preparar tu repositorio local para cambios futuros.
-11. Ahora que tu copia local está actualizada con el repositorio principal, tienes que actulizar to copia (*fork*) remota. Ejecuta `gert::git_push()` o da click en el botón `Push` del menú Git en RStudio.
+11. Ahora que tu copia local está actualizada con el repositorio principal, tienes que actulizar to copia (*fork*) remota. Ejecuta `gert::git_push("origin")` o da click en el botón `Push` del menú Git en RStudio.
 
 Cuando tu *PR* sea incorporado en el repositorio principal, el sitio con las notas será automáticamente renderizado para incluir tus cambios en [el sitio](https://r4ds.github.io/bookclub-tmwr_es/).
