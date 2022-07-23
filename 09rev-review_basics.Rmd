@@ -7,12 +7,14 @@ For this week, Cohort 1 met with the authors, Max Kuhn and Julia Silge!
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/OgnKy6GT6po")`
+
+`r knitr::include_url("https://www.youtube.com/embed/gp7wDqBI9bk")`
 
 <details>
   <summary> Chat de la reunión </summary>
   
 ```
-LOG
+00:50:52	Diana García:	https://ddiannae.shinyapps.io/calidad-agua/
 ```
 </details>
