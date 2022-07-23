@@ -110,12 +110,13 @@ summary(rqs_diff, size = 0.02) %>% # 0.02 is our practical effect size.
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/m2oUyQKryMQ")`
 
 <details>
   <summary> Chat de la reunión </summary>
   
 ```
-LOG
+00:15:47	Diana García:	https://towardsdatascience.com/numerical-interpolation-natural-cubic-spline-52c1157b98ac
+00:59:17	Roberto Villegas-Diaz:	https://www.bayesrulesbook.com
 ```
 </details>

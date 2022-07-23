@@ -360,12 +360,4 @@ where they save the model results.
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
-
-<details>
-  <summary> Chat de la reunión </summary>
-  
-```
-LOG
-```
-</details>
+`r knitr::include_url("https://www.youtube.com/embed/PXfyj9cB7U4")`
