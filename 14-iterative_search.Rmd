@@ -20,6 +20,7 @@ library(palmerpenguins)
 library(patchwork)
 library(finetune)
 tidymodels_prefer()
+conflicted::conflict_prefer("penguins", "palmerpenguins", quiet = TRUE)
 ```
 ```{r 14-data-setup}
 penguins_df <- penguins %>%

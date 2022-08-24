@@ -29,6 +29,7 @@ We'll use the `trees` data set provided in `{modeldata}` (loaded with `{tidymode
 ```{r library-theme-03}
 library(tidyverse)
 library(tidymodels)
+tidymodels_prefer()
 theme_set(theme_minimal(base_size = 14))
 ```
 
