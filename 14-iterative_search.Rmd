@@ -19,6 +19,7 @@ library(tidymodels)
 library(palmerpenguins)
 library(patchwork)
 library(finetune)
+tidymodels_prefer()
 ```
 ```{r 14-data-setup}
 penguins_df <- penguins %>%
