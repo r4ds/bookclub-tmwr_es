@@ -708,12 +708,19 @@ Grid search is computationally expensive, but thoughtful choices in the experime
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/FZkIJ_a_Z5s")`
+`r knitr::include_url("https://www.youtube.com/embed/EbKYrLX0iug")`
 
 <details>
-  <summary> Chat de la reunión </summary>
-  
+<summary> Chat de la reunión </summary>
 ```
-LOG
+00:09:17	Diana García:	https://bookdown.org/ddiannae/curso-rdata/
+```
+</details>
+
+<details>
+<summary> Chat de la reunión </summary>
+```
+00:09:22	Roberto Villegas-Diaz:	Quizás es la misma definición que los niveles en un factor, es decir, el número de niveles es el número de valores únicos para ser usados como posible candidatos.
 ```
 </details>

@@ -481,12 +481,11 @@ p_preds
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/g3DtwvQ9VvM")`
 
 <details>
-  <summary> Chat de la reunión </summary>
-  
+<summary> Chat de la reunión </summary>
 ```
-LOG
+00:42:07	Roberto Villegas-Diaz:	https://juliasilge.com/blog/palmer-penguins/
 ```
 </details>

@@ -314,12 +314,5 @@ The key components are `bootstraps()` and `mutate + map` which give you quite a 
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
-
-<details>
-  <summary> Chat de la reunión </summary>
-  
-```
-LOG
-```
-</details>
+`r knitr::include_url("https://www.youtube.com/embed/duAcf52LlVU")`
+`r knitr::include_url("https://www.youtube.com/embed/ofJuQ2jsY88")`

@@ -339,12 +339,11 @@ Voilààà!
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/QHOw-Mnj_Vo")`
 
 <details>
-  <summary> Chat de la reunión </summary>
-  
+<summary> Chat de la reunión </summary>
 ```
-LOG
+00:59:59	Diana García-Cortés:	https://juliasilge.com/blog/palmer-penguins/
 ```
 </details>

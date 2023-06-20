@@ -309,11 +309,10 @@ The parameter object we just explored knows the range of the parameters. the `{d
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/FXE2bfWFx7I")`
 
 <details>
-  <summary> Chat de la reunión </summary>
-  
+<summary> Chat de la reunión </summary>
 ```
 LOG
 ```

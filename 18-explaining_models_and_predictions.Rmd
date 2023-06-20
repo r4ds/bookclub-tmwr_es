@@ -168,11 +168,10 @@ dev.off()
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/LnJRJmM50_g")`
 
 <details>
-  <summary> Chat de la reunión </summary>
-  
+<summary> Chat de la reunión </summary>
 ```
 LOG
 ```

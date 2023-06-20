@@ -114,7 +114,6 @@ summary(rqs_diff, size = 0.02) %>% # 0.02 is our practical effect size.
 
 <details>
   <summary> Chat de la reunión </summary>
-  
 ```
 00:15:47	Diana García:	https://towardsdatascience.com/numerical-interpolation-natural-cubic-spline-52c1157b98ac
 00:59:17	Roberto Villegas-Diaz:	https://www.bayesrulesbook.com

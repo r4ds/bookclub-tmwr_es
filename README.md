@@ -10,7 +10,7 @@ En paralelo a la lectura del libro, estamos produciendo [notas sobre el libro](h
 
 Si gustas presentar, por favor revisa la hoja electrónica correspondiente a tu cohorte (enlaces en la siguiente sección, y en el canal de Slack [#book_club-tmwr](https://rfordatascience.slack.com/archives/C01H9SLA48M))!
 
-- [Cohorte 1](https://docs.google.com/spreadsheets/d/1apDY5yyimVUwebhZvTwM3P7Pysa9ztZvj4EUF_KFVdw/edit#gid=0) (empezó el 2022-02-08): [Martes, 4:00pm CST/CDT (GMT-6/5)](https://www.timeanddate.com/worldclock/converter.html?iso=20220531T210000&p1=24) | [Grabaciones de reuniones previas](https://www.youtube.com/playlist?list=PL3x6DOfs2NGhd1Gli-IANpVZ9z6Zz5AAu)
+- Cohorte 1 (empezó el 2022-02-08, terminó el 2023-03-07): [Grabaciones de reuniones previas](https://www.youtube.com/playlist?list=PL3x6DOfs2NGhd1Gli-IANpVZ9z6Zz5AAu)
 
 
 <hr>  
