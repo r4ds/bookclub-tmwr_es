@@ -71,7 +71,7 @@ The argument **trace = 0** prevents extra logging of the training process. The `
 
 ```{r 13_mlp_param_hidden_units}
 mlp_param <- parameters(mlp_spec)
-mlp_param %>% pull_dials_object("hidden_units")
+mlp_param %>% extract_parameter_dials("hidden_units")
 ```
 
 ```{r 13_mlp_param_penalty}

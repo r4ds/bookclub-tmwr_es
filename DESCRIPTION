@@ -54,7 +54,8 @@ Imports:
     tidyverse,
     tidytuesdayR,
     tufte,
-    workflowsets
+    workflowsets,
+    hardhat
 Remotes: 
     hadley/emo,
     tidymodels/learntidymodels

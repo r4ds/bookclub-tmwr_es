@@ -79,7 +79,7 @@ glmnet_workflow %>%
   parameters()
 
 glmnet_workflow %>% 
-  pull_dials_object("mixture")
+  extract_parameter_dials("mixture")
 
 bo_tuned <- glmnet_workflow %>% 
   tune_bayes(
