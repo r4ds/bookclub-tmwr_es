@@ -54,10 +54,8 @@ Imports:
     tidyverse,
     tidytuesdayR,
     tufte,
-    tweetrmd,
     workflowsets
 Remotes: 
     hadley/emo,
-    gadenbuie/tweetrmd,
     tidymodels/learntidymodels
 biocViews: mixOmics

@@ -188,14 +188,7 @@ For other task it might be more suitable to split along measurement id and all c
 
 ## What proportion should be used?
 
-```{r tweetrmd, include = F}
-library(tweetrmd)
-```
-
-```{r split-size-tweet, echo = F}
-include_tweet("https://twitter.com/asmae_toumi/status/1356024351720689669?s=20")
-```
-
+https://twitter.com/asmae_toumi/status/1356024351720689669?s=20
 
 ![](images/provocative_8020.jpg)
 
