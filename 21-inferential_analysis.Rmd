@@ -31,7 +31,7 @@ best_results <- ranking %>%
   select(-top_10)
 
 race_top_results <- race %>%
-  filter(participation == "solo" || participation == "Solo") %>%
+  filter(participation == "solo" | participation == "Solo") %>%
   inner_join(best_results, by = "race_year_id") %>%
   mutate(avg_elevation_gain = elevation_gain / distance, avg_velocity = distance / time_in_seconds * 3600) %>%
   filter(distance > 0)
