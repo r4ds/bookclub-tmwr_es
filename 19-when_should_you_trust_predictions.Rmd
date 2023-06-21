@@ -430,12 +430,11 @@ score(
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/KtqSS9GixTs")`
 
 <details>
-  <summary> Chat de la reunión </summary>
-  
+<summary> Chat de la reunión </summary>
 ```
-LOG
+00:39:12	Diana Garcia:	sorry es que mi mamá está hablando. Sería para ver si hay un conjunto de datos, como muy alejado del training set para el cual funcione mal el modelo?
 ```
 </details>

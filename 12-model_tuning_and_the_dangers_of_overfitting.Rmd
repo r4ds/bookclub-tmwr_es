@@ -296,8 +296,8 @@ updated_params
 
 With the `finalize()` function, mtry was completed based on the number of predictors in the training dataset
 
-```{r pull_dials_object-12, echo = TRUE}
-updated_params %>% pull_dials_object("mtry")
+```{r extract_parameter_dials-12, echo = TRUE}
+updated_params %>% extract_parameter_dials("mtry")
 ```
 
 ## What is next?
@@ -309,11 +309,10 @@ The parameter object we just explored knows the range of the parameters. the `{d
 
 ### Cohorte 1
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/FXE2bfWFx7I")`
 
 <details>
-  <summary> Chat de la reunión </summary>
-  
+<summary> Chat de la reunión </summary>
 ```
 LOG
 ```
