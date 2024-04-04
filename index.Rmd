@@ -1,6 +1,6 @@
 --- 
 title: "Modelado Tidy con R - Club de Lectura"
-author: "La Comunidad de Aprendizaje en línea R4DS"
+author: "Data Science Learning Community"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -8,17 +8,17 @@ bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
 github-repo: r4ds/bookclub-tmwr_es
-description: "Este es el producto del Club de Lectura - Modelado Tidy con R de la Comunidad de Aprendizaje en línea R4DS."
+description: "Este es el producto del Club de Lectura - Modelado Tidy con R de Data Science Learning Community."
 ---
 
 # Bienvenida {-}
 
 Este es un suplemento para el libro [Modelado Tidy con R](https://www.tmwr.org/) por Max Kuhn y Julia Silge.
-Este suplemento está disponible en [r4ds.io/tmwr_es](https://r4ds.io/tmwr_es).
+Este suplemento está disponible en [dslc.io/tmwr_es](https://dslc.io/tmwr_es).
 
-Este sitio es mantenido por la [Comunidad de Aprendizaje en línea R4DS](https://rfordatasci.com). Sigue y [únete a la comunidad](https://r4ds.io/join) para participar.
+Este sitio es mantenido por la [Data Science Learning Community](https://dslc.io). Sigue y [únete a la comunidad](https://dslc.io/join) para participar.
 
-Este suplemento sigue el [código de conducta de la Comunidad de Aprendizaje en línea R4DS](https://r4ds.io/conduct).
+Este suplemento sigue el [código de conducta de Data Science Learning Community](https://dslc.io/conduct).
 
 ## Reuniones del club de lectura {-}
 
@@ -26,4 +26,4 @@ Este suplemento sigue el [código de conducta de la Comunidad de Aprendizaje en 
   - **Esta es la mejor manera de aprender los contenidos.**
 - Las presentaciones usualmente consisten de una revisión de los contenidos, una discusión y/o una demostración de los conceptos presentados en el capítulo.
 - Detalles adicionales sobre como presentar, pueden ser encontrados en el [repositorio de GitHub](https://github.com/r4ds/bookclub-tmwr).
-- Las presentaciones serán grabadas y estarán disponibles en el [canal de YouTube de la Comunidad de Aprendizaje en línea R4DS](https://r4ds.io/youtube).
+- Las presentaciones serán grabadas y estarán disponibles en el [canal de YouTube de la Data Science Learning Community](https://dslc.io/youtube).

@@ -1,14 +1,14 @@
-# R4DS Modelado Tidy con R - Club de Lectura
+# DSLC Modelado Tidy con R - Club de Lectura
 
-¡Bienvenidxs al Club de Lectura de R4DS Modelado Tidy con R!
+¡Bienvenidxs al Club de Lectura de DSLC Modelado Tidy con R!
 
 Estamos leyendo juntos el libro [Modelado Tidy con R](https://www.tmwr.org/) por Max Kuhn y Julia Silge.
-Únete al canal [#book_club-tmwr](https://rfordatascience.slack.com/archives/C01H9SLA48M) en el [Slack de R4DS](https://r4ds.io/join) para participar.
+Únete al canal [#book_club-tmwr](https://dslcio.slack.com/archives/C01H9SLA48M) en el [Slack de DSLC](https://dslc.io/join) para participar.
 En paralelo a la lectura del libro, estamos produciendo [notas sobre el libro](https://r4ds.github.io/bookclub-tmwr_es/).
 
 ## Horario de reuniones
 
-Si gustas presentar, por favor revisa la hoja electrónica correspondiente a tu cohorte (enlaces en la siguiente sección, y en el canal de Slack [#book_club-tmwr](https://rfordatascience.slack.com/archives/C01H9SLA48M))!
+Si gustas presentar, por favor revisa la hoja electrónica correspondiente a tu cohorte (enlaces en la siguiente sección, y en el canal de Slack [#book_club-tmwr](https://dslcio.slack.com/archives/C01H9SLA48M))!
 
 - Cohorte 1 (empezó el 2022-02-08, terminó el 2023-03-07): [Grabaciones de reuniones previas](https://www.youtube.com/playlist?list=PL3x6DOfs2NGhd1Gli-IANpVZ9z6Zz5AAu)
 
